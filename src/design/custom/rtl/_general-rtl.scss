@@ -1,0 +1,21 @@
+// 
+// general-rtl.scss
+//
+
+html {
+    direction: rtl;
+}
+body {
+    text-align: right;
+}
+.datepicker.datepicker--open {
+    right: 0 !important;
+    left: auto !important;
+}
+.datepicker__clear-button {
+    text-align: center !important;
+}
+.mx-input-wrapper:hover .mx-icon-clear{
+    left: 10px !important;
+    right: auto !important;
+}
