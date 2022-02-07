@@ -67,7 +67,7 @@ router.beforeEach((routeTo, routeFrom, next) => {
     if (authpage && !loggeduser) {
       return next('/login');
     }
-
+  //
     next();
   }
 })
