@@ -85,6 +85,20 @@ export default [
     meta: {
     },
     component: () => import('./views/dashboards/test')
+  },
+  {
+    path: '/lcshop',
+    name: 'Boutique LC',
+    meta: {
+    },
+    component: () => import('./views/shops/lcshop')
+  },
+  {
+    path: '/product-detail/:id',
+    name: 'Detail du produit',
+    meta: {
+    },
+    component: () => import('./views/shops/lcshop')
   }
 
 
