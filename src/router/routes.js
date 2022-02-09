@@ -5,7 +5,7 @@ export default [
     path: '/',
     name: 'default',
     meta: {
-      authRequired: true,
+      authRequired: false,
     },
     component: () => import('./views/dashboards/default'),
   },
@@ -78,6 +78,29 @@ export default [
         next(authRequiredOnPreviousRoute ? { name: 'default' } : { ...routeFrom })
       },
     },
+  },
+  {
+    path: '/test',
+    name: 'test',
+    meta: {
+    },
+    component: () => import('./views/dashboards/test')
+  },
+  {
+    path: '/lcshop',
+    name: 'Boutique LC',
+    meta: {
+    },
+    component: () => import('./views/shops/lcshop')
+  },
+  {
+    path: '/product-detail/:id',
+    name: 'Detail du produit',
+    meta: {
+    },
+    component: () => import('./views/shops/lcshop')
   }
+
+
 
 ]
