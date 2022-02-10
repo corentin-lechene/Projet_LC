@@ -64,7 +64,7 @@ router.beforeEach((routeTo, routeFrom, next) => {
       '/',
       '/test',
       '/lcshop',
-      '/product-detail/:id ',
+      '/product-detail',
       '/login',
       '/register',
       '/forgot-password'
