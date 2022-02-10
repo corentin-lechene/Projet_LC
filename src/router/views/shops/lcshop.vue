@@ -29,18 +29,23 @@ export default {
   },
   methods: {
 
-    switchToCategory() {
-      return productData.filter(productData => parseInt(productData.category_id) === this.currentFilterBy.category_id);
-    },
+    filterBy(category) {
+      switch (category) {
+        case 'category_id':
+            this.productData = productData.filter(productData => parseInt(productData.category_id) === parseInt(this.currentFilterBy.category_id));
+            break;
 
-    filterBy() {
-      //Category_id
-      this.productData = this.switchToCategory();
+        case 'price':
+          this.productData = productData.filter(productData => parseInt(productData.price) <= parseInt(this.currentFilterBy.price));
+          break;
 
-      //Price
-      this.productData = this.productData.filter(productData => parseInt(productData.price) <= parseInt(this.currentFilterBy.price));
+        case 'note':
+          this.productData = productData.filter(productData => parseInt(productData.note) >= parseInt(this.currentFilterBy.note));
+          break;
 
-      //More
+        default:
+          break;
+      }
 
     },
 
@@ -86,7 +91,7 @@ export default {
             <h5 class="font-size-14 mb-3">Périphériques : </h5>
             <ul class="list-unstyled product-list">
               <li v-for="categoryGood in categoryGoodsData" :key="categoryGood.id">
-                <a href="javascript: void(0);" @click="currentFilterBy.category_id = categoryGood.id; filterBy()">
+                <a href="javascript: void(0);" @click="currentFilterBy.category_id = categoryGood.id; filterBy('category_id')">
                   <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                 </a>
               </li>
@@ -101,7 +106,7 @@ export default {
           <!-- Slider du prix -->
           <div>
             <h5 class="font-size-14 pb-2">Prix : </h5>
-            <vue-slide-bar class="pt-4" v-model="currentFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterBy()" />
+            <vue-slide-bar class="pt-4" v-model="currentFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterBy('price')" />
           </div>
           <!-- fin Slider du prix -->
 
@@ -113,8 +118,8 @@ export default {
                   id="stars-5"
                   v-model="currentFilterBy.note"
                   value="5"
-                  :unchecked-value="null"
-                  @input="filterBy()"
+                  :unchecked-value="0"
+                  @input="filterBy('note')"
               >
                 5
                 <i class="bx bx-star text-warning"></i> seulement
@@ -124,8 +129,8 @@ export default {
                   id="stars-4"
                   v-model="currentFilterBy.note"
                   value="4"
-                  :unchecked-value="null"
-                  @input="filterBy()"
+                  :unchecked-value="0"
+                  @input="filterBy('note')"
               >
                 4
                 <i class="bx bx-star text-warning"></i> & plus
@@ -135,8 +140,8 @@ export default {
                   id="stars-3"
                   v-model="currentFilterBy.note"
                   value="3"
-                  :unchecked-value="null"
-                  @input="filterBy()"
+                  :unchecked-value="0"
+                  @input="filterBy('note')"
               >
                 3
                 <i class="bx bx-star text-warning"></i> & plus
@@ -145,8 +150,8 @@ export default {
                   id="checkbox-4"
                   v-model="currentFilterBy.note"
                   value="2"
-                  :unchecked-value="null"
-                  @input="filterBy()"
+                  :unchecked-value="0"
+                  @input="filterBy('note')"
               >
                 2
                 <i class="bx bx-star text-warning"></i> & plus
@@ -155,8 +160,8 @@ export default {
                   id="stars-1"
                   v-model="currentFilterBy.note"
                   value="1"
-                  :unchecked-value="null"
-                  @input="filterBy()"
+                  :unchecked-value="0"
+                  @input="filterBy('note')"
               >
                 1
                 <i class="bx bx-star text-warning"></i> & plus
