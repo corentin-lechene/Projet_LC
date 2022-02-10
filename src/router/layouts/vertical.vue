@@ -1,9 +1,7 @@
 <script>
-import router from "@/router";
 import { layoutComputed } from "@/state/helpers";
 
 import NavBar from "@/components/nav-bar";
-import SideBar from "@/components/side-bar";
 import RightBar from "@/components/right-bar";
 import Footer from "@/components/footer";
 
@@ -11,7 +9,7 @@ import Footer from "@/components/footer";
  * Vertical layout
  */
 export default {
-  components: { NavBar, SideBar, RightBar, Footer },
+  components: { NavBar, RightBar, Footer },
   data() {
     return {
       isMenuCondensed: false,
@@ -28,28 +26,7 @@ export default {
   methods: {
     toggleMenu() {
       document.body.classList.toggle("sidebar-enable");
-
-      if (window.screen.width >= 992) {
-        // eslint-disable-next-line no-unused-vars
-        router.afterEach((routeTo, routeFrom) => {
-          document.body.classList.remove("sidebar-enable");
-          document.body.classList.remove("vertical-collpsed");
-        });
-        document.body.classList.toggle("vertical-collpsed");
-      } else {
-        // eslint-disable-next-line no-unused-vars
-        router.afterEach((routeTo, routeFrom) => {
-          document.body.classList.remove("sidebar-enable");
-        });
-        document.body.classList.remove("vertical-collpsed");
-      }
       this.isMenuCondensed = !this.isMenuCondensed;
-    },
-    toggleRightSidebar() {
-      document.body.classList.toggle("right-bar-enabled");
-    },
-    hideRightSidebar() {
-      document.body.classList.remove("right-bar-enabled");
     },
   },
   mounted() {
@@ -85,7 +62,6 @@ export default {
     </div>
     <div id="layout-wrapper">
       <NavBar />
-      <SideBar :is-condensed="isMenuCondensed" :type="leftSidebarType" :width="layoutWidth" />
       <!-- ============================================================== -->
       <!-- Start Page Content here -->
       <!-- ============================================================== -->
