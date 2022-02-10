@@ -18,33 +18,41 @@ export default {
       sliderPriceMax: this.getMaxPrice(productData),
       sliderPriceMin: this.getMinPrice(productData),
 
-      filterCurrentNote: null,
-
-
-      currentCategory: null,
-      currentPrice: this.getMaxPrice(productData),
-      currentNote: null,
-
+      currentFilterBy: {
+        category_id: null,
+        price: this.getMaxPrice(productData),
+        note: null,
+      },
 
       debug: null,
     }
   },
   methods: {
-    filterByCategory(id) {
-      if(id === null) {
-        this.currentCategory = null;
-        this.productData = productData;
-      } else {
-        this.currentCategory = id;
-        this.productData = productData.filter(productData => productData.category_id === this.currentCategory);
-      }
+
+    switchToCategory() {
+      return productData.filter(productData => parseInt(productData.category_id) === this.currentFilterBy.category_id);
+    },
+
+    filterBy() {
+      //Category_id
+      this.productData = this.switchToCategory();
+
+      //Price
+      this.productData = this.productData.filter(productData => parseInt(productData.price) <= parseInt(this.currentFilterBy.price));
+
+      //More
 
     },
-    filterByPrice() {
-      this.productData = productData.filter(productData => parseInt(productData.price) <= this.currentPrice);
-      if(this.currentCategory != null) {
-        this.productData = this.productData.filter(productData => productData.category_id === this.currentCategory);
-      }
+
+    resetFilter() {
+      this.productData = productData;
+      this.sliderPriceMax = this.getMaxPrice(this.productData);
+      this.sliderPriceMin = this.getMinPrice(this.productData);
+
+      this.currentFilterBy.category_id = null;
+      this.currentFilterBy.price = this.getMaxPrice(this.productData);
+      this.currentFilterBy.note = null;
+
     },
 
     getMaxPrice(data) {
@@ -62,15 +70,6 @@ export default {
       return Math.min(...prices) + 1;
     },
 
-    filterByNote() {
-      if(parseInt(this.filterCurrentNote) === -1)
-        this.productData = productData;
-      else
-        this.productData = productData.filter(productData => productData.note === parseInt(this.filterCurrentNote));
-    }
-
-
-
   },
 };
 </script>
@@ -87,12 +86,12 @@ export default {
             <h5 class="font-size-14 mb-3">Périphériques : </h5>
             <ul class="list-unstyled product-list">
               <li v-for="categoryGood in categoryGoodsData" :key="categoryGood.id">
-                <a href="javascript: void(0);" @click="filterByCategory(categoryGood.id)">
+                <a href="javascript: void(0);" @click="currentFilterBy.category_id = categoryGood.id; filterBy()">
                   <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                 </a>
               </li>
               <li>
-                <a href="javascript: void(0);" @click="filterByCategory(null)">
+                <a href="javascript: void(0);" @click="currentFilterBy.category_id = null; resetFilter()">
                   <i class="mdi mdi-chevron-right mr-1"></i> Reinitialiser les filtres
                 </a>
               </li>
@@ -102,7 +101,7 @@ export default {
           <!-- Slider du prix -->
           <div>
             <h5 class="font-size-14 pb-2">Prix : </h5>
-            <vue-slide-bar class="pt-4" v-model="currentPrice" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterByPrice" />
+            <vue-slide-bar class="pt-4" v-model="currentFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterBy()" />
           </div>
           <!-- fin Slider du prix -->
 
@@ -112,10 +111,10 @@ export default {
             <div>
               <b-form-checkbox
                   id="stars-5"
-                  v-model="filterCurrentNote"
+                  v-model="currentFilterBy.note"
                   value="5"
-                  unchecked-value="-1"
-                  @input="filterByNote"
+                  :unchecked-value="null"
+                  @input="filterBy()"
               >
                 5
                 <i class="bx bx-star text-warning"></i> seulement
@@ -123,10 +122,10 @@ export default {
 
               <b-form-checkbox
                   id="stars-4"
-                  class="mt-2"
-                  v-model="filterCurrentNote"
+                  v-model="currentFilterBy.note"
                   value="4"
-                  unchecked-value="-1"
+                  :unchecked-value="null"
+                  @input="filterBy()"
               >
                 4
                 <i class="bx bx-star text-warning"></i> & plus
@@ -134,30 +133,30 @@ export default {
 
               <b-form-checkbox
                   id="stars-3"
-                  class="mt-2"
-                  v-model="filterCurrentNote"
+                  v-model="currentFilterBy.note"
                   value="3"
-                  unchecked-value="-1"
+                  :unchecked-value="null"
+                  @input="filterBy()"
               >
                 3
                 <i class="bx bx-star text-warning"></i> & plus
               </b-form-checkbox>
               <b-form-checkbox
                   id="checkbox-4"
-                  class="mt-2"
-                  v-model="filterCurrentNote"
+                  v-model="currentFilterBy.note"
                   value="2"
-                  unchecked-value="-1"
+                  :unchecked-value="null"
+                  @input="filterBy()"
               >
                 2
                 <i class="bx bx-star text-warning"></i> & plus
               </b-form-checkbox>
               <b-form-checkbox
                   id="stars-1"
-                  class="mt-2"
-                  v-model="filterCurrentNote"
+                  v-model="currentFilterBy.note"
                   value="1"
-                  unchecked-value="-1"
+                  :unchecked-value="null"
+                  @input="filterBy()"
               >
                 1
                 <i class="bx bx-star text-warning"></i> & plus
