@@ -24,11 +24,9 @@ export default {
       },
       filterBy: {
         name: [],
-        condition: [],
         value: [],
         reset() {
           this.name = [];
-          this.condition = [];
           this.value = [];
         }
       },
@@ -54,25 +52,29 @@ export default {
 
     useFilter() {
       for(let i = 0 ; i < this.filterBy.name.length ; ++i) {
-        switch (this.filterBy.condition[i]) {
-          case '===' :
+        switch (this.filterBy.name[i]) {
+          case 'category_id' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
 
             break;
-          case '<=' :
+          case 'price' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
 
             break;
-          case '>=' :
+          case 'note' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
-
+            if(this.filterBy.value[i] === 0) {
+              this.filterBy.name.splice(i, 1);
+              this.filterBy.value.splice(i, 1);
+            }
             break;
-          case '>':
-            this.productData = this.productData.sort( (a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1) );
+          case 'sort':
 
-            break;
-          case '<':
-            this.productData = this.productData.sort( (a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1) );
+            if(this.filterBy.value[i] === '<') {
+              this.productData = this.productData.sort( (a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1) );
+            } else if(this.filterBy.value[i] === '>') {
+              this.productData = this.productData.sort( (a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1) );
+            }
 
             break;
           default:
@@ -80,26 +82,36 @@ export default {
         }
       }
     },
-    setFilterBy(category, condition, value) {
+    setFilterBy(category, value) {
       const index = this.filterBy.name.findIndex(element => element === category);
-      if(index === -1) {
-        this.filterBy.name.push(category);
-        this.filterBy.condition.push(condition);
-        this.filterBy.value.push(value);
-      } else {
-        if(category === 'sort')
-          this.filterBy.condition[index] = this.filterBy.condition[index] === '<' ? '>' : '<';
+      switch (category) {
+        case 'category_id': case 'price': case 'note':
+          if(index === -1) {
+            this.filterBy.name.push(category);
+            this.filterBy.value.push(value);
+          } else {
+            this.filterBy.value[index] = value;
+            this.productData = productData;
+          }
+          break;
 
-        else
-          this.filterBy.value[index] = value;
+        case 'sort':
+          if(index === -1) {
+            this.filterBy.name.push(category);
+            this.filterBy.value.push(value);
+          } else {
+            this.filterBy.value[index] = this.filterBy.value[index] === '<' ? '>' : '<';
+            this.productData = productData;
+          }
+          break;
 
-        this.productData = productData;
+        default:
+          break;
       }
       this.useFilter();
     },
     resetFilter() {
       this.filterBy.reset();
-
       this.productData = productData;
       this.sliderPriceMax = this.getMaxPrice(this.productData);
       this.sliderPriceMin = this.getMinPrice(this.productData);
@@ -113,7 +125,7 @@ export default {
 
 
 <template>
-  <div class="row">
+  <div class="row my-3 mx-3">
     <div class="col-lg-3">
       <div class="card">
         <div class="card-body">
@@ -134,18 +146,16 @@ export default {
                     <i class="mdi mdi-chevron-down"></i>
                   </template>
                   <b-dropdown-item :value="0">Pertinence</b-dropdown-item>
-                  <b-dropdown-item :value="1" @click="setFilterBy('sort', '<', getMaxPrice(productData))">Prix croissant</b-dropdown-item>
-                  <b-dropdown-item :value="2" @click="setFilterBy('sort', '>', getMinPrice(productData))">Prix décroissant</b-dropdown-item>
+                  <b-dropdown-item :value="1" @click="setFilterBy('sort', '<')">Prix croissant</b-dropdown-item>
+                  <b-dropdown-item :value="2" @click="setFilterBy('sort', '>')">Prix décroissant</b-dropdown-item>
                 </b-dropdown>
               </div>
               <div class="col-sm-7 pl-1">
-                <b-button
-                    v-if="filterBy.name.length >= 2 && dataFilterBy.note !== 0"
+                <b-button v-if="filterBy.name.length >= 2"
                     class="btn-block bg-danger"
                     @click="resetFilter()" style="height: 100%" >Supprimer les filtres
                 </b-button>
-                <b-button
-                    v-else-if="filterBy.name.length === 1 && dataFilterBy.note !== 0"
+                <b-button v-else-if="filterBy.name.length === 1"
                     class="btn-block bg-danger"
                     @click="resetFilter()" style="height: 100%" >Supprimer le filtre
                 </b-button>
@@ -161,7 +171,7 @@ export default {
             <h5 class="font-size-14">Périphériques : </h5>
             <ul class="list-unstyled product-list">
               <li v-for="categoryGood in categoryGoodsData" :key="categoryGood.id">
-                <a href="javascript: void(0);" @click="setFilterBy('category_id', '===', categoryGood.id)">
+                <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryGood.id)">
                   <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                 </a>
               </li>
@@ -173,7 +183,7 @@ export default {
           <!-- Slider du prix -->
           <div class="mt-4 py-3">
             <h5 class="font-size-14 pb-2">Prix : </h5>
-            <vue-slide-bar class="pt-4" v-model="dataFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="setFilterBy('price', '<=', dataFilterBy.price)" />
+            <vue-slide-bar class="pt-4" v-model="dataFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="setFilterBy('price', dataFilterBy.price)" />
           </div>
           <!-- fin Slider du prix -->
 
@@ -187,7 +197,7 @@ export default {
                   v-model="dataFilterBy.note"
                   :value="i"
                   :unchecked-value="0"
-                  @input="setFilterBy('note', '>=', dataFilterBy.note)"
+                  @input="setFilterBy('note',  dataFilterBy.note)"
               >
                 {{i}}
                 <i class="bx bx-star text-warning"></i> & plus

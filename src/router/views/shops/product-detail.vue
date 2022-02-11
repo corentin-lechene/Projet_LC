@@ -126,8 +126,7 @@ export default {
                 </p>
               </div>
               <div class="text-left">
-                <button type="button"
-                        class="btn btn-primary waves-effect waves-light my-2 mr-2">
+                <button type="button" class="btn btn-primary waves-effect waves-light my-2 mr-2">
                   <i class="bx bx-cart me-2"></i> Ajouter au panier
                 </button>
                 <button type="button" class="btn btn-success waves-effect my-2 mx-2 waves-light">

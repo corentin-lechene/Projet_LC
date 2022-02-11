@@ -99,6 +99,13 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/product-detail')
+  },
+  {
+    path: '/cart',
+    name: 'Panier',
+    meta: {
+    },
+    component: () => import('./views/shops/cart')
   }
 
 
