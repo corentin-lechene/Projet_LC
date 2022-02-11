@@ -18,8 +18,8 @@ export default {
       sliderPriceMax: this.getMaxPrice(productData),
       sliderPriceMin: this.getMinPrice(productData),
 
-      currentFilterBy: {
-        category_id: null,
+      dataFilterBy: {
+        currentFilter: "",
         price: this.getMaxPrice(productData),
         note: null,
       },
@@ -28,25 +28,36 @@ export default {
     }
   },
   methods: {
+    refreshMinMax() {
+      this.sliderPriceMax = this.getMaxPrice(this.productData);
+      this.sliderPriceMin = this.getMinPrice(this.productData);
+    },
 
-    filterBy(category) {
-      switch (category) {
-        case 'category_id':
-            this.productData = productData.filter(productData => parseInt(productData.category_id) === parseInt(this.currentFilterBy.category_id));
-            break;
-
-        case 'price':
-          this.productData = productData.filter(productData => parseInt(productData.price) <= parseInt(this.currentFilterBy.price));
-          break;
-
-        case 'note':
-          this.productData = productData.filter(productData => parseInt(productData.note) >= parseInt(this.currentFilterBy.note));
-          break;
-
-        default:
-          break;
+    filterByCategory(id) {
+      if(this.dataFilterBy.currentFilter === "" || this.dataFilterBy.currentFilter === "category_id") {
+        this.productData = productData.filter(productData => parseInt(productData.category_id) === parseInt(id));
+        this.dataFilterBy.currentFilter = "category_id";
+      } else {
+        this.productData = this.productData.filter(productData => parseInt(productData.category_id) === parseInt(id));
       }
+    },
 
+    filterByPrice() {
+      if(this.dataFilterBy.currentFilter === "" || this.dataFilterBy.currentFilter === "price") {
+        this.productData = productData.filter(productData => parseInt(productData.price) <= parseInt(this.dataFilterBy.price));
+        this.dataFilterBy.currentFilter = "price";
+      } else {
+        this.productData = this.productData.filter(productData => parseInt(productData.price) <= parseInt(this.dataFilterBy.price));
+      }
+    },
+
+    filterByNote() {
+      if(this.dataFilterBy.currentFilter === "" || this.dataFilterBy.currentFilter === "note") {
+        this.productData = productData.filter(productData => parseInt(productData.note) >= parseInt(this.dataFilterBy.note));
+        this.dataFilterBy.currentFilter = "note";
+      } else {
+        this.productData = this.productData.filter(productData => parseInt(productData.note) >= parseInt(this.dataFilterBy.note));
+      }
     },
 
     resetFilter() {
@@ -54,10 +65,10 @@ export default {
       this.sliderPriceMax = this.getMaxPrice(this.productData);
       this.sliderPriceMin = this.getMinPrice(this.productData);
 
-      this.currentFilterBy.category_id = null;
-      this.currentFilterBy.price = this.getMaxPrice(this.productData);
-      this.currentFilterBy.note = null;
-
+      this.dataFilterBy.currentFilter = "";
+      this.dataFilterBy.note = 0;
+      this.dataFilterBy.category_id = null;
+      this.dataFilterBy.price = this.getMaxPrice(this.productData);
     },
 
     getMaxPrice(data) {
@@ -91,12 +102,12 @@ export default {
             <h5 class="font-size-14 mb-3">Périphériques : </h5>
             <ul class="list-unstyled product-list">
               <li v-for="categoryGood in categoryGoodsData" :key="categoryGood.id">
-                <a href="javascript: void(0);" @click="currentFilterBy.category_id = categoryGood.id; filterBy('category_id')">
+                <a href="javascript: void(0);" @click="filterByCategory(categoryGood.id)">
                   <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                 </a>
               </li>
               <li>
-                <a href="javascript: void(0);" @click="currentFilterBy.category_id = null; resetFilter()">
+                <a href="javascript: void(0);" @click="resetFilter()">
                   <i class="mdi mdi-chevron-right mr-1"></i> Reinitialiser les filtres
                 </a>
               </li>
@@ -106,7 +117,7 @@ export default {
           <!-- Slider du prix -->
           <div>
             <h5 class="font-size-14 pb-2">Prix : </h5>
-            <vue-slide-bar class="pt-4" v-model="currentFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterBy('price')" />
+            <vue-slide-bar class="pt-4" v-model="dataFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @dragEnd="filterByPrice()" />
           </div>
           <!-- fin Slider du prix -->
 
@@ -115,56 +126,15 @@ export default {
             <h5 class="font-size-14 mb-3">Note des utilisateurs</h5>
             <div>
               <b-form-checkbox
-                  id="stars-5"
-                  v-model="currentFilterBy.note"
-                  value="5"
+                  v-for="i in 5" :key="i"
+                  :id="`form${i}`"
+                  v-model="dataFilterBy.note"
+                  :value="i"
                   :unchecked-value="0"
-                  @input="filterBy('note')"
+                  @input="filterByNote()"
               >
-                5
-                <i class="bx bx-star text-warning"></i> seulement
-              </b-form-checkbox>
-
-              <b-form-checkbox
-                  id="stars-4"
-                  v-model="currentFilterBy.note"
-                  value="4"
-                  :unchecked-value="0"
-                  @input="filterBy('note')"
-              >
-                4
-                <i class="bx bx-star text-warning"></i> & plus
-              </b-form-checkbox>
-
-              <b-form-checkbox
-                  id="stars-3"
-                  v-model="currentFilterBy.note"
-                  value="3"
-                  :unchecked-value="0"
-                  @input="filterBy('note')"
-              >
-                3
-                <i class="bx bx-star text-warning"></i> & plus
-              </b-form-checkbox>
-              <b-form-checkbox
-                  id="checkbox-4"
-                  v-model="currentFilterBy.note"
-                  value="2"
-                  :unchecked-value="0"
-                  @input="filterBy('note')"
-              >
-                2
-                <i class="bx bx-star text-warning"></i> & plus
-              </b-form-checkbox>
-              <b-form-checkbox
-                  id="stars-1"
-                  v-model="currentFilterBy.note"
-                  value="1"
-                  :unchecked-value="0"
-                  @input="filterBy('note')"
-              >
-                1
-                <i class="bx bx-star text-warning"></i> & plus
+                {{i}}
+                <i class="bx bx-star text-warning"></i>
               </b-form-checkbox>
             </div>
           </div>
