@@ -2,13 +2,15 @@
 import Layout from "../../layouts/main";
 import appConfig from "@/app.config";
 import PageHeader from "@/components/page-header";
+import {keyboardData} from "@/data/data-keyboard";
+import {OffersData} from "@/data/data-offers";
 
 /**
  * Dashboard Component
  */
 export default {
   page: {
-    title: "Dashboard",
+    title: "Homepage",
     meta: [{ name: "description", content: appConfig.description }],
   },
   components: {
@@ -17,15 +19,11 @@ export default {
   },
   data() {
     return {
-      title: "Dashboard",
+      keyboardData,
+      OffersData,
       items: [
         {
-          text: "Dashboards",
-          href: "/",
-        },
-        {
-          text: "Default",
-          active: true,
+          text: "Homepage",
         },
       ],
     };
@@ -35,64 +33,130 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title" :items="items" />
-
-    <div class="card">
-      <div class="btn-toolbar p-3" role="toolbar">
-
-      </div>
-      <div class="card-body">
-        <div class="media mb-4">
-          <img
-              class="d-flex mr-3 rounded-circle avatar-sm"
-              src="@/assets/images/users/avatar-2.jpg"
-              alt="Generic placeholder image"
-          />
-          <div class="media-body">
-            <h5 class="font-size-14 mt-1"> qsjdhqs </h5>
-            <small class="text-muted"> support@domain.com</small>
-          </div>
+    <PageHeader :items="items" />
+    <!--Carousel -->
+    <div class="row">
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <b-carousel controls>
+            <b-carousel-slide :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
+            <b-carousel-slide :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
+          </b-carousel>
         </div>
-
-        <h4 class="mt-0 font-size-16"> sqkjdnqsd </h4>
-
-        <p>Dear Lorem Ipsum,</p>
-        <p> mqzeozp </p>
-        <p>Sed elementum turpis eu lorem interdum, sed porttitor eros commodo. Nam eu venenatis tortor, id lacinia diam. Sed aliquam in dui et porta. Sed bibendum orci non tincidunt ultrices. Vivamus fringilla, mi lacinia dapibus condimentum, ipsum urna lacinia lacus, vel tincidunt mi nibh sit amet lorem.</p>
-        <p>Sincerly,</p>
-        <hr />
-
-        <div class="row">
-          <div class="col-xl-2 col-6">
-            <div class="card">
-              <img
-                  class="card-img-top img-fluid"
-                  src="@/assets/images/small/img-3.jpg"
-                  alt="Card image cap"
-              />
-              <div class="py-2 text-center">
-                <a href class="font-weight-medium">Download</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-2 col-6">
-            <div class="card">
-              <img
-                  class="card-img-top img-fluid"
-                  src="@/assets/images/small/img-4.jpg"
-                  alt="Card image cap"
-              />
-              <div class="py-2 text-center">
-                <a href class="font-weight-medium">Download</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <a href="javascript: void(0);" class="btn btn-secondary waves-effect mt-4">
-          <i class="mdi mdi-reply"></i> Reply
-        </a>
       </div>
     </div>
+
+    <!-- Nouveautés -->
+    <div class="row">
+      <div class="col-12">
+        <h4 class="my-3">Nos nouveautés</h4>
+        <b-card-group deck>
+          <b-card
+            v-for="data in keyboardData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+            <div class="product-img position-relative">
+              <div v-if="data.discount" class="avatar-sm product-ribbon">
+                <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+              </div>
+              <router-link tag="a" :to="`/product-detail/${data.id}`">
+                <img :src="`${data.img}`" alt class="img-fluid mx-auto d-block"/>
+              </router-link>
+            </div>
+            <div class="row" style="height: 10px"></div>
+            <b-card-title>
+              <h5 class="card-title text-center">{{ data.name }}</h5>
+            </b-card-title>
+
+            <p
+                class="card-text h5 text-center">
+            {{ data.price }}</p>
+          </b-card>
+        </b-card-group>
+      </div>
+    </div>
+
+    <!-- Meilleures offres partenaires -->
+    <div class="row">
+      <div class="col-12">
+        <h4 class="my-3">Meilleurs offres partenaires</h4>
+        <b-card-group deck>
+          <b-card
+              v-for="data in OffersData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+            <div class="product-img position-relative">
+              <div v-if="data.discount" class="avatar-sm product-ribbon">
+                <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+              </div>
+              <router-link tag="a" :to="`/product-detail/${data.id}`">
+                <div style="height: 190px !important;">
+                <img :src="`${data.img}`" style="width: 100%; height: 100%;" alt class="img-fluid mx-auto d-block"/>
+                </div>
+              </router-link>
+            </div>
+            <div class="row" style="height: 10px"></div>
+            <b-card-title>
+              <h5 class="card-title text-center">{{ data.name }}</h5>
+            </b-card-title>
+
+            <p
+                class="card-text h5 text-center">
+              {{ data.price }}</p>
+          </b-card>
+        </b-card-group>
+      </div>
+    </div>
+    <div class="row" style="height: 15px; border-color: lightgray;border-bottom: solid 0.1em;"></div>
+    <div class="row" style="height: 15px;"></div>
+
+    <!-- Nos meilleurs partenaires  -->
+  <div class="row">
+    <div class="row" style="height: 10px;width: 100%;"></div>
+    <div class="row">
+    <div class="col-8">
+      <div class="row">
+        <div class="col-10">
+          <div class="row" style="height: 10px"></div>
+          <h2 style="text-align: center">NOS MEILLEURS PARTENAIRES</h2>
+        </div>
+        <div class="col-2" style="padding-top: 8px;">
+          <b-button pill variant="light">Voir +</b-button>
+        </div>
+      </div>
+      <div class="row" style="height: 20px"></div>
+      <div class="row">
+        <div class="col-3" style="height: 130px !important;">
+          <img src="@/assets/images/services/picto1.png" alt style="width: 100%; height: 100%;" class="img-fluid mx-auto d-block"/>
+        </div>
+        <div class="col-3" style="height: 130px !important;">
+          <img src="@/assets/images/services/picto2.png" alt style="width: 100%; height: 100%;" class="img-fluid mx-auto d-block"/>
+        </div>
+        <div class="col-3" style="height: 150px !important;">
+          <img src="@/assets/images/services/picto3.png" alt style="width: 100%; height: 100%;" class="img-fluid mx-auto d-block"/>
+        </div>
+        <div class="col-3" style="height: 130px !important;">
+          <img src="@/assets/images/services/picto4.png" alt style="width: 100%; height: 100%;" class="img-fluid mx-auto d-block"/>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+        <b-card
+            overlay
+            :img-src="require('@/assets/images/small/img-6.jpg')"
+            img-alt="Card Image"
+            text-variant="white"
+        >
+          <b-card-title>
+            <h5 class="card-title text-white">Card title</h5>
+          </b-card-title>
+          <b-card-text>
+            <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p>
+              <small class="text-white">Last updated 3 mins ago</small>
+            </p>
+          </b-card-text>
+        </b-card>
+      </div>
+    </div>
+  </div>
+
+<div class="row" style="height: 50px"></div>
   </Layout>
 </template>

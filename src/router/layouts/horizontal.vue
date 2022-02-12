@@ -1,20 +1,11 @@
 <script>
-import HorizontalTopbar from "@/components/horizontal-topbar";
-import HorizontalNav from "@/components/horizontal-nav";
-import RightBar from "@/components/right-bar";
 import Footer from "@/components/footer";
 
 import { layoutComputed } from "@/state/helpers";
 
-/**
- * Horizontal-layout
- */
 export default {
   components: {
-    HorizontalTopbar,
-    HorizontalNav,
     Footer,
-    RightBar,
   },
   data() {
     return {};
@@ -23,7 +14,6 @@ export default {
     ...layoutComputed,
   },
   created: () => {
-    document.body.setAttribute("data-layout", "horizontal");
     document.body.setAttribute("data-topbar", "dark");
     document.body.removeAttribute("data-sidebar");
     document.body.removeAttribute("data-layout-size");
@@ -69,8 +59,6 @@ export default {
     </div>
     <!-- Begin page -->
     <div id="layout-wrapper">
-      <HorizontalTopbar :type="topbar" :width="layoutWidth" />
-      <HorizontalNav />
       <!-- ============================================================== -->
       <!-- Start right Content here -->
       <!-- ============================================================== -->
@@ -87,6 +75,5 @@ export default {
       <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->
-    <RightBar />
   </div>
 </template>

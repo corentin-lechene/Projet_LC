@@ -1,11 +1,13 @@
 <template>
   <header id="page-topbar">
     <div class="navbar-header">
-      <div class="d-flex" style="margin-left: 15%">
+      <div class="d-flex" style="margin-left: 13%">
       <div class="d-flex">
         <!-- Logo -->
         <div class="d-flex" style="padding-left: 5px;">
+          <a href="">
           <img src="@/assets/images/logolc.png" alt class="rounded avatar-sm" style="margin-top: 5px;"/>
+          </a>
         </div>
 
         <!-- Boutton Offers-->
@@ -28,7 +30,7 @@
       </div>
       </div>
       <!-- Dropdown profile-->
-      <div class="d-flex" style="margin-right: 15%">
+      <div class="d-flex" style="margin-right: 11%">
         <b-dropdown
           class="d-inline-block d-lg-none ml-2"
           variant="black"
@@ -61,12 +63,16 @@
 
         <!-- Picto LC card -->
         <div class="d-flex" style="margin-right: 15px">
+          <a href="">
           <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;" />
+          </a>
         </div>
 
         <!-- Picto cart -->
-        <div class="d-flex" style="margin-right: 15px"  >
+        <div class="d-flex" style="margin-right: 15px" >
+          <a href="">
           <img src="@/assets/images/Pictocart.png" alt class="rounded avatar-sm" style="margin-top: 10px; height: 40px;" />
+          </a>
         </div>
 
         <!-- Picto profile -->

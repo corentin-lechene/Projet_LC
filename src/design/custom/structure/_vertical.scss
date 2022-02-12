@@ -45,6 +45,7 @@
 
 .main-content {
     margin-left: $sidebar-width;
+    margin-right: $sidebar-width;
     overflow: hidden;
 
     .content {
@@ -67,7 +68,6 @@
     .has-arrow {
         &:after {
             content: "\F0140";
-            font-family: 'Material Design Icons';
             display: block;
             float: right;
             transition: transform .2s;
@@ -500,10 +500,12 @@ body[data-sidebar-size="small"] {
 
     .main-content {
         margin-left: $sidebar-width-sm;
+        margin-right: $sidebar-width-sm;
     }
 
     .footer {
         left: $sidebar-width-sm;
+        right: $sidebar-width-sm;
     }
 
     #sidebar-menu {

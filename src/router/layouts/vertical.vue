@@ -2,14 +2,13 @@
 import { layoutComputed } from "@/state/helpers";
 
 import NavBar from "@/components/nav-bar";
-import RightBar from "@/components/right-bar";
 import Footer from "@/components/footer";
 
 /**
  * Vertical layout
  */
 export default {
-  components: { NavBar, RightBar, Footer },
+  components: { NavBar, Footer },
   data() {
     return {
       isMenuCondensed: false,
@@ -75,7 +74,6 @@ export default {
         </div>
         <Footer />
       </div>
-      <RightBar />
     </div>
   </div>
 </template>
