@@ -160,3 +160,9 @@ export default {
 <div class="row" style="height: 50px"></div>
   </Layout>
 </template>
+
+<style>
+  .carousel-item img {
+    height: 400px !important;
+  }
+</style>
