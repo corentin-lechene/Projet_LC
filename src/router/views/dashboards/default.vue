@@ -1,6 +1,5 @@
 <script>
 import Layout from "../../layouts/main";
-import appConfig from "@/app.config";
 import PageHeader from "@/components/page-header";
 import {keyboardData} from "@/data/data-keyboard";
 import {OffersData} from "@/data/data-offers";
@@ -11,7 +10,6 @@ import {OffersData} from "@/data/data-offers";
 export default {
   page: {
     title: "Homepage",
-    meta: [{ name: "description", content: appConfig.description }],
   },
   components: {
     Layout,

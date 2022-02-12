@@ -99,8 +99,13 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/lcshop')
+  },
+  {
+    path: '/mylcard',
+    name: 'My LCard',
+    meta: {
+    },
+    component: () => import('./views/LCards/mylcard')
   }
-
-
 
 ]
