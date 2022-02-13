@@ -6,12 +6,6 @@ export default {
       type: String,
       default: '',
     },
-    items: {
-      type: Array,
-      default: () => {
-        return []
-      },
-    },
   },
 }
 </script>
@@ -24,7 +18,7 @@ export default {
         <h4 class="mb-0 font-size-18">{{ title }}</h4>
 
         <div class="page-title-right">
-          <b-breadcrumb :items="items" class="m-0"></b-breadcrumb>
+          <b-breadcrumb class="m-0">yoyo</b-breadcrumb>
         </div>
       </div>
     </div>

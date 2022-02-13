@@ -12,12 +12,12 @@
 
         <!-- Boutton Offers-->
         <div class="d-flex">
-        <b-button variant="white">Partner Offers</b-button>
+        <b-button variant="white">Offres partenaires</b-button>
         </div>
 
         <!-- Boutton LCshop-->
         <div class="d-flex">
-          <b-button variant="white">LCShop</b-button>
+          <b-button variant="white">LC Shop</b-button>
         </div>
 
         <!-- App Search-->

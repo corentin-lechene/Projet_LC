@@ -5,7 +5,7 @@ const cartData = [
         goods_id: 3,
     },
     {
-        id: 2,
+        id: 9,
         quantity: 1,
         goods_id: 6,
     },

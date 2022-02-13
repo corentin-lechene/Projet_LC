@@ -1,6 +1,5 @@
 <script>
 import Layout from "../../layouts/main";
-import {keyboardData} from "@/data/data-keyboard";
 import {OffersData} from "@/data/data-offers";
 
 /**
@@ -15,7 +14,6 @@ export default {
   },
   data() {
     return {
-      keyboardData,
       OffersData,
       items: [
         {

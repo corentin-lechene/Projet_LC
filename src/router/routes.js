@@ -3,11 +3,11 @@ import store from '@/state/store'
 export default [
   {
     path: '/',
-    name: 'default',
+    name: 'Accueil',
     meta: {
       authRequired: false,
     },
-    component: () => import('./views/dashboards/default'),
+    component: () => import('./views/homepage'),
   },
   {
     path: '/login',
@@ -80,13 +80,6 @@ export default [
     },
   },
   {
-    path: '/test',
-    name: 'test',
-    meta: {
-    },
-    component: () => import('./views/dashboards/test')
-  },
-  {
     path: '/lcshop',
     name: 'Boutique LC',
     meta: {
@@ -102,7 +95,7 @@ export default [
   },
   {
     path: '/mylcard',
-    name: 'My LCard',
+    name: 'Ma carte LC',
     meta: {
     },
     component: () => import('./views/LCards/mylcard')
