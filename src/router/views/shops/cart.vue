@@ -83,6 +83,7 @@ export default {
                   <img
                       :src="product.img"
                       class="avatar-lg"
+                      alt="img cart"
                   />
                 </td>
                 <td>
