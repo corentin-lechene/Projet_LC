@@ -31,12 +31,14 @@ export default {
     <PageHeader :title="title" />
     <!--Carousel -->
         <div class="row">
-          <div class="card">
-            <div class="card-body">
-              <b-carousel controls>
-                <b-carousel-slide :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
-                <b-carousel-slide :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
-              </b-carousel>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <b-carousel controls>
+                  <b-carousel-slide :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
+                  <b-carousel-slide :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
+                </b-carousel>
+              </div>
             </div>
           </div>
         </div>
@@ -159,6 +161,7 @@ export default {
 
 <style>
 .carousel-item img {
+  width: 100% !important;
   height: 400px !important;
 }
 </style>
