@@ -94,11 +94,11 @@ export default [
     component: () => import('./views/shops/lcshop')
   },
   {
-    path: '/product-detail/:id',
+    path: '/product-detail',
     name: 'Detail du produit',
     meta: {
     },
-    component: () => import('./views/shops/lcshop')
+    component: () => import('./views/shops/product-detail')
   },
   {
     path: '/mylcard',
@@ -106,6 +106,15 @@ export default [
     meta: {
     },
     component: () => import('./views/LCards/mylcard')
+  },
+  {
+    path: '/cart',
+    name: 'Panier',
+    meta: {
+    },
+    component: () => import('./views/shops/cart')
   }
+
+
 
 ]
