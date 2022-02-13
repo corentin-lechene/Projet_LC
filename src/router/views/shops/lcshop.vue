@@ -55,12 +55,16 @@ export default {
         switch (this.filterBy.name[i]) {
           case 'category_id' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
-
             break;
+
           case 'price' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
-
+            if(this.filterBy.value[i] === this.getMaxPrice(productData)) {
+              this.filterBy.name.splice(i, 1);
+              this.filterBy.value.splice(i, 1);
+            }
             break;
+
           case 'note' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
             if(this.filterBy.value[i] === 0) {
@@ -68,15 +72,15 @@ export default {
               this.filterBy.value.splice(i, 1);
             }
             break;
-          case 'sort':
 
+          case 'sort':
             if(this.filterBy.value[i] === '<') {
               this.productData = this.productData.sort( (a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1) );
             } else if(this.filterBy.value[i] === '>') {
               this.productData = this.productData.sort( (a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1) );
             }
-
             break;
+
           default:
             break;
         }

@@ -6,12 +6,24 @@
   background: $primary !important;
 }
 
+.vnis__button:first-of-type {
+  border-top-left-radius: 10px 10px;
+  border-bottom-left-radius: 10px 10px;
+}
+
+.vnis__button:last-of-type {
+  border-top-right-radius: 10px 10px;
+  border-bottom-right-radius: 10px 10px;
+}
+
 .product-cart-touchspin {
   .vnis__button {
     background: none !important;
     color: black;
   }
 }
+
+
 
 .vnis__input {
   border: 1px solid $gray-400 !important;
