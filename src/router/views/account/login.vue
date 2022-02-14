@@ -99,7 +99,7 @@ export default {
               <div class="col-7">
                 <div class="text-primary p-4">
                   <h5 class="text-primary">Welcome Back !</h5>
-                  <p>Sign in to continue to Skote.</p>
+                  <p>Sign in to continue to LC.</p>
                 </div>
               </div>
               <div class="col-5 align-self-end">
@@ -112,7 +112,7 @@ export default {
               <router-link tag="a" to="/">
                 <div class="avatar-md profile-user-wid mb-4">
                   <span class="avatar-title rounded-circle bg-light">
-                    <img src="@/assets/images/logo.svg" alt height="34" />
+                    <img src="@/assets/images/logolc.svg" alt height="45" />
                   </span>
                 </div>
               </router-link>
@@ -206,8 +206,7 @@ export default {
             <router-link tag="a" to="/register" class="font-weight-medium text-primary">Signup now</router-link>
           </p>
           <p>
-            © {{new Date().getFullYear()}} Skote. Crafted with
-            <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+            © {{new Date().getFullYear()}}
           </p>
         </div>
         <!-- end row -->

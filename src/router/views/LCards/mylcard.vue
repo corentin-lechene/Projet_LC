@@ -45,7 +45,7 @@ export default {
                   <p style=" color: forestgreen; font-size: 4em; ">A</p>
                 </div>
                 <div class="col-lg-2" style=" padding-top: 40%;">
-                  <p style="color: greenyellow; font-size: 4em; ">R</p>
+                  <p style="color: #F9F90D; font-size: 4em; ">R</p>
                 </div>
                 <div class="col-lg-1" style=" padding-top: 40%;">
                   <p style="color: orange; font-size: 4em; ">D</p>
@@ -66,8 +66,19 @@ export default {
           </div>
         </b-card>
       </div>
-      <div class="col-6"></div>
+      <div class="col-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 style="text-align: center;font-size: large;" class="card-title">Ma carte de fidélité</h4>
+              <div class>
+                <img src="@/assets/images/carte.png" class="img-fluid" alt="Responsive image" style="height: 350px; width: 500px;"/>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </Layout>
 </template>
 

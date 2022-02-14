@@ -1,3 +1,15 @@
+<script>
+import {UsersData} from "@/data/data-users";
+
+export default {
+  data() {
+    return {
+      UsersData,
+    };
+  },
+};
+</script>
+
 <template>
   <header id="page-topbar">
     <div class="navbar-header">
@@ -5,19 +17,24 @@
       <div class="d-flex">
         <!-- Logo -->
         <div class="d-flex" style="padding-left: 5px;">
-          <a href="">
-          <img src="@/assets/images/logolc.png" alt class="rounded avatar-sm" style="margin-top: 5px;"/>
-          </a>
+          <router-link tag="a" to="/">
+            <img src="@/assets/images/logolc.png" alt class="rounded avatar-sm" style="margin-top: 5px;"/>
+            </router-link>
         </div>
+
 
         <!-- Boutton Offers-->
         <div class="d-flex">
-        <b-button variant="white">Offres partenaires</b-button>
+          <router-link tag="a" class="text-dark" to="/partner-offer">
+        <b-button variant="white" style="padding-top: 17%;">Offres partenaires</b-button>
+          </router-link>
         </div>
 
         <!-- Boutton LCshop-->
         <div class="d-flex">
-          <b-button variant="white">LC Shop</b-button>
+          <router-link tag="a" class="text-dark" to="/lcshop">
+          <b-button variant="white" style="padding-top: 31%;">LC Shop</b-button>
+          </router-link>
         </div>
 
         <!-- App Search-->
@@ -62,17 +79,37 @@
         </b-dropdown>
 
         <!-- Picto LC card -->
-        <div class="d-flex" style="margin-right: 15px">
-          <a href="">
+
+        <!-- <div class="d-flex" style="margin-right: 15px">
+          <router-link tag="a" to="/mylcard">
           <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;" />
-          </a>
+          </router-link>
+        </div>-->
+
+        <div class="d-flex" style="margin-right: 10px">
+          <b-button v-b-modal.modal-standard style="background-color: white; border-color: white;">
+            <div>
+            <img src="@/assets/images/pictocarte.png" alt class="avatar-sm"/>
+            </div>
+          </b-button>
+          <div class="contenant">
+          <b-modal id="modal-standard" title="Ma carte de fidélité" title-class="font-18">
+            <img
+                alt="200x200"
+                width="450"
+                src="@/assets/images/cartevide.png"
+                data-holder-rendered="true"
+            />
+            <div class="texte_centrer">{{  }}</div>
+          </b-modal>
+          </div>
         </div>
 
         <!-- Picto cart -->
         <div class="d-flex" style="margin-right: 15px" >
-          <a href="">
+          <router-link tag="a" to="/cart">
           <img src="@/assets/images/Pictocart.png" alt class="rounded avatar-sm" style="margin-top: 10px; height: 40px;" />
-          </a>
+          </router-link>
         </div>
 
         <!-- Picto profile -->
@@ -114,3 +151,18 @@
     </div>
   </header>
 </template>
+
+<style>
+.contenant {
+  position: relative;
+  text-align: center;
+  color: red;
+}
+
+.texte_centrer {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

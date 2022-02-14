@@ -104,7 +104,7 @@ export default {
               <div class="col-7">
                 <div class="text-primary p-4">
                   <h5 class="text-primary">Free Register</h5>
-                  <p>Get your free Skote account now.</p>
+                  <p>Get your free LC account now.</p>
                 </div>
               </div>
               <div class="col-5 align-self-end">
@@ -117,7 +117,7 @@ export default {
               <router-link tag="a" to="/">
                 <div class="avatar-md profile-user-wid mb-4">
                   <span class="avatar-title rounded-circle bg-light">
-                    <img src="@/assets/images/logo.svg" alt class="rounded-circle" height="34" />
+                    <img src="@/assets/images/logolc.svg" alt height="45" />
                   </span>
                 </div>
               </router-link>
@@ -222,7 +222,7 @@ export default {
 
               <div class="mt-4 text-center">
                 <p class="mb-0">
-                  By registering you agree to the Skote
+                  By registering you agree to the LC
                   <a
                     href="javascript: void(0);"
                     class="text-primary"
@@ -241,10 +241,7 @@ export default {
             <router-link tag="a" to="/login" class="font-weight-medium text-primary">Login</router-link>
           </p>
           <p>
-            © {{ new Date().getFullYear() }} Skote. Crafted with
-            <i
-              class="mdi mdi-heart text-danger"
-            ></i> by Themesbrand
+            © {{ new Date().getFullYear() }}
           </p>
         </div>
       </div>
