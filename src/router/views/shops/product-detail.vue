@@ -39,7 +39,7 @@ export default {
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="col-xl-6">
+                <div class="col-lg-6">
                   <div class="product-detai-imgs">
                     <b-tabs pills vertical nav-wrapper-class="col-md-2 col-sm-3 col-4">
                       <b-tab>
@@ -111,7 +111,7 @@ export default {
                 </div>
 
 
-                <div class="col-xl-6">
+                <div class="col-lg-6">
                   <div class="mt-3">
                     <h4 class="mt-1 mb-3">{{productDetail[0].name}}</h4>
 
