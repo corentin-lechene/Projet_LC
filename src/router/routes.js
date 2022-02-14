@@ -106,7 +106,14 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/cart')
-  }
+  },
+  {
+    path: '/checkout',
+    name: 'Payement',
+    meta: {
+    },
+    component: () => import('./views/shops/checkout')
+}
 
 
 

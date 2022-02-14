@@ -58,10 +58,10 @@ export default {
       // }
     },
     displayLongStr(str, end) {
-      if(end <= 0)
+      if (end <= 0)
         return "Error !";
       str = str.toString();
-      return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : "" }`;
+      return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : ""}`;
     }
   },
 
@@ -101,7 +101,9 @@ export default {
                   </td>
                   <td>
                     <h5 class="font-size-14 text-truncate">
-                      <router-link :to="`/product-detail?id=${product.id}`" class="text-dark">{{ displayLongStr(product.name, 25) }} </router-link>
+                      <router-link :to="`/product-detail?id=${product.id}`" class="text-dark">
+                        {{ displayLongStr(product.name, 25) }}
+                      </router-link>
                     </h5>
                     <p>{{ displayLongStr(product.description, 30) }}</p>
                   </td>
@@ -119,7 +121,7 @@ export default {
                     </div>
                   </td>
                   <td>
-                    {{ parseFloat(product.price) * parseInt(cartData[index].quantity) }}€
+                    {{ (parseFloat(product.price) * parseInt(cartData[index].quantity)).toFixed(2) }}€
                   </td>
                   <td>
                     <a href="javascript:void(0);" class="action-icon text-danger">
