@@ -40,7 +40,7 @@ export default {
         <!-- App Search-->
         <form class="app-search d-none d-lg-block">
           <div class="position-relative">
-            <input type="text" class="form-control" :placeholder="$t('navbar.search.text')" />
+            <input type="text" class="form-control" :placeholder="$t('navbar.search')" />
             <span class="bx bx-search-alt"></span>
           </div>
         </form>
@@ -127,22 +127,22 @@ export default {
           <b-dropdown-item>
             <router-link tag="span" to="/contacts/profile">
               <i class="bx bx-user font-size-16 align-middle mr-1"></i>
-              {{ $t('Profile') }}
+              {{ $t('navbar.profile.text') }}
             </router-link>
           </b-dropdown-item>
           <b-dropdown-item href="/contacts/myhistory">
             <i class="bx bx-wallet font-size-16 align-middle mr-1"></i>
-            {{ $t('History') }}
+            {{ $t('navbar.profile.orders') }}
           </b-dropdown-item>
           <b-dropdown-item class="d-block" href="javascript: void(0);">
             <span class="badge badge-success float-right">11</span>
             <i class="bx bx-wrench font-size-16 align-middle mr-1"></i>
-            {{ $t('Settings') }}
+            {{ $t('navbar.profile.settings') }}
           </b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <a href="" class="dropdown-item text-danger">
             <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i>
-            {{ $t('Logout') }}
+            {{ $t('navbar.profile.logout') }}
           </a>
         </b-dropdown>
 

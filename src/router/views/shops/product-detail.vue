@@ -15,25 +15,30 @@ export default {
       title: "Detail du produit",
 
       productData,
-      productDetail: null,
+      productDetail: -1,
 
       test() {
         return window.location.href;
       }
     }
-
   },
   created() {
-    this.productDetail = productData.filter(productData => productData.id === parseInt(this.$route.query.id));
-  },
+    let id = parseInt(this.$route.query.id || 'error');
+    this.productDetail = productData.filter(productData => productData.id === id);
+
+    if (this.productDetail.length === 0) {
+      this.productDetail = null;
+      this.$router.push({name: 'InternetServerError'});
+    }
+  }
 }
 </script>
 
 
 <template>
   <Layout>
-    <PageHeader :title="title" />
-
+    <PageHeader :title="title"/>
+    <div v-if="productDetail !== null" class="row">
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
@@ -113,7 +118,7 @@ export default {
 
                 <div class="col-lg-6">
                   <div class="mt-3">
-                    <h4 class="mt-1 mb-3">{{productDetail[0].name}}</h4>
+                    <h4 class="mt-1 mb-3">{{ productDetail[0].name }}</h4>
 
                     <p class="text-muted float-left mr-3">
                       <span class="bx bx-star text-warning"></span>
@@ -124,10 +129,10 @@ export default {
                     </p>
                     <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>
 
-                    <h6 class="text-success text-uppercase">{{productDetail[0].discount}} Off</h6>
+                    <h6 class="text-success text-uppercase">{{ productDetail[0].discount }} Off</h6>
                     <h5 class="mb-4">
                       Prix :
-                      <b>{{productDetail[0].price}}</b>
+                      <b>{{ productDetail[0].price }}€</b>
                     </h5>
                     <p class="text-muted mb-4">
                       {{ productDetail[0].description }}
@@ -143,10 +148,85 @@ export default {
                   </div>
                 </div>
               </div>
+
+              <hr class="mt-3 pt-0">
+
+              <div>
+                <div class="card-body">
+                  <div>
+                    <h5 class="mb-3">Specifications :</h5>
+
+                    <div class="table-responsive">
+                      <table class="table mb-0 table-bordered">
+                        <tbody>
+                        <tr>
+                          <th scope="row">des choses</th>
+                          <td>encore des choses</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">des choses</th>
+                          <td>encore des choses</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">des choses</th>
+                          <td>encore des choses</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">des choses</th>
+                          <td>encore des choses</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-sm-12">
+        <router-link
+            tag="a"
+            to="/lcshop"
+            class="btn text-muted d-none d-sm-inline-block btn-link"
+        >
+          <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
+        </router-link>
+      </div>
+      <!-- end col -->
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <h4 class="my-3">Nos nouveautés</h4>
+        <b-card-group deck>
+          <b-card
+              v-for="data in productData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+            <div class="product-img position-relative">
+              <div v-if="data.discount" class="avatar-sm product-ribbon">
+                <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+              </div>
+              <router-link tag="a" :to="`/product-detail?id=${data.id}`">
+                <img :src="`${data.img}`" alt class="img-fluid mx-auto d-block"/>
+              </router-link>
+            </div>
+            <div class="row"></div>
+            <b-card-title>
+              <h5 class="card-title text-center">{{ data.name }}</h5>
+            </b-card-title>
+
+            <p
+                class="card-text h5 text-center">
+              {{ data.price }}€</p>
+          </b-card>
+        </b-card-group>
+      </div>
+    </div>
+
 
   </Layout>
 </template>

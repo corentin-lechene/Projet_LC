@@ -113,8 +113,29 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/checkout')
-}
-
-
+  },
+  {
+    path: '/example',
+    name: 'example',
+    meta: {
+    },
+    component: () => import('./views/example/example')
+  },
+  {
+    path: '/500',
+    name: 'InternetServerError',
+    meta : {
+      title: 'Internet Server Error',
+    },
+    component: () => import('./views/errors/500')
+  },
+  {
+    path: '/:pathMatch(.*)',
+    name: 'NotFound',
+    meta : {
+      title: '404 Notfound',
+    },
+    component: () => import('./views/errors/404')
+  }
 
 ]

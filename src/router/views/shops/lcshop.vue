@@ -1,7 +1,8 @@
 <script>
-import VueSlideBar from "vue-slide-bar";
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
+
+import VueSlideBar from "vue-slide-bar";
 
 import {categoryGoodsData} from "@/data/data-category-goods";
 import {productData} from "@/data/data-products";
@@ -35,7 +36,7 @@ export default {
         }
       },
 
-      debug: null,
+      debug: productData,
     }
   },
   methods: {
@@ -121,13 +122,17 @@ export default {
       this.useFilter();
     },
     resetFilter() {
+      this.productData = [];
+
       this.filterBy.reset();
-      this.productData = productData;
+
       this.sliderPriceMax = this.getMaxPrice(this.productData);
       this.sliderPriceMin = this.getMinPrice(this.productData);
 
       this.dataFilterBy.price = this.getMaxPrice(productData);
       this.dataFilterBy.note = 0;
+
+      this.productData = productData;
     },
   },
 };
@@ -150,7 +155,6 @@ export default {
               <div class="row">
                 <div class="col-md-12 col-lg-12 col-xl-5"> <!--ici -->
                   <b-dropdown
-                      v-model="debug"
                       class="btn-block"
                       style="height: 100%"
                   >
@@ -259,7 +263,7 @@ export default {
                   </div>
 
                   <h5 class="my-0">
-                    <b>${{ product.price }}</b>
+                    <b>{{ product.price }}€</b>
                   </h5>
                 </div>
               </div>

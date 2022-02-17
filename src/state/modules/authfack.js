@@ -1,4 +1,4 @@
-import { userService } from '../../helpers/authservice/user.service';
+import { userService } from '@/helpers/authservice/user.service';
 import router from '../../router/index'
 
 const user = JSON.parse(localStorage.getItem('user'));

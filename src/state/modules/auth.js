@@ -1,4 +1,4 @@
-import { getFirebaseBackend } from '../../authUtils.js'
+import { getFirebaseBackend } from '@/authUtils'
 
 export const state = {
     currentUser: sessionStorage.getItem('authUser'),
