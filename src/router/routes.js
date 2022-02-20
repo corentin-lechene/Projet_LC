@@ -80,6 +80,13 @@ export default [
     },
   },
   {
+    path: '/offers-partners',
+    name: 'Boutique des offres partenaires',
+    meta: {
+    },
+    component: () => import('./views/shops/offers-partners')
+  },
+  {
     path: '/lcshop',
     name: 'Boutique LC',
     meta: {
@@ -92,6 +99,13 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/product-detail')
+  },
+  {
+    path: '/service-detail',
+    name: 'Detail du service',
+    meta: {
+    },
+    component: () => import('./views/shops/service-detail')
   },
   {
     path: '/mylcard',

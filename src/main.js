@@ -10,6 +10,7 @@ import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
 
+
 import "@/design/index.scss";
 
 import store from '@/state/store'
@@ -20,6 +21,7 @@ import { initFirebaseBackend } from './authUtils'
 import i18n from './i18n'
 
 import { configureFakeBackend } from './helpers/fake-backend';
+
 
 import tinymce from 'vue-tinymce-editor'
 Vue.component('tinymce', tinymce)
@@ -61,6 +63,7 @@ Vue.use(VueGoogleMaps, {
   installComponents: true
 })
 Vue.component('apexchart', VueApexCharts)
+
 
 new Vue({
   router,

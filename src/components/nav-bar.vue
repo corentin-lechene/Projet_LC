@@ -25,7 +25,7 @@ export default {
 
         <!-- Boutton Offers-->
         <div class="d-flex">
-          <router-link tag="a" class="text-dark" to="/partner-offer">
+          <router-link tag="a" class="text-dark" to="/offers-partners">
         <b-button variant="white" style="padding-top: 17%;">Offres partenaires</b-button>
           </router-link>
         </div>
@@ -96,7 +96,7 @@ export default {
           <b-modal id="modal-standard" title="Ma carte de fidélité" title-class="font-18">
             <img
                 alt="200x200"
-                width="450"
+                width="544"
                 src="@/assets/images/cartevide.png"
                 data-holder-rendered="true"
             />
