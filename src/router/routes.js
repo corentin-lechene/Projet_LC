@@ -113,8 +113,14 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/checkout')
-}
-
+  },
+  {
+    path: '/invoice',
+    name: 'Facture',
+    meta: {
+    },
+    component: () => import('./views/support/invoice')
+  }
 
 
 ]
