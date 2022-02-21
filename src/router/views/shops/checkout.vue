@@ -265,7 +265,6 @@ export default {
                   <div class="p-4 border">
                     <form>
                       <b-form-group
-                          id="input-group-2"
                           label="Numéro de carte"
                           label-for="input-card"
                           class="mb-0"
@@ -276,7 +275,6 @@ export default {
                       <b-row class="mt-4">
                         <b-col lg="6">
                           <b-form-group
-                              id="input-group-2"
                               label="Nom de la carte"
                               label-for="input-number"
                               class="mb-0"
@@ -286,7 +284,6 @@ export default {
                         </b-col>
                         <b-col lg="3">
                           <b-form-group
-                              id="input-group-2"
                               label="Date d'expiration"
                               label-for="input-date"
                               class="mb-0"
@@ -297,7 +294,6 @@ export default {
 
                         <b-col lg="3">
                           <b-form-group
-                              id="input-group-2"
                               label="Code secret"
                               label-for="cvvcodeInput"
                               class="mb-0"
@@ -402,7 +398,7 @@ export default {
               </div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row my-4">
               <div class="col-sm-6">
                 <router-link
                     tag="a"

@@ -1,86 +1,52 @@
-import store from '@/state/store'
 
 export default [
   {
     path: '/',
     name: 'Accueil',
     meta: {
-      authRequired: false,
     },
     component: () => import('./views/homepage'),
   },
+
+  //Account
   {
     path: '/login',
     name: 'login',
     component: () => import('./views/account/login'),
-    meta: {
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters['auth/loggedIn']) {
-          // Redirect to the home page instead
-          next({ name: 'default' })
-        } else {
-          // Continue to the login page
-          next()
-        }
-      },
-    },
   },
   {
     path: '/register',
     name: 'Register',
     component: () => import('./views/account/register'),
-    meta: {
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters['auth/loggedIn']) {
-          // Redirect to the home page instead
-          next({ name: 'default' })
-        } else {
-          // Continue to the login page
-          next()
-        }
-      },
-    },
   },
   {
     path: '/forgot-password',
     name: 'Forgot password',
     component: () => import('./views/account/forgot-password'),
-    meta: {
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters['auth/loggedIn']) {
-          // Redirect to the home page instead
-          next({ name: 'default' })
-        } else {
-          // Continue to the login page
-          next()
-        }
-      },
-    },
   },
   {
     path: '/logout',
     name: 'logout',
-    meta: {
-      authRequired: true,
-      beforeResolve(routeTo, routeFrom, next) {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          store.dispatch('auth/logOut')
-        } else {
-          store.dispatch('authfack/logout')
-        }
-        const authRequiredOnPreviousRoute = routeFrom.matched.some(
-          (route) => route.push('/login')
-        )
-        // Navigate back to previous page, or home as a fallback
-        next(authRequiredOnPreviousRoute ? { name: 'default' } : { ...routeFrom })
-      },
-    },
+    //Deconnexion
   },
   {
-    path: '/lcshop',
+    path: '/loyalty-card',
+    name: 'Ma carte LC',
+    meta: {
+    },
+    component: () => import('./views/account/loyalty-card')
+  },
+
+  //Shops
+  {
+    path: '/offers-partners',
+    name: 'Boutique des offres partenaires',
+    meta: {
+    },
+    component: () => import('./views/shops/offers-partners')
+  },
+  {
+    path: '/lc-shop',
     name: 'Boutique LC',
     meta: {
     },
@@ -94,11 +60,11 @@ export default [
     component: () => import('./views/shops/product-detail')
   },
   {
-    path: '/mylcard',
-    name: 'Ma carte LC',
+    path: '/service-detail',
+    name: 'Detail du service',
     meta: {
     },
-    component: () => import('./views/LCards/mylcard')
+    component: () => import('./views/shops/service-detail')
   },
   {
     path: '/cart',
@@ -114,13 +80,32 @@ export default [
     },
     component: () => import('./views/shops/checkout')
   },
+
+  //Example
   {
-    path: '/invoice',
-    name: 'Facture',
+    path: '/example',
+    name: 'example',
     meta: {
     },
-    component: () => import('./views/support/invoice')
+    component: () => import('./views/example/example')
+  },
+
+  //Errors
+  {
+    path: '/500',
+    name: 'InternetServerError',
+    meta : {
+      title: 'Internet Server Error',
+    },
+    component: () => import('./views/errors/500')
+  },
+  {
+    path: '/:pathMatch(.*)',
+    name: 'NotFound',
+    meta : {
+      title: '404 Notfound',
+    },
+    component: () => import('./views/errors/404')
   }
-
-
+  
 ]

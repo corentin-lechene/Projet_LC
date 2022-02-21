@@ -11,7 +11,7 @@ $sidebar-menu-sub-item-color: #545a6d;
 $sidebar-menu-item-icon-color: #7f8387;
 $sidebar-menu-item-hover-color: #383c40;
 $sidebar-menu-item-active-color: #556ee6;
-$sidebar-width: 10.938rem;
+$sidebar-width: 9.938rem;
 $sidebar-collapsed-width: 70px;
 $sidebar-width-sm: 50px;
 
@@ -236,11 +236,14 @@ $paragraph-margin-bottom: 1rem;
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
 
-$grid-breakpoints: (xs: 0,
+$grid-breakpoints: (
+    xs: 0,
     sm: 576px,
     md: 768px,
     lg: 992px,
-    xl: 1200px);
+    xl: 1200px,
+    xxl: 1510px
+);
 
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
 @include _assert-starts-at-zero($grid-breakpoints, "$grid-breakpoints");
@@ -250,10 +253,13 @@ $grid-breakpoints: (xs: 0,
 //
 // Define the maximum width of `.container` for different screen sizes.
 
-$container-max-widths: (sm: 540px,
+$container-max-widths: (
+    sm: 540px,
     md: 720px,
     lg: 960px,
-    xl: 1140px);
+    xl: 1140px,
+    xxl: 1425px
+);
 
 @include _assert-ascending($container-max-widths, "$container-max-widths");
 

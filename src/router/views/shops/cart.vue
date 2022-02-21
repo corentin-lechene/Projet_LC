@@ -86,7 +86,7 @@ export default {
                   <th>Produits</th>
                   <th>Description du produit</th>
                   <th>Prix</th>
-                  <th>Quantité</th>
+                  <th style="min-width: 100px; max-width: 100px">Quantité</th>
                   <th colspan="2">Total</th>
                 </tr>
                 </thead>
@@ -107,7 +107,7 @@ export default {
                     </h5>
                     <p>{{ displayLongStr(product.description, 30) }}</p>
                   </td>
-                  <td>{{ product.price }}</td>
+                  <td>{{ product.price }}€</td>
                   <td style="width: 150px">
                     <div class="btn-group">
                       <div>
@@ -137,91 +137,74 @@ export default {
       </div>
 
       <div class="col-xl-4">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Carte de fidélité</h5>
+        <div class="row">
 
-            <div class="card bg-primary text-white visa-card mb-0">
+          <div class="col-5 col-xl-12">
+            <div class="card">
               <div class="card-body">
-                <div>
-                  <i class="bx bxl-visa visa-pattern"></i>
+                <h5 class="card-title mb-4">Carte de fidélité</h5>
+                <img src="@/assets/images/carte.png" alt="" style="width: 240px; height: 200px">
+              </div>
+            </div>
+          </div>
 
-                  <div class="float-right">
-                    <i class="bx bxl-visa visa-logo display-3"></i>
-                  </div>
+          <div class="col-7 col-xl-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title mb-3">Récapitulatif du panier</h4>
 
-                  <div>
-                    <i class="bx bx-chip h1 text-warning"></i>
-                  </div>
+                <div class="table-responsive">
+                  <table class="table mb-0">
+                    <tbody>
+                    <tr>
+                      <td>Total TTC :</td>
+                      <td>800€</td>
+                    </tr>
+                    <tr>
+                      <td>Réduction :</td>
+                      <td>- 200€</td>
+                    </tr>
+                    <tr>
+                      <td>Frais de port :</td>
+                      <td>25€</td>
+                    </tr>
+                    </tbody>
+                    <tr>
+                      <th>Total :</th>
+                      <th>1200€</th>
+                    </tr>
+                  </table>
                 </div>
-
-                <div class="row mt-5">
-                  <div class="col-4">
-                    <p>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                    </p>
-                  </div>
-                  <div class="col-4">
-                    <p>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                    </p>
-                  </div>
-                  <div class="col-4">
-                    <p>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                      <i class="fas fa-star-of-life m-1"></i>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="mt-5">
-                  <h5 class="text-white float-right mb-0">12/22</h5>
-                  <h5 class="text-white mb-0">Fredrick Taylor</h5>
-                </div>
+                <!-- end table-responsive -->
+                <p class="text-center font-italic">Gain des points : 20 points</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title mb-3">Récapitulatif du panier</h4>
 
-            <div class="table-responsive">
-              <table class="table mb-0">
-                <tbody>
-                <tr>
-                  <td>Grand Total :</td>
-                  <td>$ 1,857</td>
-                </tr>
-                <tr>
-                  <td>Discount :</td>
-                  <td>- $ 157</td>
-                </tr>
-                <tr>
-                  <td>Shipping Charge :</td>
-                  <td>$ 25</td>
-                </tr>
-                <tr>
-                  <td>Estimated Tax :</td>
-                  <td>$ 19.22</td>
-                </tr>
-                <tr>
-                  <th>Total :</th>
-                  <th>$ 1744.22</th>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- end table-responsive -->
-          </div>
-        </div>
         <!-- end card -->
       </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-sm-6">
+        <router-link
+            tag="a"
+            to="/lcshop"
+            class="btn text-muted d-none d-sm-inline-block btn-link"
+        >
+          <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
+        </router-link>
+      </div>
+      <!-- end col -->
+      <div class="col-sm-6">
+        <div class="text-sm-right">
+          <router-link tag="a" to="/checkout" class="btn btn-success">
+            <i class="mdi mdi-truck-fast mr-1"></i> Passer la commande
+          </router-link>
+        </div>
+      </div>
+      <!-- end col -->
     </div>
 
   </Layout>

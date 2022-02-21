@@ -3,7 +3,8 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {productData} from "@/data/data-products";
+import {servicesData} from "@/data/data-services";
+
 
 
 export default {
@@ -14,20 +15,26 @@ export default {
     return {
       title: "Detail du produit",
 
-      productData,
-      productDetail: -1,
+      servicesData,
+      serviceDetail: -1,
 
-      test() {
-        return window.location.href;
-      }
+      msg: {
+        s: "L'article a été ajouté avec succès",
+        e: "Vous devez être connecté",
+      },
+
+
     }
+  },
+  methods: {
+
   },
   created() {
     let id = parseInt(this.$route.query.id || 'error');
-    this.productDetail = productData.filter(productData => productData.id === id);
+    this.serviceDetail = servicesData.filter(servicesData => servicesData.id === id);
 
-    if (this.productDetail.length === 0) {
-      this.productDetail = null;
+    if (this.serviceDetail.length === 0) {
+      this.serviceDetail = null;
       this.$router.push({name: 'InternetServerError'});
     }
   }
@@ -38,7 +45,7 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title"/>
-    <div v-if="productDetail !== null" class="row">
+    <div v-if="serviceDetail !== null" class="row">
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
@@ -50,14 +57,14 @@ export default {
                       <b-tab>
                         <template v-slot:title>
                           <img
-                              :src="productDetail[0].img"
+                              :src="serviceDetail[0].img"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
                           />
                         </template>
                         <div class="product-img">
                           <img
-                              :src="productDetail[0].img"
+                              :src="serviceDetail[0].img"
                               alt
                               class="img-fluid mx-auto d-block"
                           />
@@ -66,46 +73,14 @@ export default {
                       <b-tab>
                         <template v-slot:title>
                           <img
-                              :src="productDetail[0].img"
+                              :src="serviceDetail[0].img"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
                           />
                         </template>
                         <div class="product-img">
                           <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
-                        </div>
-                      </b-tab>
-                      <b-tab>
-                        <template v-slot:title>
-                          <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
-                        </template>
-                        <div class="product-img">
-                          <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
-                        </div>
-                      </b-tab>
-                      <b-tab>
-                        <template v-slot:title>
-                          <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
-                        </template>
-                        <div class="product-img">
-                          <img
-                              :src="productDetail[0].img"
+                              :src="serviceDetail[0].img"
                               alt
                               class="img-fluid mx-auto d-block"
                           />
@@ -118,7 +93,7 @@ export default {
 
                 <div class="col-lg-6">
                   <div class="mt-3">
-                    <h4 class="mt-1 mb-3">{{ productDetail[0].name }}</h4>
+                    <h4 class="mt-1 mb-3">{{ serviceDetail[0].name }}</h4>
 
                     <p class="text-muted float-left mr-3">
                       <span class="bx bx-star text-warning"></span>
@@ -129,13 +104,13 @@ export default {
                     </p>
                     <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>
 
-                    <h6 class="text-success text-uppercase">{{ productDetail[0].discount }} Off</h6>
+                    <h6 class="text-success text-uppercase">{{ serviceDetail[0].discount }} Off</h6>
                     <h5 class="mb-4">
                       Prix :
-                      <b>{{ productDetail[0].price }}€</b>
+                      <b>{{ serviceDetail[0].price }}€</b>
                     </h5>
                     <p class="text-muted mb-4">
-                      {{ productDetail[0].description }}
+                      {{ serviceDetail[0].description }}
                     </p>
                   </div>
                   <div class="text-left">
@@ -205,7 +180,7 @@ export default {
         <h4 class="my-3">Nos nouveautés</h4>
         <b-card-group deck>
           <b-card
-              v-for="data in productData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+              v-for="data in servicesData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
             <div class="product-img position-relative">
               <div v-if="data.discount" class="avatar-sm product-ribbon">
                 <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
