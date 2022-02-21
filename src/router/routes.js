@@ -106,6 +106,13 @@ export default [
       title: '404 Notfound',
     },
     component: () => import('./views/errors/404')
+  },
+  {
+    path: '/invoice',
+    name: 'Facture',
+    meta: {
+    },
+    component: () => import('./views/support/invoice')
   }
   
 ]
