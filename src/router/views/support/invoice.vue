@@ -81,7 +81,7 @@ export default {
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"
-        pdf-orientation="landscape"
+        pdf-orientation="portrait"
         pdf-content-width="800px"
         ref="html2Pdf"
     >
