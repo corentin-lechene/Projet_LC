@@ -1,12 +1,7 @@
 <script>
-import {UsersData} from "@/data/data-users";
 
 export default {
-  data() {
-    return {
-      UsersData,
-    };
-  },
+  
 };
 </script>
 
@@ -32,7 +27,7 @@ export default {
 
         <!-- Boutton LCshop-->
         <div class="d-flex">
-          <router-link tag="a" class="text-dark" to="/lcshop">
+          <router-link tag="a" class="text-dark" to="/lc-shop">
           <b-button variant="white" style="padding-top: 31%;">LC Shop</b-button>
           </router-link>
         </div>
@@ -81,7 +76,7 @@ export default {
         <!-- Picto LC card -->
 
         <!-- <div class="d-flex" style="margin-right: 15px">
-          <router-link tag="a" to="/mylcard">
+          <router-link tag="a" to="/loyalty-card">
           <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;" />
           </router-link>
         </div>-->

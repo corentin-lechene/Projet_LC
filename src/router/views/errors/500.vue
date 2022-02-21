@@ -1,10 +1,8 @@
 <script>
-import appConfig from "@/app.config";
 
 export default {
   page: {
     title: "500 Error Page",
-    meta: [{ name: "description", content: appConfig.description }]
   },
 };
 </script>

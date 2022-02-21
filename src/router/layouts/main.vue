@@ -1,28 +1,29 @@
 <script>
-import { layoutComputed } from "@/state/helpers";
-import Vertical from "./vertical";
-import Horizontal from "./horizontal";
+
+import NavBar from "@/components/nav-bar";
+import Footer from "@/components/footer";
+
 
 export default {
-  components: { Vertical, Horizontal },
+  components: {NavBar, Footer},
   data() {
     return {};
-  },
-  computed: {
-    ...layoutComputed
-  },
-  methods: {}
+  }
 };
 </script>
 
 <template>
-  <div>
-    <vertical v-if="layoutType === 'vertical'" :layout="layoutType">
-      <slot />
-    </vertical>
-
-    <Horizontal v-if="layoutType === 'horizontal'" :layout="layoutType">
-      <slot />
-    </Horizontal>
+  <div id="layout-wrapper">
+    <NavBar />
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          <slot />
+        </div>
+        <!-- container-fluid -->
+      </div>
+      <!-- End Page-content -->
+      <Footer />
+    </div>
   </div>
 </template>
