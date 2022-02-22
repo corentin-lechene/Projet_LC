@@ -1,12 +1,7 @@
 <script>
-import {UsersData} from "@/data/data-users";
 
 export default {
-  data() {
-    return {
-      UsersData,
-    };
-  },
+  
 };
 </script>
 
@@ -32,7 +27,7 @@ export default {
 
         <!-- Boutton LCshop-->
         <div class="d-flex">
-          <router-link tag="a" class="text-dark" to="/lcshop">
+          <router-link tag="a" class="text-dark" to="/lc-shop">
           <b-button variant="white" style="padding-top: 31%;">LC Shop</b-button>
           </router-link>
         </div>
@@ -81,7 +76,7 @@ export default {
         <!-- Picto LC card -->
 
         <!-- <div class="d-flex" style="margin-right: 15px">
-          <router-link tag="a" to="/mylcard">
+          <router-link tag="a" to="/loyalty-card">
           <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;" />
           </router-link>
         </div>-->
@@ -96,16 +91,10 @@ export default {
           <b-modal id="modal-standard" title="Ma carte de fidélité" title-class="font-18">
             <img
                 alt="200x200"
-                width="544"
+                width="460"
                 src="@/assets/images/cartevide.png"
                 data-holder-rendered="true"
             />
-            <div class="texte_centrer">{{}}</div>
-            <template #modal-footer>
-              <b-button variant="success">
-                Download
-              </b-button>
-            </template>
           </b-modal>
           </div>
         </div>
@@ -130,7 +119,7 @@ export default {
           </template>
           <!-- item-->
           <b-dropdown-item>
-            <router-link tag="span" to="/contacts/profile">
+            <router-link tag="span" to="/profile">
               <i class="bx bx-user font-size-16 align-middle mr-1"></i>
               {{ $t('navbar.profile.text') }}
             </router-link>
@@ -162,12 +151,5 @@ export default {
   position: relative;
   text-align: center;
   color: red;
-}
-
-.texte_centrer {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>

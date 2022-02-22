@@ -1,11 +1,9 @@
 <script>
-import appConfig from "@/app.config";
 
 export default {
   page: {
-    title: "404 Error Page",
-    meta: [{ name: "description", content: appConfig.description }]
-  },
+    title: "404 Error Page"
+  }
 }
 </script>
 <template>

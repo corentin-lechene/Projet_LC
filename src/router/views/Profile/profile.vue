@@ -1,17 +1,13 @@
 <script>
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
-
 import Transaction from '@/components/widgets/transaction'
-import appConfig from "@/app.config";
-
 /**
  * Products-order component
  */
 export default {
   page: {
     title: "Profile",
-    meta: [{ name: "description", content: appConfig.description }]
   },
   components: { Layout, PageHeader, Transaction },
   data() {
@@ -178,8 +174,8 @@ export default {
                       </div>
                     </div>
                     <div style="float: right">
-                    <b-button variant="success" class="w-md">Modifier mon profil</b-button>
-                  </div>
+                      <b-button variant="success" class="w-md">Modifier mon profil</b-button>
+                    </div>
                   </div>
                   <!-- end col -->
                 </div>
@@ -249,16 +245,16 @@ export default {
                 </template>
                 <div class="row">
                   <div class="col-1"></div>
-                <div class="col-2">
-                  <p style="font-size: large;"> La newsletter </p>
-                </div>
-                <div class="col-5">
-                  <input type="text" class="form-control" placeholder="Votre email" />
+                  <div class="col-2">
+                    <p style="font-size: large;"> La newsletter </p>
+                  </div>
+                  <div class="col-5">
+                    <input type="text" class="form-control" placeholder="Votre email" />
 
-                </div>
-                <div class="col-4">
-                  <b-button variant="success" class="w-md">Je m'abonne</b-button>
-                </div>
+                  </div>
+                  <div class="col-4">
+                    <b-button variant="success" class="w-md">Je m'abonne</b-button>
+                  </div>
                 </div>
                 <div class="row" style="height: 10px;"></div>
                 <div class="row">

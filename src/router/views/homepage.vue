@@ -1,6 +1,8 @@
 <script>
+
 import Layout from "../layouts/main";
 import PageHeader from "@/components/page-header";
+
 
 import {OffersData} from "@/data/data-offers";
 import {productData} from "@/data/data-products";
@@ -29,7 +31,6 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title"/>
-    <!--Carousel -->
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -149,7 +150,7 @@ export default {
         <div class="col-4">
           <b-card
               overlay
-              :img-src="require('@/assets/images/small/img-6.jpg')"
+              img-src="#"
               img-alt="Card Image"
               text-variant="white"
           >
@@ -169,9 +170,9 @@ export default {
     </div>
 
     <div class="row" style="height: 50px"></div>
-
   </Layout>
 </template>
+
 
 <style>
 .carousel-item img {

@@ -1,5 +1,15 @@
 const productData = [
     {
+        id: 1,
+        category_id: 1,
+        name: "MSI Vigor GK50 Low Profile TKL",
+        description: "La description du produit",
+        price: 109.94,
+        note: 3,
+        discount: false,
+        img: require('@/assets/images/product/keyboards/img_1.jpg'),
+    },
+    {
         id: 2,
         category_id: 1,
         name: "Razer Pro Type Ultra (switches Razer Yellow)",

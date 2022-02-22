@@ -23,49 +23,49 @@ export default {
   <div class="table-responsive mb-0">
     <table class="table table-centered table-nowrap">
       <thead class="thead-light">
-        <tr>
-          <th style="width: 20px;">
-          </th>
-          <th>Order ID</th>
-          <th>Billing Name</th>
-          <th>Date</th>
-          <th>Total</th>
-          <th>Payment Status</th>
-          <th>Payment Method</th>
-          <th>View Details</th>
-        </tr>
+      <tr>
+        <th style="width: 20px;">
+        </th>
+        <th>Order ID</th>
+        <th>Billing Name</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Payment Status</th>
+        <th>Payment Method</th>
+        <th>View Details</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="data in transactions" :key="data.id">
-          <td>
+      <tr v-for="data in transactions" :key="data.id">
+        <td>
 
-          </td>
-          <td>
-            <a href="javascript: void(0);" class="text-body font-weight-bold">{{data.id}}</a>
-          </td>
-          <td>{{data.name}}</td>
-          <td>{{data.date}}</td>
-          <td>{{data.total}}</td>
-          <td>
+        </td>
+        <td>
+          <a href="javascript: void(0);" class="text-body font-weight-bold">{{data.id}}</a>
+        </td>
+        <td>{{data.name}}</td>
+        <td>{{data.date}}</td>
+        <td>{{data.total}}</td>
+        <td>
             <span
-              class="badge badge-pill badge-soft-success font-size-12"
-              :class=" { 'badge-soft-danger': `${data.status}` === 'Chargeback',
+                class="badge badge-pill badge-soft-success font-size-12"
+                :class=" { 'badge-soft-danger': `${data.status}` === 'Chargeback',
                         'badge-soft-warning': `${data.status}` === 'Refund' }"
             >{{data.status}}</span>
-          </td>
-          <td>
-            <i :class="`fab ${data.payment[0]} mr-1`"></i>
-            {{data.payment[1]}}
-          </td>
-          <td>
-            <!-- Button trigger modal -->
-            <button
+        </td>
+        <td>
+          <i :class="`fab ${data.payment[0]} mr-1`"></i>
+          {{data.payment[1]}}
+        </td>
+        <td>
+          <!-- Button trigger modal -->
+          <button
               type="button"
               class="btn btn-primary btn-sm btn-rounded"
               @click="showModal = true"
-            >View Details</button>
-          </td>
-        </tr>
+          >View Details</button>
+        </td>
+      </tr>
       </tbody>
     </table>
     <b-modal v-model="showModal" title="Order Details" centered>
@@ -80,59 +80,59 @@ export default {
       <div class="table-responsive">
         <table class="table table-centered table-nowrap">
           <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Product Name</th>
-              <th scope="col">Price</th>
-            </tr>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+          </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">
-                <div>
-                  <img src="@/assets/images/product/keyboards/img_1.jpg" alt class="avatar-sm" />
-                </div>
-              </th>
-              <td>
-                <div>
-                  <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
-                  <p class="text-muted mb-0">$ 225 x 1</p>
-                </div>
-              </td>
-              <td>$ 255</td>
-            </tr>
-            <tr>
-              <th scope="row">
-                <div>
-                  <img src="@/assets/images/product/keyboards/img_2.jpg" alt class="avatar-sm" />
-                </div>
-              </th>
-              <td>
-                <div>
-                  <h5 class="text-truncate font-size-14">Phone patterned cases</h5>
-                  <p class="text-muted mb-0">$ 145 x 1</p>
-                </div>
-              </td>
-              <td>$ 145</td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <h6 class="m-0 text-right">Sub Total:</h6>
-              </td>
-              <td>$ 400</td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <h6 class="m-0 text-right">Shipping:</h6>
-              </td>
-              <td>Free</td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <h6 class="m-0 text-right">Total:</h6>
-              </td>
-              <td>$ 400</td>
-            </tr>
+          <tr>
+            <th scope="row">
+              <div>
+                <img src="@/assets/images/product/keyboards/img_1.jpg" alt class="avatar-sm" />
+              </div>
+            </th>
+            <td>
+              <div>
+                <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
+                <p class="text-muted mb-0">$ 225 x 1</p>
+              </div>
+            </td>
+            <td>$ 255</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              <div>
+                <img src="@/assets/images/product/keyboards/img_2.jpg" alt class="avatar-sm" />
+              </div>
+            </th>
+            <td>
+              <div>
+                <h5 class="text-truncate font-size-14">Phone patterned cases</h5>
+                <p class="text-muted mb-0">$ 145 x 1</p>
+              </div>
+            </td>
+            <td>$ 145</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <h6 class="m-0 text-right">Sub Total:</h6>
+            </td>
+            <td>$ 400</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <h6 class="m-0 text-right">Shipping:</h6>
+            </td>
+            <td>Free</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <h6 class="m-0 text-right">Total:</h6>
+            </td>
+            <td>$ 400</td>
+          </tr>
           </tbody>
         </table>
       </div>
