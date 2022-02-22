@@ -100,7 +100,12 @@ export default {
                 src="@/assets/images/cartevide.png"
                 data-holder-rendered="true"
             />
-            <div class="texte_centrer">{{  }}</div>
+            <div class="texte_centrer">{{}}</div>
+            <template #modal-footer>
+              <b-button variant="success">
+                Download
+              </b-button>
+            </template>
           </b-modal>
           </div>
         </div>

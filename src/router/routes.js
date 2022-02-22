@@ -113,7 +113,14 @@ export default [
     meta: {
     },
     component: () => import('./views/shops/checkout')
-}
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    meta: {
+    },
+    component: () => import('./views/Profile/profile')
+  },
 
 
 
