@@ -7,7 +7,7 @@ import {OffersData} from "@/data/data-offers";
  */
 export default {
   page: {
-    title: "MyLCard",
+    title: "Loyalty Card",
   },
   components: {
     Layout,
@@ -15,11 +15,6 @@ export default {
   data() {
     return {
       OffersData,
-      items: [
-        {
-          text: "MyLCard",
-        },
-      ],
     };
   },
 };

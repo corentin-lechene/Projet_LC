@@ -4,7 +4,7 @@ export default {
   name: "app",
   page: {
     // All subcomponent titles will be injected into this template.
-    title: "bonjour"
+    title: "LoyaltyCards"
   },
   mounted() {},
 };

@@ -91,11 +91,10 @@ export default {
           <b-modal id="modal-standard" title="Ma carte de fidélité" title-class="font-18">
             <img
                 alt="200x200"
-                width="544"
+                width="460"
                 src="@/assets/images/cartevide.png"
                 data-holder-rendered="true"
             />
-            <div class="texte_centrer">{{  }}</div>
           </b-modal>
           </div>
         </div>
@@ -120,7 +119,7 @@ export default {
           </template>
           <!-- item-->
           <b-dropdown-item>
-            <router-link tag="span" to="/contacts/profile">
+            <router-link tag="span" to="/profile">
               <i class="bx bx-user font-size-16 align-middle mr-1"></i>
               {{ $t('navbar.profile.text') }}
             </router-link>
@@ -152,12 +151,5 @@ export default {
   position: relative;
   text-align: center;
   color: red;
-}
-
-.texte_centrer {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>

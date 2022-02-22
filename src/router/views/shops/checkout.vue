@@ -206,7 +206,7 @@ export default {
               <div class="col-sm-6">
                 <router-link
                     tag="a"
-                    to="/lcshop"
+                    to="/lc-shop"
                     class="btn text-muted d-none d-sm-inline-block btn-link"
                 >
                   <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
