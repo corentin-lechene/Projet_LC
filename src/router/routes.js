@@ -136,6 +136,13 @@ export default [
     component: () => import('./views/example/example')
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    meta: {
+    },
+    component: () => import('./views/Profile/profile')
+  },
+  {
     path: '/500',
     name: 'InternetServerError',
     meta : {
@@ -150,13 +157,6 @@ export default [
       title: '404 Notfound',
     },
     component: () => import('./views/errors/404')
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    meta: {
-    },
-    component: () => import('./views/Profile/profile')
-  },
+  }
 
 ]
