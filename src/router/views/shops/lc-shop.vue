@@ -7,7 +7,6 @@ import VueSlideBar from "vue-slide-bar";
 import {categoryGoodsData} from "@/data/data-category-goods";
 import {productData} from "@/data/data-products";
 
-
 export default {
   page: {
     title: "Orders",
@@ -16,13 +15,10 @@ export default {
   data() {
     return {
       title: "Produits",
-
       categoryGoodsData,
       productData,
-
       sliderPriceMax: this.getMaxPrice(productData),
       sliderPriceMin: this.getMinPrice(productData),
-
       dataFilterBy: {
         price: this.getMaxPrice(productData),
         note: 0,
@@ -35,7 +31,6 @@ export default {
           this.value = [];
         }
       },
-
       debug: null,
     }
   },
@@ -54,14 +49,12 @@ export default {
       }
       return Math.min(...prices) + 1;
     },
-
     useFilter() {
       for (let i = 0; i < this.filterBy.name.length; ++i) {
         switch (this.filterBy.name[i]) {
           case 'category_id' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
             break;
-
           case 'price' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
             if (this.filterBy.value[i] === this.getMaxPrice(productData)) {
@@ -69,7 +62,6 @@ export default {
               this.filterBy.value.splice(i, 1);
             }
             break;
-
           case 'note' :
             this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
             if (this.filterBy.value[i] === 0) {
@@ -77,7 +69,6 @@ export default {
               this.filterBy.value.splice(i, 1);
             }
             break;
-
           case 'sort':
             if (this.filterBy.value[i] === '<') {
               this.productData = this.productData.sort((a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1));
@@ -85,7 +76,6 @@ export default {
               this.productData = this.productData.sort((a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1));
             }
             break;
-
           default:
             break;
         }
@@ -105,7 +95,6 @@ export default {
             this.productData = productData;
           }
           break;
-
         case 'sort':
           if (index === -1) {
             this.filterBy.name.push(category);
@@ -115,7 +104,6 @@ export default {
             this.productData = productData;
           }
           break;
-
         default:
           break;
       }
@@ -124,15 +112,11 @@ export default {
     resetFilter() {
       this.productData = [];
       this.productData = productData;
-
       this.filterBy.reset();
-
       this.sliderPriceMax = this.getMaxPrice(this.productData);
       this.sliderPriceMin = this.getMinPrice(this.productData);
-
       this.dataFilterBy.price = this.getMaxPrice(productData);
       this.dataFilterBy.note = 0;
-
     },
   },
 };
@@ -275,4 +259,3 @@ export default {
 
   </Layout>
 </template>
-

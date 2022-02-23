@@ -9,10 +9,20 @@ export default {
   data() {
     return {
       title: "example",
+      values: null,
     }
   },
   methods: {
-
+    test() {
+      fetch('http://localhost:9000/api/companies/1')
+          .then(response => response.json())
+          .then((json) => {
+            this.values = json;
+          });
+    }
+  },
+  created() {
+    this.test();
   }
 }
 
@@ -22,6 +32,7 @@ export default {
   <Layout>
     <PageHeader :title="title"/>
     Example
+    {{values}}
   </Layout>
 </template>
 
