@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "api": "node server/server.js",
+    "serve": "yarn install && vue-cli-service serve",
+    "api": "cd server && node server.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
