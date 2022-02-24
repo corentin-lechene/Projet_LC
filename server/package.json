@@ -1,23 +1,18 @@
 {
-  "name": "express-test",
+  "name": "API",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo yes"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.2",
     "cors": "^2.8.5",
-    "express": "^4.17.3",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.3",
-    "sequelize": "^6.16.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
-  },
-  "type": "commonjs"
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  }
 }

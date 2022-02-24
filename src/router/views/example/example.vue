@@ -9,20 +9,29 @@ export default {
   data() {
     return {
       title: "example",
-      values: null,
+      values_1: null,
+      values_2: null,
     }
   },
   methods: {
-    test() {
-      fetch('http://localhost:9000/api/companies/1')
+    getGoods() {
+      fetch('http://localhost:9000/goods')
           .then(response => response.json())
           .then((json) => {
-            this.values = json;
+            this.values_1 = json;
           });
-    }
+    },
+    getGoodsById() {
+      fetch('http://localhost:9000/goods/3')
+          .then(response => response.json())
+          .then((json) => {
+            this.values_2 = json;
+          });
+    },
   },
   created() {
-    this.test();
+    this.getGoods();
+    this.getGoodsById();
   }
 }
 
@@ -32,7 +41,9 @@ export default {
   <Layout>
     <PageHeader :title="title"/>
     Example
-    {{values}}
+    getGoods : {{values_1}}
+    <br>
+    getGoodsById : {{values_2}}
   </Layout>
 </template>
 
