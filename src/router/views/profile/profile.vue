@@ -2,6 +2,15 @@
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
 import Transaction from '@/components/widgets/transaction'
+import Vue from 'vue'
+import { BootstrapVue } from 'bootstrap-vue'
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
 /**
  * Products-order component
  */
@@ -119,74 +128,94 @@ export default {
 
         <div class="card">
           <div class="card-body">
-            <b-tabs justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
+            <b-tabs vertical justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
               <b-tab active>
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block">Profil</span>
+                  <span class="d-none d-md-inline-block" style="margin-top: 10%;">Mes informations</span>
                 </template>
 
                 <div class="row">
                   <div class="col-12">
                     <div class="card">
                       <div class="card-body">
-                        <h4 style="font-size: large;" class="card-title">Vos informations</h4>
-                        <div class="row" style="height: 15px;"> </div>
-                        <div class="table-responsive mb-0">
-                          <table class="table table-bordered table-striped">
-                            <tbody>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Prénom</th>
-                              <td>Mattéo</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Nom</th>
-                              <td>Solari</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Né(e) le</th>
-                              <td>16/01/2002</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">E-mail</th>
-                              <td>22matteoz@gmail.com</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Mot de passe</th>
-                              <td>*********</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Téléphone</th>
-                              <td>0658585858</td>
-                            </tr><tr>
-                              <th class="text-nowrap" scope="row">Adresse de livraison</th>
-                              <td>12 avenue de la liberté</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Adresse de facturation</th>
-                              <td>12 avenue de la liberté</td>
-                            </tr>
-                            </tbody>
-                          </table>
+                        <h4 style="font-size: large; padding-left: 5%;" class="card-title">Vos informations</h4>
+                        <div class="row" style="height: 25px; width: 100%;"></div>
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-10">
+                          <div class="row" style="width: 100%;">
+                              <div class="col-6">Nom
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                              <div class="col-6">Prénom
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                            </div>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="Hkfeo"></b-form-input>
+                            </div>
+                            <div class="col-6">
+                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="Sarah"></b-form-input>
+                            </div>
+                          </div>
+                            <div class="row" style="height: 35px; width: 100%;"></div>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-6">Téléphone
+                              <div class="row" style="height: 5px; width: 100%;"></div>
+                            </div>
+                            <div class="col-6">Email
+                              <div class="row" style="height: 5px; width: 100%;"></div>
+                            </div>
+                          </div>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-6">
+                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="0758585858"></b-form-input>
+                            </div>
+                            <div class="col-6">
+                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="michel@gmail.com"></b-form-input>
+                            </div>
+                          </div>
+                          <div class="row" style="height: 35px; width: 100%;"></div>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-6">Adresse
+                              <div class="row" style="height: 5px; width: 100%;"></div>
+                            </div>
+                            <div class="col-6">Code postal
+                              <div class="row" style="height: 5px; width: 100%;"></div>
+                            </div>
+                          </div>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-6">
+                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="12 avenue de la liberté"></b-form-input>
+                            </div>
+                            <div class="col-6">
+                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="92250"></b-form-input>
+                            </div>
+                          </div>
+                            <div class="row" style="height: 35px; width: 100%;"></div>
+                          </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div style="float: right">
+                      </div>
+                  <div class="row" style="width: 100%;">
+                    <div class="col-5"></div>
+                    <div class="col-7">
                       <b-button variant="success" class="w-md">Modifier mon profil</b-button>
                     </div>
                   </div>
-                  <!-- end col -->
-                </div>
-
+                  </div>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="far fa-user"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block">Historique</span>
+                  <span class="d-none d-sm-inline-block" style="margin-top: 10%;">Mes commandes</span>
                 </template>
                 <div class="card">
                   <div class="card-body">
@@ -241,7 +270,17 @@ export default {
                   <span class="d-inline-block d-sm-none">
                     <i class="far fa-envelope"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block">Paramètres</span>
+                  <span class="d-none d-sm-inline-block"  style="margin-top: 10%;">Ma carte de fidélité</span>
+                </template>
+
+
+              </b-tab>
+              <b-tab>
+                <template v-slot:title>
+                  <span class="d-inline-block d-sm-none">
+                    <i class="far fa-envelope"></i>
+                  </span>
+                  <span class="d-sm-flex" style="margin-top: 10%;">Mes paramètres</span>
                 </template>
                 <div class="row">
                   <div class="col-1"></div>
