@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     getGoods() {
-      fetch('http://localhost:9000/goods')
+      fetch('http://localhost:9000/users')
           .then(response => response.json())
           .then((json) => {
             this.values_1 = json;
@@ -43,7 +43,7 @@ export default {
     Example
     getGoods : {{values_1}}
     <br>
-    getGoodsById : {{values_2}}
+<!--    getGoodsById : {{values_2}}-->
   </Layout>
 </template>
 
