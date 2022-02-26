@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Goodss
 export const getGoods = (result) => {
-    db.query("SELECT * FROM good", (err, results) => {
+    db.query("SELECT * FROM goods", (err, results) => {
         if(err) {
             result(err, null);
         } else {
@@ -15,7 +15,7 @@ export const getGoods = (result) => {
 
 // Get Single Goods
 export const getGoodsById = (id, result) => {
-    db.query("SELECT * FROM good WHERE good_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM goods WHERE good_id = ?", [id], (err, results) => {
         if(err) {
             result(err, null);
         } else {
@@ -26,7 +26,7 @@ export const getGoodsById = (id, result) => {
 
 // Insert Goods to Database
 export const insertGoods = (data, result) => {
-    db.query("INSERT INTO good SET ?", [data], (err, results) => {
+    db.query("INSERT INTO goods SET ?", [data], (err, results) => {
         if(err) {
             result(err, null);
         } else {
@@ -37,7 +37,7 @@ export const insertGoods = (data, result) => {
 
 // Update Goods to Database
 export const updateGoodsById = (data, id, result) => {
-    db.query("UPDATE good SET name = ?, price = ?, reduction = ? WHERE good_id = ?", [data.name, data.price, data.reduction, id], (err, results) => {
+    db.query("UPDATE goods SET name = ?, price = ?, reduction = ? WHERE good_id = ?", [data.name, data.price, data.reduction, id], (err, results) => {
         if(err) {
             result(err, null);
         } else {
@@ -48,7 +48,7 @@ export const updateGoodsById = (data, id, result) => {
 
 // Delete Goods to Database
 export const deleteGoodsById = (id, result) => {
-    db.query("DELETE FROM good WHERE good_id = ?", [id], (err, results) => {
+    db.query("DELETE FROM goods WHERE good_id = ?", [id], (err, results) => {
         if(err) {
             result(err, null);
         } else {

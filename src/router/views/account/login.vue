@@ -22,7 +22,7 @@ export default {
     <PageHeader :title="title"/>
 
     <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-8 col-xl-7 col-xxl-8">
+      <div class="col-md-8 col-lg-8 col-xl-6 col-xxl-6">
         <div class="card overflow-hidden">
           <div class="bg-soft-primary">
             <div class="row">
@@ -88,13 +88,6 @@ export default {
           <!-- end card-body -->
         </div>
         <!-- end card -->
-
-        <div class="mt-5 text-center">
-          <p>
-            Vous n'avez pas encore de compte ?
-            <router-link tag="a" to="/register" class="font-weight-medium text-primary">Creer en un maintenant</router-link>
-          </p>
-        </div>
         <!-- end row -->
       </div>
       <!-- end col -->
