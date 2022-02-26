@@ -2,7 +2,7 @@
 import db from "../config/database.js";
 
 
-// Get All Goodss
+// Get All Goods
 export const getGoods = (result) => {
     db.query("SELECT * FROM goods", (err, results) => {
         if(err) {

@@ -22,11 +22,11 @@ export default {
           });
     },
     getGoodsById() {
-      fetch('http://localhost:9000/goods/3')
+      fetch('http://localhost:9000/users/staffs')
           .then(response => response.json())
           .then((json) => {
-            this.values_2 = json;
-          });
+              this.values_2 = json;
+            });
     },
   },
   created() {
@@ -43,7 +43,8 @@ export default {
     Example
     getGoods : {{values_1}}
     <br>
-<!--    getGoodsById : {{values_2}}-->
+    getGoodsById : {{values_2}}
+
   </Layout>
 </template>
 
