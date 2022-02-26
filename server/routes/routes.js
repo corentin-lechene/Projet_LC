@@ -1,25 +1,22 @@
 // import express
 import express from "express";
 
-// import function from controller
-import {showGoods, showGoodsById, createGoods, updateGoods, deleteGoods} from "../controllers/goods.js";
-
 // init express router
 const router = express.Router();
 
-// Get All Goods
+// import function from controller
+import {showGoods, showGoodsById, createGoods, updateGoods, deleteGoods} from "../controllers/goods.js";
+import {showUsers, showUsersById} from "../controllers/users.js";
+
+
+// Goods
 router.get('/goods', showGoods);
-
-// Get Single Goods
 router.get('/goods/:id', showGoodsById);
-
-// Create New Goods
 router.post('/goods', createGoods);
-
-// Update Goods
 router.put('/goods/:id', updateGoods);
-
-// Delete Goods
 router.delete('/goods/:id', deleteGoods);
+
+router.get('/users', showUsers);
+router.get('/users/:id', showUsersById);
 
 export default router;
