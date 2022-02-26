@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "yarn install && vue-cli-service serve",
+    "api": "cd server && node index.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
@@ -22,7 +23,7 @@
     "@vue-stripe/vue-stripe": "^4.4.1",
     "apexcharts": "^3.19.3",
     "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0",
+    "bootstrap-vue": "^2.21.2",
     "chart.js": "^2.9.3",
     "chartist": "^0.11.4",
     "core-js": "^3.4.4",

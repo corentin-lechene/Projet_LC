@@ -59,7 +59,7 @@ export default [
     name: 'Boutique LC',
     meta: {
     },
-    component: () => import('./views/shops/lcshop')
+    component: () => import('./views/shops/lc-shop')
   },
   {
     path: '/product-detail',
