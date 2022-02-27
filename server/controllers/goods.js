@@ -1,7 +1,7 @@
 // Import function from Goods Model
 import { getGoods, getGoodsById, insertGoods, updateGoodsById, deleteGoodsById } from "../models/goodsModel.js";
 
-// Get All Goodss
+// Get All Goods
 export const showGoods = (req, res) => {
     getGoods((err, results) => {
         if (err){

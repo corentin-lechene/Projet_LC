@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "yarn install && vue-cli-service serve",
     "api": "cd server && node index.js",
-    "add_mc": "./scrips.sh",
+    "add:route": "./scrips.sh",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
