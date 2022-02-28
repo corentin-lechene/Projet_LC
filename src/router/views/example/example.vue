@@ -2,22 +2,36 @@
 
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
-import Form from '@/components/widgets/form';
-import {formData} from "@/data/data-forms";
-
-
 
 export default {
   name: "example",
-  components: {Layout, PageHeader, Form},
+  components: {Layout, PageHeader},
   data() {
     return {
       title: "example",
-      formData,
+      values_1: null,
+      values_2: null,
     }
   },
   methods: {
-
+    getGoods() {
+      fetch('http://localhost:9000/users')
+          .then(response => response.json())
+          .then((json) => {
+            this.values_1 = json;
+          });
+    },
+    getGoodsById() {
+      fetch('http://localhost:9000/users/staffs')
+          .then(response => response.json())
+          .then((json) => {
+            this.values_2 = json;
+          });
+    },
+  },
+  created() {
+    this.getGoods();
+    this.getGoodsById();
   }
 }
 
@@ -26,7 +40,10 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title"/>
-    <Form :forms="formData.customer" :options="{route: 'users', method: 'post'}" role="insert"/>
+    Example
+    getGoods : {{values_1}}
+    <br>
+    getGoodsById : {{values_2}}
 
   </Layout>
 </template>

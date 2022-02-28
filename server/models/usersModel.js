@@ -15,7 +15,7 @@ export const getUsers = (result) => {
 
 // Get Single Users
 export const getUsersById = (id, result) => {
-    db.query("SELECT * FROM users WHERE user_id = ?", [id], (err, results) => {
+    db.query("SELECT *, DATE_FORMAT('birthdate','%d/%m/%Y') AS niceDay FROM users WHERE user_id = ?", [id], (err, results) => {
         if(err) {
             result(err, null);
         } else {

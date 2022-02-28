@@ -69,7 +69,6 @@ const formData = {
         country: {
             id: 7,
             title: "Pays",
-            type: "select",
             placeholder: "Pays"
         },
         postal_code: {
@@ -101,14 +100,14 @@ const formData = {
             placeholder: "Email"
         },
         phone: {
-            id: 3,
+            id: 4,
             title: "Téléphone",
             type: "tel",
             placeholder: "Téléphone",
             pattern: "[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}"
         },
         company: {
-            id: 4,
+            id: 9,
             title: "Nom entreprise",
             type: "text",
             placeholder: "Entreprise"
