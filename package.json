@@ -31,6 +31,7 @@
     "echarts": "^4.8.0",
     "eslint-loader": "^4.0.2",
     "firebase": "^7.7.0",
+    "jsonwebtoken": "github:auth0/node-jsonwebtoken",
     "leaflet": "^1.6.0",
     "metismenujs": "^1.2.1",
     "sass": "^1.24.2",
@@ -89,7 +90,9 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-console": "off"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

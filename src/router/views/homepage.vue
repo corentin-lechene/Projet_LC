@@ -25,6 +25,15 @@ export default {
       productData,
     };
   },
+  created() {
+    if(this.$route.params.notification) {
+      this.$bvToast.toast(this.$route.params.notification.message, {
+        variant: this.$route.params.notification.variant,
+        noCloseButton: true,
+        autoHideDelay: 5000
+      })
+    }
+  }
 };
 </script>
 

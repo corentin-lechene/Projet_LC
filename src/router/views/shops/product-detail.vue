@@ -17,8 +17,12 @@ export default {
       productData,
       productDetail: -1,
 
-      test() {
-        return window.location.href;
+      makeToast() {
+        this.$bvToast.toast('Le produit a été ajouté au panier avec succès', {
+          variant: 'success',
+          noCloseButton: true,
+          autoHideDelay: 5000
+        })
       }
     }
   },
@@ -139,7 +143,7 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <button type="button" class="btn btn-primary waves-effect waves-light my-2 mr-2">
+                    <button @click="makeToast()" type="button" class="btn btn-primary waves-effect waves-light my-2 mr-2">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
                     <button type="button" class="btn btn-success waves-effect my-2 mx-2 waves-light">

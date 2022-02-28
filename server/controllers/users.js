@@ -1,5 +1,5 @@
 // Import function from Users Model
-import { getUsers, getUsersById, insertUsers, updateUsersById, deleteUsersById } from "../models/usersModel.js";
+import { getUsers, getUsersById, getUsersByLogIn, insertUsers, updateUsersById, deleteUsersById } from "../models/usersModel.js";
 
 // Get All Users
 export const showUsers = (req, res) => {
@@ -22,7 +22,20 @@ export const showUsersById = (req, res) => {
        }
    });
 }
-      
+
+// Get Single Users
+export const loginUsers = (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    getUsersByLogIn(email, password, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
+
 // Create New Users
 export const createUsers = (req, res) => {
     const data = req.body;
