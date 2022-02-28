@@ -41,6 +41,13 @@ export default {
         </form>
       </div>
       </div>
+      <!-- Boutton Admin -->
+      <div class="button-items">
+        <router-link tag="a" class="text-dark" to="/admin">
+        <b-button variant="primary">Admin</b-button>
+        </router-link>
+      </div>
+
       <!-- Dropdown profile-->
       <div class="d-flex" style="margin-right: 11%">
         <b-dropdown
@@ -124,11 +131,11 @@ export default {
               {{ $t('navbar.profile.text') }}
             </router-link>
           </b-dropdown-item>
-          <b-dropdown-item href="/contacts/myhistory">
+          <b-dropdown-item href="/profile">
             <i class="bx bx-wallet font-size-16 align-middle mr-1"></i>
             {{ $t('navbar.profile.orders') }}
           </b-dropdown-item>
-          <b-dropdown-item class="d-block" href="javascript: void(0);">
+          <b-dropdown-item class="d-block" href="/profile">
             <span class="badge badge-success float-right">11</span>
             <i class="bx bx-wrench font-size-16 align-middle mr-1"></i>
             {{ $t('navbar.profile.settings') }}

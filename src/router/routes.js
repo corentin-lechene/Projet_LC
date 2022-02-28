@@ -89,6 +89,13 @@ export default [
     },
     component: () => import('./views/shops/checkout')
   },
+  {
+    path: '/admin',
+    name: 'Back-Office',
+    meta: {
+    },
+    component: () => import('./views/backoffice/admin')
+  },
 
   //Example
   {
