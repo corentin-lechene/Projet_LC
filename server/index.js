@@ -7,6 +7,8 @@ import cors from "cors";
 import GoodsRoutes from "./routes/goodsRoutes.js";
 import UsersRouter from "./routes/usersRoutes.js";
 import StaffsRouter from "./routes/staffsRoutes.js";
+import CompaniesRouter from "./routes/companiesRoutes.js";
+import customersRouter from "./routes/customersRoutes.js";
 
 // init express
 const app = express();
@@ -21,6 +23,8 @@ app.use(cors());
 app.use(GoodsRoutes);   //Goods
 app.use(StaffsRouter);  //Staffs
 app.use(UsersRouter);   //Users
+app.use(customersRouter);   //Customers
+app.use(CompaniesRouter);   //Companies
 
 
 app.listen(9000, () => console.log('Server running at http://localhost:9000'));
