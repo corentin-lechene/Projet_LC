@@ -30,7 +30,7 @@ export default [
     //Deconnexion
   },
 
-  //Profile
+    //Profile
   {
     path: '/loyalty-card',
     name: 'Ma carte LC',
@@ -90,6 +90,13 @@ export default [
     component: () => import('./views/shops/checkout')
   },
   {
+    path: '/admin',
+    name: 'Back-Office',
+    meta: {
+    },
+    component: () => import('./views/backoffice/admin')
+  },
+  {
     path: '/invoice',
     name: 'Facture',
     meta: {
@@ -131,5 +138,5 @@ export default [
     },
     component: () => import('./views/errors/404')
   }
-
+  
 ]
