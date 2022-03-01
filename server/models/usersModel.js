@@ -51,6 +51,17 @@ export const getUsersByLogIn = (email, password, result) => {
     });
 }
 
+// Tokeen du user
+export const getUserByToken = (token, result) => {
+    db.query("SELECT user_id FROM users WHERE token = ?", [token], (err, results) => {
+        if(err) {
+            result(err, null);
+        } else {
+            result(null, results[0]);
+        }
+    })
+}
+
 // Insert Users to Database
 export const insertUsers = (data, result) => {
     db.query("INSERT INTO users SET ?", [data], (err, results) => {

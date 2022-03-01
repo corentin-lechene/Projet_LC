@@ -85,6 +85,16 @@ export default {
         params: {notification: {message: "Vous êtes déjà connecté", variant: "warning"}}
       });
     }
+  },
+  created() {
+    if (this.$route.params.notification) {
+      this.$bvToast.toast(this.$route.params.notification.message, {
+        variant: this.$route.params.notification.variant,
+        toaster: 'b-toaster-top-center',
+        noCloseButton: true,
+        autoHideDelay: 5000
+      })
+    }
   }
 };
 </script>

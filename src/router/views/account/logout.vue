@@ -15,14 +15,18 @@ export default {
     }
   },
   mounted() {
-    if(localStorage.user_token) {
+    if (localStorage.user_token) {
       localStorage.removeItem('user_token');
     }
+
+    //Recupère les params.
+    const data = this.$route.params;
     this.$router.push({
-      name: 'Homepage',
-      params: {notification: {message: "Deconnexion réussite", variant: "success"}}
+      name: data.redirect || 'Homepage',
+      params: {notification: data.notification || {message: "Deconnexion réussite", variant: "success"}}
     });
-  },
+
+  }
 
 
 };
