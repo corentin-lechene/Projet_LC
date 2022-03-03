@@ -1,83 +1,96 @@
-const formData = {
+const tableData = {
 
     register: {
-        firstname: {
+        number: {
             id: 0,
+            title: "#"
+        },
+        firstname: {
+            id: 1,
             title: "Prénom",
         },
         lastname: {
-            id: 1,
+            id: 2,
             title: "Nom",
         },
         mail: {
-            id: 2,
+            id: 3,
             title: "Email",
         }
     },
 
 
     customer: {
-        firstname: {
+        number: {
             id: 0,
+            title: "#"
+        },
+        firstname: {
+            id: 1,
             title: "Prénom",
         },
         lastname: {
-            id: 1,
+            id: 2,
             title: "Nom",
         },
         mail: {
-            id: 2,
+            id: 3,
             title: "Email",
         },
         birthdate: {
-            id: 3,
+            id: 4,
             title: "Date de naissance",
         },
         phone: {
-            id: 4,
+            id: 5,
             title: "Téléphone",
             type: "tel",
         },
         address: {
-            id: 5,
+            id: 6,
             title: "Adresse",
         },
         city: {
-            id: 6,
+            id: 7,
             title: "Ville",
         },
         country: {
-            id: 7,
-            title: "Pays",
+            id: 8,
+            title:"Pays",
         },
         postal_code: {
-            id: 8,
+            id: 9,
             title: "Code Postal",
-            type: "text",
+
         },
     },
 
     other: {
-        firstname: {
+        number: {
             id: 0,
+            title: "#"
+        },
+        firstname: {
+            id: 1,
             title: "Prénom",
         },
         lastname: {
-            id: 1,
+            id: 2,
             title: "Nom",
         },
         mail: {
-            id: 2,
+            id: 3,
             title: "Email",
         },
         phone: {
-            id: 4,
+            id: 5,
             title: "Téléphone",
+            type: "tel",
         },
         company: {
-            id: 9,
+            id: 10,
             title: "Nom entreprise",
         },
     }
 }
-export { formData };
+export { tableData };

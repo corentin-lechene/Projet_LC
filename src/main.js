@@ -9,9 +9,7 @@ import vco from "v-click-outside"
 import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
-import Create from './components/AddProduct.vue'
-import Edit from './components/EditProduct.vue'
-import Index from './components/ProductList.vue'
+
 
 
 import "@/design/index.scss";
