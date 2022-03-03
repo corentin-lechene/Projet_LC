@@ -6,20 +6,20 @@ import db from "../config/database.js";
 export const getStaffs = (result) => {
     db.query("SELECT * FROM staffs INNER JOIN users u on staffs.user_id = u.user_id", (err, results) => {
         if (err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
 
 // Get Single Staffs
 export const getStaffsById = (id, result) => {
-    db.query("SELECT * FROM staffs INNER JOIN users u on staffs.user_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM staffs INNER JOIN users u on staffs.user_id = u.user_id WHERE staffs.user_id = ?", [id], (err, results) => {
         if (err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results[0]);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -28,9 +28,9 @@ export const getStaffsById = (id, result) => {
 export const insertStaffs = (data, result) => {
     db.query("INSERT INTO staffs SET ?", [data], (err, results) => {
         if (err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
@@ -39,9 +39,9 @@ export const insertStaffs = (data, result) => {
 export const updateStaffsById = (data, id, result) => {
     db.query("UPDATE staffs SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
         if (err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
@@ -50,9 +50,9 @@ export const updateStaffsById = (data, id, result) => {
 export const deleteStaffsById = (id, result) => {
     db.query("DELETE FROM staffs WHERE staff_id = ?", [id], (err, results) => {
         if (err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }

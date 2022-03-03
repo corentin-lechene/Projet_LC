@@ -4,6 +4,9 @@ import VueMeta from 'vue-meta'
 
 import routes from './routes'
 
+import {sendGetUserByToken} from "@/components/requests-bdd";
+import {preventingErrorSQL, validRequest} from "@/components/my-functions";
+
 Vue.use(VueRouter)
 Vue.use(VueMeta, {
     // The component option name that vue-meta looks for meta info on.
@@ -30,22 +33,6 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    /* Functions */
-    const verifyToken = (token) => {
-        if (!token)
-            return null;
-
-        let url = `http://localhost:9000/token/${token}`;
-        return fetch(url)
-            .then(response => response.json())
-            .then((user_id) => {
-                return user_id;
-            })
-            .catch(() => {
-                return null;
-            });
-    }
-
     const privatePages = ['/profile'] //Les pages qui sont privé
     const authPage = privatePages.includes(to.path); //C'est une page privé ?
     const tokenUser = localStorage.getItem('user_token'); //Recupère le token
@@ -57,22 +44,23 @@ router.beforeEach((to, from, next) => {
         if (tokenUser) {
             //J'ai un token
             //verifier le token
-            const authUser = verifyToken(tokenUser);
+            const authUser = sendGetUserByToken();
+
             authUser.then((res) => {
-                if (!res) {
-                    return next({
-                        name: 'logout',
-                        params: {
-                            redirect: 'login',
-                            notification: {
-                                message: "Une erreur s'est produite. Veuillez vous reconnecter",
-                                variant: "danger"
-                            }
+                if(!preventingErrorSQL(res))
+                    if(!validRequest(res))
+                        return next();
+
+                return next({
+                    name: 'logout',
+                    params: {
+                        redirect: 'login',
+                        notification: {
+                            message: "Une erreur s'est produite. Veuillez vous reconnecter",
+                            variant: "danger"
                         }
-                    })
-                } else {
-                    return next();
-                }
+                    }
+                })
             })
         } else {
             //J'ai pas de token
@@ -87,25 +75,26 @@ router.beforeEach((to, from, next) => {
     } else {
         if (tokenUser) {
             //on a un token
-            const authUser = verifyToken(tokenUser);
+            const authUser = sendGetUserByToken();
             authUser.then((res) => {
-                if (!res) {
-                    return next({
-                        name: 'logout',
-                        params: {
-                            redirect: 'login',
-                            notification: {
-                                message: "Une erreur s'est produite. Veuillez vous reconnecter",
-                                variant: "danger"
-                            }
+                if(!preventingErrorSQL(res))
+                    if(!validRequest(res))
+                        return next();
+
+                return next({
+                    name: 'logout',
+                    params: {
+                        redirect: 'login',
+                        notification: {
+                            message: "Une erreur s'est produite. Veuillez vous reconnecter",
+                            variant: "danger"
                         }
-                    });
-                } else {
-                    return next();
-                }
+                    }
+                })
             })
         }
     }
+
 
     next();
 

@@ -3,35 +3,59 @@
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 
+import {validRequest} from "@/components/my-functions";
+import {sendGetUserByToken, sendGetStaffs, sendGetUsers} from "@/components/requests-bdd";
+
 export default {
   name: "example",
   components: {Layout, PageHeader},
   data() {
     return {
       title: "example",
-      values_1: null,
-      values_2: null,
+      users: {},
+      usersById: {},
+      userToken: {},
+      staffs: {},
+      staffsById: {},
     }
   },
   methods: {
-    getGoods() {
-      fetch('http://localhost:9000/users')
-          .then(response => response.json())
-          .then((json) => {
-            this.values_1 = json;
-          });
+    getUserByToken() {
+      let promise = sendGetUserByToken();
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.userToken = res.result;
+      });
     },
-    getGoodsById() {
-      fetch('http://localhost:9000/users/staffs')
-          .then(response => response.json())
-          .then((json) => {
-              this.values_2 = json;
-            });
+    getStaffs(id = false) {
+      let promise = sendGetStaffs(id);
+      promise.then((res) => {
+        if(!validRequest(res)) {
+          if (!id)
+            this.staffs = res.result;
+          else
+            this.staffsById = res.result;
+        }
+      });
+    },
+    getUsers(id = false) {
+      let promise = sendGetUsers(id);
+      promise.then((res) => {
+        if(!validRequest(res)) {
+          if (!id)
+            this.users = res.result;
+          else
+            this.usersById = res.result;
+        }
+      });
     },
   },
   created() {
-    this.getGoods();
-    this.getGoodsById();
+    this.getUserByToken();
+    this.getUsers();
+    this.getUsers(2);
+    this.getStaffs();
+    this.getStaffs(4);
   }
 }
 
@@ -40,14 +64,13 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title"/>
-    Example
-    getGoods : {{values_1}}
-    <br>
-    getGoodsById : {{values_2}}
+    Example pour utiliser les requêtes à la bdd via le fichier<br><br>
+    users : {{users}} <br><br>
+    users id (2) : {{usersById}} <br><br>
+    user token : {{userToken}} <br><br>
+    staff : {{staffs}} <br><br>
+    staff id (4) : {{staffsById}} <br><br>
 
   </Layout>
 </template>
 
-<style>
-
-</style>
