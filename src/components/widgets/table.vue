@@ -2,7 +2,7 @@
  * Forms component
  */
 import {validRequest} from "@/components/my-functions";
-import {sendInformation} from "@/components/requests-bdd";
+import {sendGetDataTable} from "@/components/requests-bdd";
 
 
 export default {
@@ -33,8 +33,6 @@ export default {
       totalRows: 1,
       datas: [],
       currentPage: 1,
-      sortBy: "name",
-      sortDesc: false,
       perPage: 10,
       pageOptions: [10, 25, 50, 100],
       filter: null,
@@ -66,21 +64,9 @@ export default {
     this.totalRows = this.items.length;
   },
   methods: {
-    createObjectWithValues(dest, src, valuesForm) {
-      let i = 0;
-      for (const key in src) {
-        dest[key] = valuesForm[i];
-        i++;
-      }
-    },
-    jsonToArray(src) {
-      for (const key in src) {
-        this.valuesForm.push(src[key]);
-      }
-    },
 
     getInformation(table, id = false) { //Changer le nom de la variable
-      let promise = sendInformation(table, id);
+      let promise = sendGetDataTable(table, id);
       promise.then((res) => {
         if(!validRequest(res))
           this.datas = res.result; //là où tu veux stocker le resultat
@@ -140,18 +126,20 @@ export default {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, i) in datas" :key="i">
+        <tr v-for="(customer, i) in datas" :key="i">
           <th scope="row">{{ ++i }}</th>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.lastname}}</td>
-          <td>{{ user.mail}}</td>
-          <td>{{ user.birthDay}}</td>
-          <td>{{ user.phone}}</td>
-          <td class="text-nowrap">{{ user.address}}</td>
-          <td class="text-nowrap">{{ user.city}}</td>
-          <td>{{ user.country}}</td>
-          <td>{{ user.postal_code}}</td>
-          <td>{{ user.company}}</td>
+          <td>{{ customer.firstname }}</td>
+          <td>{{ customer.lastname}}</td>
+          <td>{{ customer.mail}}</td>
+          <td>{{ customer.birthDay}}</td>
+          <td>{{ customer.phone}}</td>
+          <td class="text-nowrap">{{ customer.address}}</td>
+          <td class="text-nowrap">{{ customer.city}}</td>
+          <td>{{ customer.country}}</td>
+          <td>{{ customer.postal_code}}</td>
+          <td>{{ customer.company}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>
@@ -162,12 +150,14 @@ export default {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, i) in datas" :key="i">
+        <tr v-for="(staff, i) in datas" :key="i">
           <th scope="row">{{ ++i }}</th>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.lastname}}</td>
-          <td>{{ user.mail}}</td>
-          <td class="text-nowrap">{{ user.job}}</td>
+          <td>{{ staff.firstname }}</td>
+          <td>{{ staff.lastname}}</td>
+          <td>{{ staff.mail}}</td>
+          <td class="text-nowrap">{{ staff.job}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>
@@ -189,6 +179,8 @@ export default {
           <td>{{ good.company}}</td>
           <td>{{ good.stock}}</td>
           <td>Entrepot n°{{ good.number}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>
@@ -206,23 +198,46 @@ export default {
           <td>{{ service.price}}€</td>
           <td>{{ service.reduction}}%</td>
           <td>{{ service.quantity}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>
-      <table v-else class="table mt-5">
+      <table v-else-if="options.role === 'companies'" class="table mt-5">
         <thead>
         <tr>
           <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, i) in datas" :key="i">
+        <tr v-for="(company, i) in datas" :key="i">
           <th scope="row">{{ ++i }}</th>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.lastname}}</td>
-          <td>{{ user.mail}}</td>
-          <td>{{ user.phone}}</td>
-          <td class="text-nowrap">{{ user.company}}</td>
+          <td>{{ company.firstname }}</td>
+          <td>{{ company.lastname}}</td>
+          <td>{{ company.mail}}</td>
+          <td>{{ company.phone}}</td>
+          <td class="text-nowrap">{{ company.company}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
+        </tr>
+        </tbody>
+      </table>
+      <table v-else-if="options.role === 'sellers'" class="table mt-5">
+        <thead>
+        <tr>
+          <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(seller, i) in datas" :key="i">
+          <th scope="row">{{ ++i }}</th>
+          <td>{{ seller.firstname }}</td>
+          <td>{{ seller.lastname}}</td>
+          <td>{{ seller.mail}}</td>
+          <td>{{ seller.phone}}</td>
+          <td class="text-nowrap">{{ seller.company}}</td>
+          <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
+          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>

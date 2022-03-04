@@ -5,9 +5,14 @@ import express from "express";
 const servicesRouter = express.Router();
 
 // import function from controller
-import {showServices, showServicesById, /** TODO createGoods, updateGoods, deleteGoods **/ } from "../controllers/services.js";
+import {deleteServices, showServices, showServicesById, updateServices, createServices,} from "../controllers/services.js";
+
+
+
 servicesRouter.get('/services', showServices);
 servicesRouter.get('/services/:id', showServicesById);
-
+servicesRouter.post('/services', createServices);
+servicesRouter.put('/services/:id', updateServices);
+servicesRouter.delete('/services/:id', deleteServices);
 
 export default servicesRouter;
