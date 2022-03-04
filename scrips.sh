@@ -105,17 +105,17 @@ export const get${table_name_first_upper_case}ById = (id, result) => {
 // Insert ${table_name_first_upper_case} to Database
 export const insert${table_name_first_upper_case} = (data, result) => {
     db.query(\"INSERT INTO ${table_name_lower_case} SET ?\", [data], (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
+        } else if (results.affectedRows !== 0) {
+            result({valid: true, result: \"Colonne ajoutée\"});
         }
     });
 }
 
 // Update ${table_name_first_upper_case} to Database
 export const update${table_name_first_upper_case}ById = (data, id, result) => {
-    db.query(\"UPDATE ${table_name_lower_case} SET name = ? /* TODO */, id = ?\", [data.name /* TODO */, id], (err, results) => {
+    db.query(\"UPDATE ${table_name_lower_case} SET name = ? /* TODO */, ${table_name_singular}_id = ?\", [data.name /* TODO */, id], (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {
@@ -127,10 +127,12 @@ export const update${table_name_first_upper_case}ById = (data, id, result) => {
 // Delete ${table_name_first_upper_case} to Database
 export const delete${table_name_first_upper_case}ById = (id, result) => {
     db.query(\"DELETE FROM ${table_name_lower_case} WHERE ${table_name_singular}_id = ?\", [id], (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
+        } else if (results.affectedRows !== 0) {
+            result({valid: true, result: \"Colonne supprimée\"});
         } else {
-            result({valid: true, result: results[0]});
+            result({valid: false, reason: \"Colonne non supprimée ou inexistante\"});
         }
     });
 }" >"$file_name_models"
@@ -144,14 +146,14 @@ import express from \"express\";
 const ${table_name_lower_case}Router = express.Router();
 
 // import function from controller
-import { show$table_name_first_upper_case, show${table_name_first_upper_case}ById /* TODO , create${table_name_first_upper_case}, update${table_name_first_upper_case}, delete${table_name_first_upper_case} */ } from \"../${file_name_controllers}\";
+import { show$table_name_first_upper_case, show${table_name_first_upper_case}ById, create${table_name_first_upper_case}, delete${table_name_first_upper_case} /* TODO update${table_name_first_upper_case} */ } from \"../${file_name_controllers}\";
 
 
 ${table_name_lower_case}Router.get('/${table_name_lower_case}', show${table_name_first_upper_case});
 ${table_name_lower_case}Router.get('/${table_name_lower_case}/:id', show${table_name_first_upper_case}ById);
-//TODO ${table_name_lower_case}Router.post('/${table_name_lower_case}', create${table_name_first_upper_case});
+${table_name_lower_case}Router.post('/${table_name_lower_case}', create${table_name_first_upper_case});
 //TODO ${table_name_lower_case}Router.put('/${table_name_lower_case}/:id', update${table_name_first_upper_case});
-//TODO ${table_name_lower_case}Router.delete('/${table_name_lower_case}/:id', delete${table_name_first_upper_case});
+${table_name_lower_case}Router.delete('/${table_name_lower_case}/:id', delete${table_name_first_upper_case});
 
 export default ${table_name_lower_case}Router;" >"$file_name_routes"
 

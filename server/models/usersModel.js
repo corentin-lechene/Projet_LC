@@ -80,15 +80,15 @@ export const insertUsers = (data, result) => {
     db.query("INSERT INTO users SET ?", [data], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
+        } else if (results.affectedRows !== 0) {
+            result({valid: true, result: "Colonne ajoutée"});
         }
     });
 }
 
 // Update Users to Database
 export const updateUsersById = (data, id, result) => {
-    db.query("UPDATE users SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
+    db.query("UPDATE users SET name = ? /* TODO */, user_id = ?", [data.name /* TODO */, id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -102,8 +102,10 @@ export const deleteUsersById = (id, result) => {
     db.query("DELETE FROM users WHERE user_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
+        } else if (results.affectedRows !== 0) {
+            result({valid: true, result: "Colonne supprimée"});
         } else {
-            result({valid: true, result: results});
+            result({valid: false, reason: "Colonne non supprimée ou inexistante"});
         }
     });
 }

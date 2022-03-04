@@ -4,7 +4,7 @@ import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 
 import {validRequest} from "@/components/my-functions";
-import {sendGetUserByToken, sendGetStaffs, sendGetUsers} from "@/components/requests-bdd";
+import {sendGetUserByToken, sendGetDataTable, sendDeleteTable, sendInsertTable} from "@/components/requests-bdd";
 
 export default {
   name: "example",
@@ -17,6 +17,8 @@ export default {
       userToken: {},
       staffs: {},
       staffsById: {},
+      deleteTable: {},
+      addTable_v: {}
     }
   },
   methods: {
@@ -27,8 +29,8 @@ export default {
           this.userToken = res.result;
       });
     },
-    getStaffs(id = false) {
-      let promise = sendGetStaffs(id);
+    getStaffs(table, id = false) {
+      let promise = sendGetDataTable(table, id);
       promise.then((res) => {
         if(!validRequest(res)) {
           if (!id)
@@ -38,8 +40,8 @@ export default {
         }
       });
     },
-    getUsers(id = false) {
-      let promise = sendGetUsers(id);
+    getUsers(table, id = false) {
+      let promise = sendGetDataTable(table, id);
       promise.then((res) => {
         if(!validRequest(res)) {
           if (!id)
@@ -49,13 +51,33 @@ export default {
         }
       });
     },
+    deleteTableById(table, id) {
+      let promise = sendDeleteTable(table, id);
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.deleteTable = res.result;
+      });
+    },
+    addTable(table, body) {
+      let promise = sendInsertTable(table, body);
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.addTable_v = res.result;
+      });
+    },
   },
   created() {
     this.getUserByToken();
-    this.getUsers();
-    this.getUsers(2);
-    this.getStaffs();
-    this.getStaffs(4);
+    this.getUsers('users');
+    this.getUsers('users', 2);
+    this.getStaffs('staffs');
+    this.getStaffs('staffs', 4);
+
+    this.deleteTableById('users', 9);
+    this.addTable('users', {
+      postal_code: 'testadd'
+    });
+
   }
 }
 
@@ -70,6 +92,8 @@ export default {
     user token : {{userToken}} <br><br>
     staff : {{staffs}} <br><br>
     staff id (4) : {{staffsById}} <br><br>
+    user delete id (6) : {{deleteTable}} <br><br>
+    user insert (6) : {{addTable_v}} <br><br>
 
   </Layout>
 </template>
