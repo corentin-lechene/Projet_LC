@@ -46,3 +46,18 @@ function sendGetStaffs(id = false) {
 }
 export {sendGetStaffs};
 
+/*INFOS */
+
+function sendInformation(table, id = false){
+    let url = `${process.env.VUE_APP_API_ADDRESS}/${table}${parseInt(id) ? `/${parseInt(id)}` : ``}`;
+    return fetch(url)
+        .then(response => response.json())
+        .then((json) => {
+            return json;
+        })
+        .catch((err) => {
+            console.error("err: ", err);
+        });
+}
+export {sendInformation};
+

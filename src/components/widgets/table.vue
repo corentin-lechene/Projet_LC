@@ -1,6 +1,9 @@
 <script>/**
  * Forms component
  */
+import {validRequest} from "@/components/my-functions";
+import {sendInformation} from "@/components/requests-bdd";
+
 
 export default {
   props: {
@@ -75,19 +78,15 @@ export default {
         this.valuesForm.push(src[key]);
       }
     },
-    getInformation(){
-      let url = `http://localhost:9000/${this.options.route}`;
-      let header = {
-        method: 'get',
-        headers: {'Content-Type': 'application/json'},
-      }
 
-      fetch(url, header)
-          .then(response => response.json())
-          .then((json) => {
-            this.datas = json;
-          })
+    getInformation(table, id = false) { //Changer le nom de la variable
+      let promise = sendInformation(table, id);
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.datas = res.result; //là où tu veux stocker le resultat
+      });
     },
+
     /**
      * Search the table data with search input
      */
@@ -98,7 +97,7 @@ export default {
     },
   },
   created() {
-    this.getInformation()
+    this.getInformation(this.options.route)
 
 
   },

@@ -4,11 +4,11 @@ import db from "../config/database.js";
 
 // Get All Companies
 export const getCompanies = (result) => {
-    db.query("SELECT * FROM companies INNER JOIN users u on companies.user_id = u.user_id", (err, results) => {
-        if(err) {
-            result(err, null);
+    db.query("SELECT * FROM users u INNER JOIN companies c WHERE u.user_id = c.user_id", (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
@@ -16,10 +16,10 @@ export const getCompanies = (result) => {
 // Get Single Companies
 export const getCompaniesById = (id, result) => {
     db.query("SELECT * FROM companies INNER JOIN users u on companies.user_id = ?", [id], (err, results) => {
-        if(err) {
-            result(err, null);
+        if (err) {
+            result({error: true, reason: err});
         } else {
-            result(null, results[0]);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -27,10 +27,10 @@ export const getCompaniesById = (id, result) => {
 // Insert Companies to Database
 export const insertCompanies = (data, result) => {
     db.query("INSERT INTO companies SET ?", [data], (err, results) => {
-        if(err) {
-            result(err, null);
+        if (err) {
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
@@ -38,10 +38,10 @@ export const insertCompanies = (data, result) => {
 // Update Companies to Database
 export const updateCompaniesById = (data, id, result) => {
     db.query("UPDATE companies SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
-        if(err) {
-            result(err, null);
+        if (err) {
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }
@@ -49,10 +49,10 @@ export const updateCompaniesById = (data, id, result) => {
 // Delete Companies to Database
 export const deleteCompaniesById = (id, result) => {
     db.query("DELETE FROM companies WHERE companie_id = ?", [id], (err, results) => {
-        if(err) {
-            result(err, null);
+        if (err) {
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results});
         }
     });
 }

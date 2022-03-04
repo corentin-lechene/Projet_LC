@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Staffs
 export const getStaffs = (result) => {
-    db.query("SELECT * FROM staffs INNER JOIN users u on staffs.user_id = u.user_id", (err, results) => {
+    db.query("SELECT * FROM users u INNER JOIN staffs s WHERE u.user_id = s.user_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
