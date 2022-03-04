@@ -1,7 +1,9 @@
-<script>
-/**
+<script>/**
  * Forms component
  */
+import {sendInsertTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
+
 
 export default {
   props: {
@@ -17,10 +19,10 @@ export default {
         return {};
       }
     },
-    role: {
-      type: String,
+    update: {
+      type: Boolean,
       default: function () {
-        return "";
+        return false;
       }
     }
   },
@@ -39,30 +41,12 @@ export default {
         dest[key] = valuesForm[i];
         i++;
       }
-      console.log(dest)
+      return dest;
     },
     jsonToArray(src) {
       for (const key in src) {
         this.valuesForm.push(src[key]);
       }
-    },
-    addInformation() {
-      this.createObjectWithValues(this.object_form, this.forms, this.valuesForm);
-      let url = `http://localhost:9000/${this.options.route}`;
-      let header = {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(this.object_form)
-      }
-
-      fetch(url, header)
-          .then(response => response.json())
-          .then((json) => {
-            this.users = json;
-          })
-          .catch((err) => {
-            this.debug = err;
-          })
     },
     getUserById() {
       fetch('http://localhost:9000/users/5')
@@ -72,9 +56,18 @@ export default {
             this.profile = json;
           });
     },
+    addTable(table, body) {
+      let promise = sendInsertTable(table, body);
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.addTable_v = res.result;
+      });
+    },
   },
   created() {
-    this.getUserById();
+    if (this.update)
+
+      this.getUserById();
 
   },
 };
@@ -82,70 +75,69 @@ export default {
 
 
 <template>
-  <div v-if="role=== 'update'">
+  <div v-if="update">
     <div class="card-body">
-      <b-form @submit.prevent="addInformation()">
+      <b-form @submit.prevent="addTable(options.route, createObjectWithValues(object_form, forms, valuesForm))">
         <div class="row">
           <b-form-group v-for="form in forms" :key="form.id" class="col-lg-4">
             <label>{{ form.title }} : </label>
             <b-form-input
                 v-if="form.id === 0"
                 class="form-control"
-                v-model="valuesForm[1]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
-                required
+                
             />
             <b-form-input
                 v-else-if="form.id === 1"
                 class="form-control"
-                v-model="valuesForm[2]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
-                required
             />
             <b-form-input
                 v-else-if="form.id === 2"
                 class="form-control"
-                v-model="valuesForm[3]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
-                required
+                
             />
             <b-form-input
                 v-else-if="form.id === 3"
                 class="form-control"
-                v-model="valuesForm[16]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
                 onfocus="(this.type='date')"
-                required
+                
             />
             <b-form-input
                 v-else-if="form.id === 4"
                 class="form-control"
-                v-model="valuesForm[5]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
                 :pattern="form.pattern"
-                required
+                
             />
             <b-form-input
                 v-else-if="form.id === 5"
                 class="form-control"
-                v-model="valuesForm[9]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
                 :pattern="form.pattern"
-                required
+                
             />
             <b-form-input
                 v-else-if="form.id === 6"
                 class="form-control"
-                v-model="valuesForm[11]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
                 :pattern="form.pattern"
-                required
+                
             />
             <select
                 v-else-if="form.id === 7"
                 class="form-control"
-                v-model="valuesForm[10]"
-                required
+                v-model="valuesForm[form.id]"
+                
             >
               <option>France</option>
               <option>Suisse</option>
@@ -158,17 +150,17 @@ export default {
             <b-form-input
                 v-else-if="form.id === 8"
                 class="form-control"
-                v-model="valuesForm[12]"
+                v-model="valuesForm[form.id]"
                 :type="form.type"
                 :pattern="form.pattern"
-                required
+                
             />
           </b-form-group>
         </div>
         <div class="row">
           <div class="col-lg-12">
             <div class="text-right">
-              <b-button v-if="role === 'update'" type="submit" variant="success">Confirmer</b-button>
+              <b-button v-if="update" type="submit" variant="success">Confirmer</b-button>
               <b-button v-else type="submit" variant="primary" class="w-md">Ajouter un ..</b-button>
             </div>
           </div>
@@ -199,10 +191,10 @@ export default {
             <p>{{ profile.firstname }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.lastname}}</p>
+            <p>{{ profile.lastname }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.mail}}</p>
+            <p>{{ profile.mail }}</p>
           </div>
         </div>
         <div class="row" style="height: 35px; width: 100%;"></div>
@@ -222,13 +214,13 @@ export default {
         </div>
         <div class="row" style="width: 100%;">
           <div class="col-4">
-            <p>{{profile.niceDay}}</p>
+            <p>{{ profile.niceDay }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.phone}}</p>
+            <p>{{ profile.phone }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.address}}</p>
+            <p>{{ profile.address }}</p>
           </div>
         </div>
         <div class="row" style="height: 35px; width: 100%;"></div>
@@ -248,13 +240,13 @@ export default {
         </div>
         <div class="row" style="width: 100%;">
           <div class="col-4">
-            <p>{{profile.city}}</p>
+            <p>{{ profile.city }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.country}}</p>
+            <p>{{ profile.country }}</p>
           </div>
           <div class="col-4">
-            <p>{{profile.postal_code}}</p>
+            <p>{{ profile.postal_code }}</p>
           </div>
         </div>
         <div class="row" style="height: 35px; width: 100%;"></div>

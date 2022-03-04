@@ -51,8 +51,10 @@ export const deleteCustomersById = (id, result) => {
     db.query("DELETE FROM customers WHERE customer_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
-        }
+    } else if (results.affectedRows !== 0) {
+        result({valid: true, result: "Colonne supprimée"});
+    } else {
+        result({valid: false, reason: "Colonne non supprimée ou inexistante"});
+    }
     });
 }

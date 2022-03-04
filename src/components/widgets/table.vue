@@ -2,7 +2,7 @@
  * Forms component
  */
 import {validRequest} from "@/components/my-functions";
-import {sendGetDataTable} from "@/components/requests-bdd";
+import {sendDeleteTable, sendGetDataTable} from "@/components/requests-bdd";
 
 
 export default {
@@ -72,6 +72,13 @@ export default {
           this.datas = res.result; //là où tu veux stocker le resultat
       });
     },
+    deleteTableById(table, id) {
+      let promise = sendDeleteTable(table, id);
+      promise.then((res) => {
+        if(!validRequest(res))
+          this.deleteTable = res.result;
+      });
+    },
 
     /**
      * Search the table data with search input
@@ -139,7 +146,7 @@ export default {
           <td>{{ customer.postal_code}}</td>
           <td>{{ customer.company}}</td>
           <td><b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button></td>
-          <td><b-button variant="danger" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
+          <td><b-button variant="danger" @click="deleteTableById(options.route, customer.user_id)" title ="Supprimer"><i class="fas fa-trash-alt"></i></b-button></td>
         </tr>
         </tbody>
       </table>
