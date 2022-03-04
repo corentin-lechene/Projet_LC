@@ -27,9 +27,8 @@ export default {
     return {
       showModal: false,
       valuesForm: [],
-      object_form: {},
       totalRows: 1,
-      users: [],
+      datas: [],
       currentPage: 1,
       sortBy: "name",
       sortDesc: false,
@@ -56,7 +55,7 @@ export default {
      * Total no. of records
      */
     rows() {
-      return this.users.length;
+      return this.datas.length;
     }
   },
   mounted() {
@@ -70,19 +69,24 @@ export default {
         dest[key] = valuesForm[i];
         i++;
       }
-      console.log(dest)
     },
     jsonToArray(src) {
       for (const key in src) {
         this.valuesForm.push(src[key]);
       }
     },
-    getUsers() {
-      fetch('http://localhost:9000/users')
+    getInformation(){
+      let url = `http://localhost:9000/${this.options.route}`;
+      let header = {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+      }
+
+      fetch(url, header)
           .then(response => response.json())
           .then((json) => {
-            this.users = json;
-          });
+            this.datas = json;
+          })
     },
     /**
      * Search the table data with search input
@@ -94,7 +98,8 @@ export default {
     },
   },
   created() {
-    this.getUsers();
+    this.getInformation()
+
 
   },
 };
@@ -106,8 +111,8 @@ export default {
       <div class="col-sm-12 col-md-6">
         <div id="tickets-table_length" class="dataTables_length">
           <label class="d-inline-flex align-items-center">
-            Show&nbsp;
-            <b-form-select v-model="perPage" size="sm" :options="pageOptions"></b-form-select>&nbsp;entries
+            Montrer
+            <b-form-select v-model="perPage" size="sm" :options="pageOptions"></b-form-select>&nbsp;entrées
           </label>
         </div>
       </div>
@@ -115,11 +120,11 @@ export default {
       <div class="col-sm-12 col-md-6">
         <div id="tickets-table_filter" class="dataTables_filter text-md-right">
           <label class="d-inline-flex align-items-center">
-            Search:
+            Rechercher:
             <b-form-input
                 v-model="filter"
                 type="search"
-                placeholder="Search..."
+                placeholder="Rechercher..."
                 class="form-control form-control-sm ml-2"
             ></b-form-input>
           </label>
@@ -129,24 +134,79 @@ export default {
     </div>
     <!-- Table -->
     <div class="table-responsive mb-0">
-      <table v-if="role === 'customer'" class="table mt-5">
+      <table v-if="options.role === 'customers'" class="table mt-5">
         <thead>
         <tr>
           <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, i) in users" :key="i">
+        <tr v-for="(user, i) in datas" :key="i">
           <th scope="row">{{ ++i }}</th>
           <td>{{ user.firstname }}</td>
           <td>{{ user.lastname}}</td>
           <td>{{ user.mail}}</td>
-          <td>{{ user.birthdate}}</td>
+          <td>{{ user.birthDay}}</td>
           <td>{{ user.phone}}</td>
-          <td>{{ user.address}}</td>
-          <td>{{ user.city}}</td>
+          <td class="text-nowrap">{{ user.address}}</td>
+          <td class="text-nowrap">{{ user.city}}</td>
           <td>{{ user.country}}</td>
           <td>{{ user.postal_code}}</td>
+          <td>{{ user.company}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <table v-else-if="options.role === 'staffs'"  class="table mt-5">
+        <thead>
+        <tr>
+          <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(user, i) in datas" :key="i">
+          <th scope="row">{{ ++i }}</th>
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname}}</td>
+          <td>{{ user.mail}}</td>
+          <td class="text-nowrap">{{ user.job}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <table v-else-if="options.role === 'goods'"  class="table mt-5">
+        <thead>
+        <tr>
+          <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(good, i) in datas" :key="i">
+          <th scope="row">{{ ++i }}</th>
+          <td class="text-nowrap">{{ good.name }}</td>
+          <td class="text-truncate" style="max-width: 150px">{{ good.description}}</td>
+          <td>{{ good.price}}€</td>
+          <td>{{ good.reduction}}%</td>
+          <td>{{ good.delivery_date}}</td>
+          <td>{{ good.destocking_date}}</td>
+          <td>{{ good.company}}</td>
+          <td>{{ good.stock}}</td>
+          <td>Entrepot n°{{ good.number}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <table v-else-if="options.role === 'services'"  class="table mt-5">
+        <thead>
+        <tr>
+          <th v-for="table in tables" :key="table.id" scope="col">{{table.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(service, i) in datas" :key="i">
+          <th scope="row">{{ ++i }}</th>
+          <td class="text-nowrap">{{ service.name }}</td>
+          <td class="text-truncate" style="max-width: 150px">{{ service.description}}</td>
+          <td>{{ service.price}}€</td>
+          <td>{{ service.reduction}}%</td>
+          <td>{{ service.quantity}}</td>
         </tr>
         </tbody>
       </table>
@@ -157,12 +217,13 @@ export default {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, i) in users" :key="i">
+        <tr v-for="(user, i) in datas" :key="i">
           <th scope="row">{{ ++i }}</th>
           <td>{{ user.firstname }}</td>
           <td>{{ user.lastname}}</td>
           <td>{{ user.mail}}</td>
           <td>{{ user.phone}}</td>
+          <td class="text-nowrap">{{ user.company}}</td>
         </tr>
         </tbody>
       </table>

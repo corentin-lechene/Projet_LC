@@ -1,6 +1,6 @@
 const tableData = {
 
-    register: {
+    staff: {
         number: {
             id: 0,
             title: "#"
@@ -16,7 +16,12 @@ const tableData = {
         mail: {
             id: 3,
             title: "Email",
+        },
+        job: {
+            id:11,
+            title: "Fonction",
         }
+
     },
 
 
@@ -63,6 +68,10 @@ const tableData = {
             title: "Code Postal",
 
         },
+        company: {
+            id: 10,
+            title: "Nom entreprise",
+        },
     },
 
     other: {
@@ -91,6 +100,76 @@ const tableData = {
             id: 10,
             title: "Nom entreprise",
         },
+    },
+
+    good: {
+        number: {
+            id: 0,
+            title: "#"
+        },
+        name: {
+            id: 20,
+            title: "Nom produit",
+        },
+        description: {
+            id: 21,
+            title: "Description",
+        },
+        price: {
+            id: 22,
+            title: "Prix",
+        },
+        reduction: {
+            id: 23,
+            title: "Reduction",
+        },
+        delivery: {
+            id: 24,
+            title: "Date livraison",
+        },
+        destockage: {
+            id: 25,
+            title: "Date destockage",
+        },
+        seller: {
+            id: 26,
+            title: "Vendeur",
+        },
+        stock: {
+            id: 27,
+            title: "Stock",
+        },
+        warehouse: {
+            id: 28,
+            title: "Entrepot"
+        }
+
+    },
+    service: {
+        number: {
+            id: 0,
+            title: "#"
+        },
+        name: {
+            id: 20,
+            title: "Nom service",
+        },
+        description: {
+            id: 21,
+            title: "Description",
+        },
+        price: {
+            id: 22,
+            title: "Prix",
+        },
+        reduction: {
+            id: 23,
+            title: "Reduction",
+        },
+        stock: {
+            id: 27,
+            title: "Stock",
+        }
     }
 }
 export { tableData };
