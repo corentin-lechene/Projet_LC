@@ -59,7 +59,7 @@ export default {
                             <div class="col-12">
                               <div class="card">
                                 <div class="card-body">
-                                  <h4 style="font-size: large;" class="card-title">Ajouter les informations</h4>
+                                  <h4 style="font-size: large;" class="card-title">Ajouter les information</h4>
                                   <Form :forms="formData.customer" :options="{route: 'users', method: 'post'}" :update="true"/>
                                 </div>
                               </div>
