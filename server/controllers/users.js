@@ -1,5 +1,5 @@
 // Import function from Users Model
-import { getUsers, getUsersById, insertUsers, updateUsersById, deleteUsersById } from "../models/usersModel.js";
+import { getUsers, getUsersById, getUsersByLogIn, getUserByToken, insertUsers, updateUsersById, deleteUsersById } from "../models/usersModel.js";
 
 // Get All Users
 export const showUsers = (req, res) => {
@@ -22,7 +22,31 @@ export const showUsersById = (req, res) => {
        }
    });
 }
-      
+
+// Try to connect Users
+export const loginUsers = (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    getUsersByLogIn(email, password, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
+
+// Verify the token
+export const tokenUsers = (req, res) => {
+    getUserByToken(req.params.token, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
+
 // Create New Users
 export const createUsers = (req, res) => {
     const data = req.body;

@@ -2,9 +2,7 @@
 export default [
   {
     path: '/',
-    name: 'Accueil',
-    meta: {
-    },
+    name: 'Homepage',
     component: () => import('./views/homepage'),
   },
 
@@ -27,13 +25,13 @@ export default [
   {
     path: '/logout',
     name: 'logout',
-    //Deconnexion
+    component: () => import('./views/account/logout'),
   },
 
     //Profile
   {
     path: '/loyalty-card',
-    name: 'Ma carte LC',
+    name: 'LoyaltyCard',
     meta: {
     },
     component: () => import('./views/profile/loyalty-card')
@@ -49,42 +47,42 @@ export default [
   //Shops
   {
     path: '/offers-partners',
-    name: 'Boutique des offres partenaires',
+    name: 'Offer partners',
     meta: {
     },
     component: () => import('./views/shops/offers-partners')
   },
   {
     path: '/lc-shop',
-    name: 'Boutique LC',
+    name: 'lc shop',
     meta: {
     },
     component: () => import('./views/shops/lc-shop')
   },
   {
     path: '/product-detail',
-    name: 'Detail du produit',
+    name: 'Product detail',
     meta: {
     },
     component: () => import('./views/shops/product-detail')
   },
   {
     path: '/service-detail',
-    name: 'Detail du service',
+    name: 'Service detail',
     meta: {
     },
     component: () => import('./views/shops/service-detail')
   },
   {
     path: '/cart',
-    name: 'Panier',
+    name: 'Cart',
     meta: {
     },
     component: () => import('./views/shops/cart')
   },
   {
     path: '/checkout',
-    name: 'Payement',
+    name: 'Checkout',
     meta: {
     },
     component: () => import('./views/shops/checkout')
@@ -115,7 +113,7 @@ export default [
   //Example
   {
     path: '/example',
-    name: 'example',
+    name: 'Example',
     meta: {
     },
     component: () => import('./views/example/example')

@@ -8,4 +8,10 @@ const db = mysql.createConnection({
     database: 'projetlc-test'
 });
 
+
+function preserve(data) {
+    return (db.escape(data)).replaceAll("'", "`");
+}
+
 export default db;
+export {preserve};

@@ -19,6 +19,7 @@ app.use(express.json());
 // use cors
 app.use(cors());
 
+
 // use router
 app.use(GoodsRoutes);   //Goods
 app.use(StaffsRouter);  //Staffs

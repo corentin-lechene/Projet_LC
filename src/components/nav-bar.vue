@@ -1,7 +1,16 @@
 <script>
 
 export default {
-  
+  data() {
+    return {
+      token: null,
+    }
+  },
+  created() {
+    if(localStorage.user_token) {
+      this.token = localStorage.getItem('user_token');
+    }
+  }
 };
 </script>
 
@@ -114,7 +123,7 @@ export default {
         </div>
 
         <!-- Picto profile -->
-        <b-dropdown right variant="black" toggle-class="header-item">
+        <b-dropdown v-if="token" right variant="black" toggle-class="header-item">
           <template v-slot:button-content>
             <img
               class="rounded-circle header-profile-user"
@@ -141,12 +150,30 @@ export default {
             {{ $t('navbar.profile.settings') }}
           </b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
-          <a href="" class="dropdown-item text-danger">
+          <router-link to="/logout" class="dropdown-item text-danger">
             <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i>
             {{ $t('navbar.profile.logout') }}
-          </a>
+          </router-link>
         </b-dropdown>
 
+        <b-dropdown v-else right variant="black" toggle-class="header-item">
+          <template v-slot:button-content>
+            <img
+                class="rounded-circle header-profile-user"
+                src="@/assets/images/users/avatar-1.jpg"
+                alt="Header Avatar"
+            />
+            <span class="d-none d-xl-inline-block ml-1"></span>
+            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+          </template>
+          <!-- item-->
+          <b-dropdown-item>
+            <router-link tag="span" to="/login">
+              <i class="bx bx-user font-size-16 align-middle mr-1"></i>
+              Se connecter
+            </router-link>
+          </b-dropdown-item>
+        </b-dropdown>
 
       </div>
     </div>

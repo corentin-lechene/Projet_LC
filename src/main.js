@@ -11,7 +11,6 @@ import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
 
 
-
 import "@/design/index.scss";
 
 
@@ -23,8 +22,8 @@ import i18n from './i18n'
 import tinymce from 'vue-tinymce-editor'
 Vue.component('tinymce', tinymce)
 
-
-
+const dotenv = require("dotenv")
+dotenv.config({ path: "../.env/"})
 
 Vue.use(VueRouter)
 Vue.use(vco)

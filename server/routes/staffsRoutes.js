@@ -8,7 +8,7 @@ const staffsRouter = express.Router();
 import {showStaffs, showStaffsById} from "../controllers/staffs.js";
 
 
-staffsRouter.get('/users/staffs', showStaffs);
-staffsRouter.get('/users/staffs/:id', showStaffsById);
+staffsRouter.get('/staffs', showStaffs);
+staffsRouter.get('/staffs/:id', showStaffsById);
 
 export default staffsRouter;

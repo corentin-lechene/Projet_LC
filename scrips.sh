@@ -84,9 +84,9 @@ import db from \"../config/database.js\";
 export const get${table_name_first_upper_case} = (result) => {
     db.query(\"SELECT * FROM ${table_name_lower_case}\", (err, results) => {
         if(err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -95,9 +95,9 @@ export const get${table_name_first_upper_case} = (result) => {
 export const get${table_name_first_upper_case}ById = (id, result) => {
     db.query(\"SELECT * FROM ${table_name_lower_case} WHERE ${table_name_singular}_id = ?\", [id], (err, results) => {
         if(err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results[0]);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -106,9 +106,9 @@ export const get${table_name_first_upper_case}ById = (id, result) => {
 export const insert${table_name_first_upper_case} = (data, result) => {
     db.query(\"INSERT INTO ${table_name_lower_case} SET ?\", [data], (err, results) => {
         if(err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -117,9 +117,9 @@ export const insert${table_name_first_upper_case} = (data, result) => {
 export const update${table_name_first_upper_case}ById = (data, id, result) => {
     db.query(\"UPDATE ${table_name_lower_case} SET name = ? /* TODO */, id = ?\", [data.name /* TODO */, id], (err, results) => {
         if(err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results[0]});
         }
     });
 }
@@ -128,9 +128,9 @@ export const update${table_name_first_upper_case}ById = (data, id, result) => {
 export const delete${table_name_first_upper_case}ById = (id, result) => {
     db.query(\"DELETE FROM ${table_name_lower_case} WHERE ${table_name_singular}_id = ?\", [id], (err, results) => {
         if(err) {
-            result(err, null);
+            result({error: true, reason: err});
         } else {
-            result(null, results);
+            result({valid: true, result: results[0]});
         }
     });
 }" >"$file_name_models"
