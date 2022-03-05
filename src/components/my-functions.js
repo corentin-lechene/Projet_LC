@@ -29,4 +29,27 @@ function createObject(keys, values, onlyKey = false) {
     return obj;
 }
 
-export {createObject};
+function createValue(src, layer = false) {
+    let values = [];
+    let keys_layer = layer ? Object.keys(layer) : undefined;
+    let keys_src = Object.keys(src);
+
+    if(layer) {
+        for (let i = 0; i < keys_layer.length; i++) {
+            for (let j = i; j < keys_src.length; j++) {
+                if (keys_layer[i] === keys_src[j]) {
+                    values.push(src[keys_src[j]]);
+                    break;
+                }
+            }
+        }
+    } else {
+        for (const key in src) {
+            values.push(src[key]);
+        }
+    }
+
+    return values;
+}
+
+export {createObject, createValue};
