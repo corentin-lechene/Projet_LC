@@ -53,14 +53,18 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des clients</h4>
-                        <Table :tables="tableData.customer" :options="{route: 'users', role: 'customers'}"></Table>
+                        <Table :tables="tableData.customer" :options="{route: 'users', role: 'customers'}"/>
                         <div class="row">
                           <b-modal id="modal-1" title="Ajouter un client" hide-footer size="lg">
                             <div class="col-12">
                               <div class="card">
                                 <div class="card-body">
                                   <h4 style="font-size: large;" class="card-title">Ajouter les information</h4>
-                                  <Form :forms="formData.customer" :options="{route: 'users', method: 'post'}" :update="true"/>
+
+                                  <Form :forms="formData.customer" :insert="{route: 'users'}"/>
+                                  <Form :forms="formData.customer" :update="{id: 4, route: 'users'}"/>
+                                  <Form :forms="formData.customer" :display="{id: 4, route: 'users'}"/>
+
                                 </div>
                               </div>
                             </div>
@@ -81,7 +85,7 @@ export default {
                   </div>
                 </div>
               </b-tab>
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
@@ -121,7 +125,7 @@ export default {
                   </div>
                 </div>
               </b-tab>
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
@@ -160,7 +164,7 @@ export default {
                   </div>
                 </div>
               </b-tab>
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
@@ -199,7 +203,7 @@ export default {
                   </div>
                 </div>
               </b-tab>
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
@@ -238,7 +242,7 @@ export default {
                   </div>
                 </div>
               </b-tab>
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>

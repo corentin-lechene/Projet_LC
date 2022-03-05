@@ -16,3 +16,17 @@ function validRequest(result) {
 
 export {preventingErrorSQL, validRequest};
 
+
+function createObject(keys, values, onlyKey = false) {
+    let obj = {};
+    let i = -1;
+    for (const key in keys) {
+        i++;
+        if(onlyKey && values[i] === undefined)
+            continue;
+        obj[key] = values[i];
+    }
+    return obj;
+}
+
+export {createObject};
