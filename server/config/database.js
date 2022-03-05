@@ -9,6 +9,7 @@ const db = mysql.createConnection({
 });
 
 
+
 function preserve(data) {
     return (db.escape(data)).replaceAll("'", "`");
 }

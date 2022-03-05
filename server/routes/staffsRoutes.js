@@ -10,7 +10,7 @@ import {showStaffs, showStaffsById, deleteStaffs, createStaffs, updateStaffs} fr
 
 staffsRouter.get('/staffs', showStaffs);
 staffsRouter.get('/staffs/:id', showStaffsById);
-staffsRouter.post('/staffs/:id', createStaffs);
+staffsRouter.post('/staffs', createStaffs);
 staffsRouter.put('/staffs/:id', updateStaffs);
 staffsRouter.delete('/staffs/:id', deleteStaffs);
 

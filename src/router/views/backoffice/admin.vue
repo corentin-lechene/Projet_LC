@@ -61,9 +61,7 @@ export default {
                                 <div class="card-body">
                                   <h4 style="font-size: large;" class="card-title">Ajouter les information</h4>
 
-                                  <Form :forms="formData.customer" :insert="{route: 'users'}"/>
-                                  <Form :forms="formData.customer" :update="{id: 4, route: 'users'}"/>
-                                  <Form :forms="formData.customer" :display="{id: 4, route: 'users'}"/>
+                                  <Form :forms="formData.register" :insert="{route: 'customers'}"/>
 
                                 </div>
                               </div>
@@ -105,6 +103,7 @@ export default {
                               <div class="card">
                                 <div class="card-body">
                                   <h4 style="font-size: large;" class="card-title">Ajouter les informations</h4>
+                                  <Form :forms="formData.register" :insert="{route: 'companies'}"/>
                                 </div>
                               </div>
                             </div>
@@ -183,6 +182,7 @@ export default {
                               <div class="card">
                                 <div class="card-body">
                                   <h4 style="font-size: large;" class="card-title">Ajouter les informations</h4>
+                                  <Form :forms="formData.register" :insert="{route: 'staffs'}"/>
                                 </div>
                               </div>
                             </div>

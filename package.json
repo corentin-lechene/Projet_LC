@@ -33,6 +33,7 @@
     "eslint-loader": "^4.0.2",
     "firebase": "^7.7.0",
     "html2pdf.js": "^0.10.1",
+    "jsbarcode": "^3.11.5",
     "jsonwebtoken": "github:auth0/node-jsonwebtoken",
     "leaflet": "^1.6.0",
     "metismenujs": "^1.2.1",

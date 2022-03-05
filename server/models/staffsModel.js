@@ -26,11 +26,18 @@ export const getStaffsById = (id, result) => {
 
 // Insert Staffs to Database
 export const insertStaffs = (data, result) => {
-    db.query("INSERT INTO staffs SET ?", [data], (err, results) => {
+    const password = generatePassword();
+    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'staffs')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
+        } else if (results.insertId) {
+            db.query("INSERT INTO staffs(job, user_id) VALUES(?, ?)", [data.job, results.insertId], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            })
         }
     });
 }
