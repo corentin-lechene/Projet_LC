@@ -104,7 +104,7 @@ export default {
     <div class="card-body">
       <b-form @submit.prevent="!display ? addTable(route, valuesForm) : ''">
         <div class="row">
-          <b-form-group v-for="form in forms[route]" :key="form.id" class="col-lg-4">
+          <b-form-group v-for="form in forms" :key="form.id" class="col-lg-4">
             <label>{{ form.title }} : </label>
             <div v-if="form.type === 'select'">
               <b-form-select
