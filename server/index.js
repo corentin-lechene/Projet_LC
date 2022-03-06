@@ -6,6 +6,7 @@ import cors from "cors";
 import "dotenv/config";
 
 
+
 // import routes
 import GoodsRoutes from "./routes/goodsRoutes.js";
 import UsersRouter from "./routes/usersRoutes.js";
@@ -23,6 +24,7 @@ app.use(express.json());
 
 // use cors
 app.use(cors());
+
 
 
 // use router

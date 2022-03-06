@@ -1,5 +1,5 @@
 // import connection
-import db from "../config/database.js";
+import db, {generatePassword} from "../config/database.js";
 
 
 // Get All Staffs

@@ -10,7 +10,6 @@ import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
 
-
 import "@/design/index.scss";
 
 

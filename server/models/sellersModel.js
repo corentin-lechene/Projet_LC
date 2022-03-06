@@ -1,5 +1,5 @@
 // import connection
-import db from "../config/database.js";
+import db, {generatePassword} from "../config/database.js";
 
 
 // Get All Staffs
@@ -26,33 +26,40 @@ export const getSellersById = (id, result) => {
 
 // Insert Sellers to Database
 export const insertSellers = (data, result) => {
-    db.query("INSERT INTO sellers SET ?", [data], (err, results) => {
+    const password = generatePassword();
+    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'sellers')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
+        } else if (results.insertId) {
+            db.query("INSERT INTO sellers(status, company, user_id) VALUES(?, ?, ?)", [data.status, data.company, results.insertId], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            })
         }
     });
 }
 
 // Update Sellers to Database
-export const updateSellersById = (data, id, result) => {
-    db.query("UPDATE sellers SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
-        }
-    });
-}
+    export const updateSellersById = (data, id, result) => {
+        db.query("UPDATE sellers SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
+            if (err) {
+                result({error: true, reason: err});
+            } else {
+                result({valid: true, result: results});
+            }
+        });
+    }
 
 // Delete Sellers to Database
-export const deleteSellersById = (id, result) => {
-    db.query("DELETE FROM sellers WHERE staff_id = ?", [id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
-        }
-    });
-}
+    export const deleteSellersById = (id, result) => {
+        db.query("DELETE FROM sellers WHERE staff_id = ?", [id], (err, results) => {
+            if (err) {
+                result({error: true, reason: err});
+            } else {
+                result({valid: true, result: results});
+            }
+        });
+    }
