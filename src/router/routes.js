@@ -94,6 +94,21 @@ export default [
     },
     component: () => import('./views/backoffice/admin')
   },
+  {
+    path: '/invoice',
+    name: 'Facture',
+    meta: {
+    },
+    component: () => import('./views/support/invoice')
+  },
+  {
+    path: '/pdf',
+    name: 'PDF',
+    meta: {
+    },
+    component: () => import('./views/support/pdf')
+  },
+
 
   //Example
   {

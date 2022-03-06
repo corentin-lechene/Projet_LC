@@ -10,6 +10,11 @@ yarn install
 yarn run serve
 ```
 
+### Run API in new terminal
+```
+yarn run api
+```
+
 ### Compiles and minifies for production
 ```
 yarn run build
@@ -24,6 +29,7 @@ yarn run test
 ```
 yarn run lint
 ```
+
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

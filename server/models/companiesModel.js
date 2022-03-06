@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Companies
 export const getCompanies = (result) => {
-    db.query("SELECT * FROM companies INNER JOIN users u on companies.user_id = u.user_id", (err, results) => {
+    db.query("SELECT * FROM users u INNER JOIN companies c WHERE u.user_id = c.user_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -29,8 +29,8 @@ export const insertCompanies = (data, result) => {
     db.query("INSERT INTO companies SET ?", [data], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (results.affectedRows !== 0) {
-            result({valid: true, result: "Colonne ajoutée"});
+        } else {
+            result({valid: true, result: results});
         }
     });
 }
@@ -48,13 +48,11 @@ export const updateCompaniesById = (data, id, result) => {
 
 // Delete Companies to Database
 export const deleteCompaniesById = (id, result) => {
-    db.query("DELETE FROM companies WHERE company_id = ?", [id], (err, results) => {
+    db.query("DELETE FROM companies WHERE companie_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (results.affectedRows !== 0) {
-            result({valid: true, result: "Colonne supprimée"});
         } else {
-            result({valid: false, reason: "Colonne non supprimée ou inexistant"});
+            result({valid: true, result: results});
         }
     });
 }

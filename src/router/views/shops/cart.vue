@@ -1,4 +1,4 @@
-<script>
+u<script>
 
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";

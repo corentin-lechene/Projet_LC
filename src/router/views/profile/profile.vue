@@ -2,8 +2,10 @@
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
 import Transaction from '@/components/widgets/transaction'
-import Vue from 'vue'
-import { BootstrapVue } from 'bootstrap-vue'
+import Vue from 'vue';
+import {BootstrapVue} from 'bootstrap-vue';
+import Form from '@/components/widgets/form';
+import {formData} from "@/data/data-forms";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -18,10 +20,12 @@ export default {
   page: {
     title: "Profile",
   },
-  components: { Layout, PageHeader, Transaction },
+  components: {Layout, PageHeader, Transaction, Form},
   data() {
     return {
       title: 'Profile',
+      profile: [],
+      formData,
       items: [
         {
           text: 'Ecommerce',
@@ -122,10 +126,9 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title" :items="items" />
+    <PageHeader :title="title" :items="items"/>
     <div class="row">
       <div class="col-12">
-
         <div class="card">
           <div class="card-body">
             <b-tabs vertical justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
@@ -136,79 +139,29 @@ export default {
                   </span>
                   <span class="d-none d-md-inline-block" style="margin-top: 10%;">Mes informations</span>
                 </template>
-
+                <Form :form="formData.customer" :options="{route: `users`, method: `get`}"/>
                 <div class="row">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <h4 style="font-size: large; padding-left: 5%;" class="card-title">Vos informations</h4>
-                        <div class="row" style="height: 25px; width: 100%;"></div>
-                        <div class="row">
-                          <div class="col-2"></div>
-                          <div class="col-10">
-                          <div class="row" style="width: 100%;">
-                              <div class="col-6">Nom
-                                <div class="row" style="height: 5px; width: 100%;"></div>
-                              </div>
-                              <div class="col-6">Prénom
-                                <div class="row" style="height: 5px; width: 100%;"></div>
-                              </div>
-                            </div>
-                          <div class="row" style="width: 100%;">
-                            <div class="col-6">
-                                <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="Hkfeo"></b-form-input>
-                            </div>
-                            <div class="col-6">
-                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="Sarah"></b-form-input>
-                            </div>
-                          </div>
-                            <div class="row" style="height: 35px; width: 100%;"></div>
-                          <div class="row" style="width: 100%;">
-                            <div class="col-6">Téléphone
-                              <div class="row" style="height: 5px; width: 100%;"></div>
-                            </div>
-                            <div class="col-6">Email
-                              <div class="row" style="height: 5px; width: 100%;"></div>
-                            </div>
-                          </div>
-                          <div class="row" style="width: 100%;">
-                            <div class="col-6">
-                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="0758585858"></b-form-input>
-                            </div>
-                            <div class="col-6">
-                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="michel@gmail.com"></b-form-input>
-                            </div>
-                          </div>
-                          <div class="row" style="height: 35px; width: 100%;"></div>
-                          <div class="row" style="width: 100%;">
-                            <div class="col-6">Adresse
-                              <div class="row" style="height: 5px; width: 100%;"></div>
-                            </div>
-                            <div class="col-6">Code postal
-                              <div class="row" style="height: 5px; width: 100%;"></div>
-                            </div>
-                          </div>
-                          <div class="row" style="width: 100%;">
-                            <div class="col-6">
-                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="12 avenue de la liberté"></b-form-input>
-                            </div>
-                            <div class="col-6">
-                              <b-form-input id="input-default" style="width: 80%; text-align: center;" placeholder="92250"></b-form-input>
-                            </div>
-                          </div>
-                            <div class="row" style="height: 35px; width: 100%;"></div>
-                          </div>
-                          </div>
+                  <b-modal id="modal-1" title="Modifier mes informations" hide-footer size="lg" centered>
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 style="font-size: large;" class="card-title">Vos informations</h4>
+                          <Form :forms="formData.customer" :options="{route: 'users', method: 'update'}" role="update"/>
                         </div>
                       </div>
-                      </div>
+                    </div>
+                  </b-modal>
                   <div class="row" style="width: 100%;">
                     <div class="col-5"></div>
                     <div class="col-7">
-                      <b-button variant="success" class="w-md">Modifier mon profil</b-button>
+                      <a
+                          class="popup-form btn btn-primary"
+                          href="javascript: void(0);"
+                          v-b-modal.modal-1
+                      >Modifier mes informations</a>
                     </div>
                   </div>
-                  </div>
+                </div>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -223,7 +176,7 @@ export default {
                       <div class="col-sm-4">
                         <div class="search-box mr-2 mb-2 d-inline-block">
                           <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search..." />
+                            <input type="text" class="form-control" placeholder="Search..."/>
                             <i class="bx bx-search-alt search-icon"></i>
                           </div>
                         </div>
@@ -233,7 +186,7 @@ export default {
                       <!-- end col-->
                     </div>
                     <!-- Table data -->
-                    <Transaction :transactions="transactions" />
+                    <Transaction :transactions="transactions"/>
                     <ul class="pagination pagination-rounded justify-content-end mb-2">
                       <li class="page-item disabled">
                         <a class="page-link" href="javascript: void(0);" aria-label="Previous">
@@ -270,7 +223,7 @@ export default {
                   <span class="d-inline-block d-sm-none">
                     <i class="far fa-envelope"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block"  style="margin-top: 10%;">Ma carte de fidélité</span>
+                  <span class="d-none d-sm-inline-block" style="margin-top: 10%;">Ma carte de fidélité</span>
                 </template>
 
 
@@ -288,7 +241,7 @@ export default {
                     <p style="font-size: large;"> La newsletter </p>
                   </div>
                   <div class="col-5">
-                    <input type="text" class="form-control" placeholder="Votre email" />
+                    <input type="text" class="form-control" placeholder="Votre email"/>
 
                   </div>
                   <div class="col-4">

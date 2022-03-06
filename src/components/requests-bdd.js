@@ -46,4 +46,3 @@ function sendGetUserByToken() {
 }
 export {sendGetUserByToken};
 
-

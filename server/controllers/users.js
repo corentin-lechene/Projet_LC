@@ -50,6 +50,7 @@ export const tokenUsers = (req, res) => {
 // Create New Users
 export const createUsers = (req, res) => {
     const data = req.body;
+    console.log(data);
     insertUsers(data, (err, results) => {
         if (err){
             res.send(err);
