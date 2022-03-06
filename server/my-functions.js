@@ -24,7 +24,7 @@ function createObject(keys, values, onlyKey = false) {
     let i = -1;
     for (const key in keys) {
         i++;
-        if (onlyKey && values[i] === undefined)
+        if(onlyKey && values[i] === undefined)
             continue;
         obj[key] = values[i];
     }
@@ -33,35 +33,25 @@ function createObject(keys, values, onlyKey = false) {
 
 function createValue(src, layer = false) {
     let values = [];
+    let keys_layer = layer ? Object.keys(layer) : undefined;
+    let keys_src = Object.keys(src);
 
-    if(!layer) {
-        for (const srcKey in src) {
-            if(typeof src[srcKey] === 'object')
-                values.push(Object.values((src[srcKey]))[0]);
-            else
-                values.push(src[srcKey]);
-        }
-        return values;
-    }
-
-    if (typeof src[0] !== 'object') {
-        src = [src];
-    }
-    const keys_src = Object.keys(src[0]);
-    const keys_layer = layer ? Object.keys(layer) : false;
-
-    for (let i = 0; i < src.length; i++) {
-        values.push([]);
-        for (let j = 0; j < keys_layer.length; j++) {
-            for (let k = 0; k < keys_src.length; k++) {
-                if(keys_layer[j] === keys_src[k]) {
-                    values[i].push(src[i][keys_src[k]]);
+    if(layer) {
+        for (let i = 0; i < keys_layer.length; i++) {
+            for (let j = i; j < keys_src.length; j++) {
+                if (keys_layer[i] === keys_src[j]) {
+                    values.push(src[keys_src[j]]);
                     break;
                 }
             }
         }
+    } else {
+        for (const key in src) {
+            values.push(src[key]);
+        }
     }
-    return values.length !== 1 ? values : values[0];
+
+    return values;
 }
 
 export {createObject, createValue};

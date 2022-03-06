@@ -1,5 +1,5 @@
 // import connection
-import db from "../config/database.js";
+import db, {generatePassword} from "../config/database.js";
 
 
 // Get All Companies
@@ -26,11 +26,18 @@ export const getCompaniesById = (id, result) => {
 
 // Insert Companies to Database
 export const insertCompanies = (data, result) => {
-    db.query("INSERT INTO companies SET ?", [data], (err, results) => {
+    const password = generatePassword();
+    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'companies')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
+        } else if (results.insertId) {
+            db.query("INSERT INTO companies(company, user_id) VALUES(?, ?)", [data.company, results.insertId], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            })
         }
     });
 }
