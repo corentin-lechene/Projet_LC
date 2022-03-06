@@ -68,9 +68,8 @@ export default {
   methods: {
 
     addTable(table, body) {
-      console.log(createObject(this.forms, body));
-      console.log(createObject(this.forms, body, true));
-      let promise = sendInsertTable(table, createObject(this.forms, body));
+      console.log(createObject(this.forms[this.route], body));
+      let promise = sendInsertTable(table, createObject(this.forms[this.route], body));
       promise.then((res) => {
         if (!validRequest(res))
           console.log(res.result);
@@ -105,7 +104,7 @@ export default {
     <div class="card-body">
       <b-form @submit.prevent="!display ? addTable(route, valuesForm) : ''">
         <div class="row">
-          <b-form-group v-for="form in forms" :key="form.id" class="col-lg-4">
+          <b-form-group v-for="form in forms[route]" :key="form.id" class="col-lg-4">
             <label>{{ form.title }} : </label>
             <div v-if="form.type === 'select'">
               <b-form-select
