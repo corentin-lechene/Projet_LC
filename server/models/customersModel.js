@@ -1,11 +1,11 @@
 // import connection
-import db/*, {generatePassword}*/ from "../config/database.js";
-//import {generateToken} from "../my-functions.js";
-import nodemailer from "nodemailer";
+import db, {generatePassword} from "../config/database.js";
+import {generateToken} from "../my-functions.js";
+// import nodemailer from "nodemailer";
 
 // Get All Customers
 export const getCustomers = (result) => {
-    db.query("SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') AS birthDay FROM users INNER JOIN customers c on users.user_id = c.user_id WHERE users.role = 'customers'", (err, results) => {
+    db.query("SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') AS birthDay FROM users u INNER JOIN customers cu INNER JOIN companies co WHERE u.user_id = cu.user_id AND cu.company_id = co.company_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -27,8 +27,8 @@ export const getCustomersById = (id, result) => {
 
 // Insert Customers to Database
 export const insertCustomers = (data, result) => {
-    const password = "msteopseas";
-    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'customers')", [data.firstname, data.lastname, data.mail, password], (err, results) => {
+    const password = generatePassword();
+    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'customers')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.insertId) {
@@ -37,34 +37,33 @@ export const insertCustomers = (data, result) => {
                 if (err) {
                     result({error: true, reason: err});
                 } else {
-                    const code = "";//generateToken({user_id: user_id, role: data.role});
+                    const code = generateToken({user_id: user_id, role: data.role});
                     db.query("INSERT INTO cards(code, points) VALUES(?, ?)", [code, 0], (err) => {
                         if (err) {
                             result({error: true, reason: err});
-                        } else {
-
+                        } else { /*
                             let transporter = nodemailer.createTransport({
-                                service: `${process.env.VUE_APP_MAIL_SERVICE}`,
+                                pool: true,
+                                host: "smtp.live.com",
+                                secureConnection: true,
+                                port: 465,
+                                secure: true, // use TLS
                                 auth: {
-                                    user: `${process.env.VUE_APP_MAIL_USER}`,
-                                    pass: `${process.env.VUE_APP_MAIL_PWD}`
+                                    user: "projetlc.esgi@outlook.fr",
+                                    pass: "NE\"`nuVe*(Gu5y2%",
+                                },
+                                tls: {
+                                    secureProtocol: "TLSv1_method"
                                 }
                             });
 
-                            let mailOptions = {
-                                from: `${process.env.VUE_APP_MAIL_USER}`,
-                                to: data.mail,
-                                subject: "Inscription à LoyalyCard",
-                                text: `Bonjour ${data.firstname},\nUn compte a été créé par votre entreprise.\nVos identifiants: \nemail: ${data.mail}\nmot de passe: ${password}.`,
-                            };
-
-                            transporter.sendMail(mailOptions, (err, info) => {
-                                if(err) {
-                                    console.error(err);
+                            transporter.verify((error) => {
+                                if (error) {
+                                    console.log(error);
                                 } else {
-                                    console.log("email sent : ", info.response);
+                                    console.log("Server is ready to take our messages");
                                 }
-                            });
+                            }); */
 
                             result({valid: true, result: "tout est ok !"});
                         }

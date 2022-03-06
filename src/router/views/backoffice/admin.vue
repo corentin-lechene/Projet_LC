@@ -53,18 +53,8 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des clients</h4>
+                        <Table :tables="tableData.customer" :options="{route: 'users', role: 'customers'}"/>
                         <div class="row">
-                          <div class="row" style="width: 100%;">
-                            <div class="col-5"></div>
-                            <div class="col-7">
-                              <a
-                                  class="popup-form btn btn-primary"
-                                  href="javascript: void(0);"
-                                  v-b-modal.modal-1
-                              >Ajouter un client</a>
-                            </div>
-                          </div>
-                          <Table :tables="tableData.customer" route="customers" />
                           <b-modal id="modal-1" title="Ajouter un client" hide-footer size="lg">
                             <div class="col-12">
                               <div class="card">
@@ -77,6 +67,16 @@ export default {
                               </div>
                             </div>
                           </b-modal>
+                          <div class="row" style="width: 100%;">
+                            <div class="col-5"></div>
+                            <div class="col-7">
+                              <a
+                                  class="popup-form btn btn-primary"
+                                  href="javascript: void(0);"
+                                  v-b-modal.modal-1
+                              >Ajouter un client</a>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -96,7 +96,7 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des entreprise partenaires</h4>
-                        <Table :tables="tableData.other" route="companies" ></Table>
+                        <Table :tables="tableData.other" :options="{route: 'companies', role: 'companies'}"></Table>
                         <div class="row">
                           <b-modal id="modal-2" title="Ajouter une entreprise" hide-footer size="lg">
                             <div class="col-12">
@@ -136,7 +136,7 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des commerçants</h4>
-                        <Table :tables="tableData.other" route="sellers" ></Table>
+                        <Table :tables="tableData.other" :options="{route: 'sellers', role: 'sellers'}"></Table>
                         <div class="row">
                           <b-modal id="modal-3" title="Ajouter un commerçant" hide-footer size="lg">
                             <div class="col-12">
@@ -175,7 +175,7 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des employés</h4>
-                        <Table :tables="tableData.staff" route="staffs" ></Table>
+                        <Table :tables="tableData.staff" :options="{route: 'staffs', role: 'staffs'}"></Table>
                         <div class="row">
                           <b-modal id="modal-4" title="Ajouter un employé" hide-footer size="lg">
                             <div class="col-12">
@@ -215,7 +215,7 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des biens</h4>
-                        <Table :tables="tableData.good" route="goods" />
+                        <Table :tables="tableData.good" :options="{route: 'goods', role: 'goods'}"></Table>
                         <div class="row">
                           <b-modal id="modal-5" title="Ajouter un bien" hide-footer size="lg">
                             <div class="col-12">
@@ -254,7 +254,7 @@ export default {
                     <div class="card">
                       <div class="card-body">
                         <h4 class="card-title">Liste des services</h4>
-                        <Table :tables="tableData.service" route="services"></Table>
+                        <Table :tables="tableData.service" :options="{route: 'services', role: 'services'}"></Table>
                         <div class="row">
                           <b-modal id="modal-6" title="Ajouter un service" hide-footer size="lg">
                             <div class="col-12">

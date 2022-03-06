@@ -68,8 +68,9 @@ export default {
   methods: {
 
     addTable(table, body) {
-      console.log(createObject(this.forms[this.route], body));
-      let promise = sendInsertTable(table, createObject(this.forms[this.route], body));
+      console.log(createObject(this.forms, body));
+      console.log(createObject(this.forms, body, true));
+      let promise = sendInsertTable(table, createObject(this.forms, body));
       promise.then((res) => {
         if (!validRequest(res))
           console.log(res.result);
