@@ -16,7 +16,7 @@ export const getCustomers = (result) => {
 
 // Get Single Customers
 export const getCustomersById = (id, result) => {
-    db.query("SELECT * FROM customers INNER JOIN users u on customers.user_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM users INNER JOIN customers c on users.user_id = c.user_id WHERE c.user_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

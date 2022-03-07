@@ -68,7 +68,6 @@ export default {
   methods: {
 
     addTable(table, body) {
-      console.log(createObject(this.forms[this.route], body));
       let promise = sendInsertTable(table, createObject(this.forms[this.route], body));
       promise.then((res) => {
         if (!validRequest(res))
@@ -79,8 +78,9 @@ export default {
     getUsers(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
-        if (!validRequest(res))
+        if (!validRequest(res)) {
           this.valuesForm = createValue(res.result, this.forms);
+        }
       })
     }
 

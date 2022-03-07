@@ -1,11 +1,17 @@
 <script>/**
  * Forms component
  */
-import {createValue, validRequest} from "@/components/my-functions";
+import Form from "@/components/widgets/form";
+import {formData} from "@/data/data-forms";
+
+import {tableData} from "@/data/data-tables";
+
+import {createValue, validRequest, displayLongStr} from "@/components/my-functions";
 import {sendDeleteTable, sendGetDataTable} from "@/components/requests-bdd";
 
 
 export default {
+  components: {Form},
   props: {
     tables: {
       type: Object,
@@ -24,46 +30,49 @@ export default {
     return {
       showModal: false,
 
+      selectedRow: null,
+      selectRole: null,
+      formData,
+      tableData,
+
       totalRows: 1,
       data: [],
-      fields: null,
 
-      numPage: null,
       currentPage: 1,
-      max: 1,
-      pageOptions: [],
+      perPage: 10,
+      min: 0,
+      max: 10,
+      pageOptions: [10, 25, 50],
 
       filter: null,
       filterOn: [],
 
+      layer: {
+        customers: {
+          user_id: {
+            title: "n° Client",
+          },
+          firstname: {
+            title: "Prénom"
+          },
+          lastname: {
+            title: "Nom"
+          },
+          mail: {
+            title: "Email"
+          },
+        }
+      }
+
     };
   },
-  computed: {
-    /**
-     * Total no. of records
-     */
-    rows() {
-      return this.data.length;
-    }
-  },
-  mounted() {
-    // Set the initial number of items
-    this.fields = createValue(this.tables);
-
-  },
   methods: {
+    displayLongStr,
     getInformations(table, id = false) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
         if (!validRequest(res)) {
-          this.data = createValue(res.result, this.tables);
-          this.pageOptions = [
-            (this.data.length / 4).toFixed(0),
-            (this.data.length / 3).toFixed(0),
-            (this.data.length / 2).toFixed(0),
-            (this.data.length).toFixed(0)
-          ];
-          this.max = this.pageOptions[0];
+          this.data = createValue(res.result, (this.layer[this.route] || this.tables));
         }
       })
     },
@@ -75,19 +84,13 @@ export default {
       });
     },
 
-    /**
-     * Search the table data with search input
-     */
-    onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
+    refreshPagination() {
+      this.max = (this.currentPage * this.perPage);
+      this.min = (this.currentPage * this.perPage) - this.perPage;
+    }
   },
   created() {
     this.getInformations(this.route);
-
-
   },
 };
 </script>
@@ -99,7 +102,7 @@ export default {
         <div id="tickets-table_length" class="dataTables_length">
           <label class="d-inline-flex align-items-center">
             Montrer
-            <b-form-select v-model="max" size="sm" :options="pageOptions"></b-form-select>&nbsp;entrées
+            <b-form-select v-model="perPage" size="sm" :options="pageOptions" @input="max = perPage"></b-form-select>&nbsp;entrées
           </label>
         </div>
       </div>
@@ -121,24 +124,33 @@ export default {
     </div>
     <!-- Table -->
     <div class="table-responsive">
-      <table class="table table-centered mb-0 table-nowrap">
+      <table class="table table-centered mb-0 table-nowrap text-center">
         <thead>
         <tr>
           <th>#</th>
-          <th v-for="table in tables" :key="table.id" scope="col">{{ table.title }}</th>
-          <th colspan="2">#</th>
+          <th v-for="table in (layer[route] || tables)" :key="table.id" scope="col">{{ displayLongStr(table.title, 30) }}</th>
+          <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(rows, i) in data.slice(0, max)" :key="i">
-          <th scope="row">{{ i + 1 }}</th>
-          <td v-for="(user, y) in rows" :key="y">{{ user }}</td>
+        <tr v-for="(rows, i) in data.slice(min, max)" :key="i">
+          <th scope="row">{{ min + i + 1 }}</th>
+          <td v-for="(row, y) in rows" :key="y">{{ displayLongStr(row, 30) }}</td>
           <td>
-            <b-button variant="success" title="Modifier"><i class="fas fa-pencil-alt"></i></b-button>
-          </td>
-          <td>
-            <b-button variant="danger" @click="deleteTableById(route, rows.user_id)" title="Supprimer">
-              <i class="fas fa-trash-alt"></i>
+            <b-button v-if="layer[route]"
+                      title="Voir plus"
+                      v-b-modal.user-detail pill variant="info" class="mx-1"
+                      @click="selectedRow = rows[0]; selectRole = 'display'"><i class="bx bx-info-circle"></i>
+            </b-button>
+            <b-button 
+                      title="Modifier"
+                      v-b-modal.user-detail pill variant="success" class="mx-1"
+                      @click="selectedRow = rows[0]; selectRole = 'update'"><i class="bx bx-pencil"></i>
+            </b-button>
+            <b-button 
+                      title="Supprimer"
+                      v-b-modal.user-delete pill variant="danger" class="mx-1"
+                      @click="selectedRow = rows[0]"><i class="bx bx-trash"></i>
             </b-button>
           </td>
         </tr>
@@ -146,14 +158,42 @@ export default {
       </table>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="col">
         <div class="dataTables_paginate paging_simple_numbers float-right">
           <ul class="pagination pagination-rounded mb-0">
-            <!-- pagination -->
-            <b-pagination v-model="currentPage" :total-rows="rows" :per-page="numPage"></b-pagination>
+            <b-pagination v-model="currentPage" :total-rows="data.length" :per-page="perPage"
+                          @input="refreshPagination()"></b-pagination>
           </ul>
         </div>
       </div>
     </div>
+
+
+    <b-modal v-if="selectedRow !== null"
+             id="user-detail" title="Detail du client" title-class="font-18"
+             size="xl" hide-footer centered
+    >
+      <div class="card">
+        <div class="card-body">
+            <Form v-if="selectRole === 'display'" :forms="tableData[route]"
+                  :display="{id: selectedRow, route: route}"/>
+            <Form v-if="selectRole === 'update'" :forms="tableData[route]" :update="{id: selectedRow, route: route}"/>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal v-if="selectedRow !== null"
+             id="user-delete" title="Detail du client" title-class="font-18"
+             size="xs" hide-footer centered
+    >
+      <div class="card">
+        <div class="card-body">
+            <h3>Supprimer le client ?</h3>
+            <b-button variant="success" title="Oui">Oui</b-button>
+            <b-button variant="danger" title="Annuler">Annuler</b-button>
+        </div>
+      </div>
+    </b-modal>
+
   </div>
 </template>

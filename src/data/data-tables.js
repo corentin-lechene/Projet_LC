@@ -1,56 +1,57 @@
 const tableData = {
 
-    staff: {
-        number: {
-            id: 0,
-            title: "#"
-        },
+    staffs: {
         firstname: {
-            id: 1,
             title: "Prénom",
         },
         lastname: {
-            id: 2,
             title: "Nom",
         },
         mail: {
-            id: 3,
             title: "Email",
         },
         job: {
-            id:11,
             title: "Fonction",
         }
 
     },
 
-    customer: {
+    customers: {
         firstname: {
+            id: 0,
             title: "Prénom",
         },
         lastname: {
+            id: 1,
             title: "Nom",
         },
         mail: {
+            id: 2,
             title: "Email",
         },
         birthdate: {
+            id: 3,
             title: "Date de naissance",
         },
         phone: {
+            id: 4,
             title: "Téléphone",
             type: "tel",
         },
         address: {
+            id: 5,
             title: "Adresse",
         },
         city: {
+            id: 6,
             title: "Ville",
         },
         country: {
+            id: 7,
             title:"Pays",
         },
         postal_code: {
+            id: 8,
             title: "Code Postal",
         }
     },
@@ -74,7 +75,7 @@ const tableData = {
         },
     },
 
-    good: {
+    goods: {
         name: {
             title: "Nom produit",
         },
@@ -105,7 +106,7 @@ const tableData = {
 
     },
 
-    service: {
+    services: {
         name: {
             title: "Nom service",
         },

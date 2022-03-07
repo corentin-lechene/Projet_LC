@@ -75,3 +75,14 @@ function generateToken(data) {
     );
 }
 export {generateToken};
+
+function displayLongStr(str, end) {
+    if (end <= 0)
+        return "Error !";
+    if(typeof str === 'string') {
+        str = str.toString();
+        return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : ""}`;
+    }
+    return str;
+}
+export {displayLongStr};
