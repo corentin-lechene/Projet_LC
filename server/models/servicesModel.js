@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Services
 export const getServices = (result) => {
-    db.query("SELECT * FROM services ser INNER JOIN sellers sel INNER JOIN WHERE ser.seller_id = sel.seller_id", (err, results) => {
+    db.query("SELECT * FROM services INNER JOIN sellers s on services.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -15,11 +15,22 @@ export const getServices = (result) => {
 
 // Get Single Services
 export const getServicesById = (id, result) => {
-    db.query("SELECT * FROM services WHERE service_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM services INNER JOIN sellers s on services.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE service_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});
+        }
+    });
+}
+
+// Get services by seller
+export const getServicesBySellerId = (id, result) => {
+    db.query("SELECT * FROM services INNER JOIN sellers s on services.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE s.seller_id = ?", [id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
         }
     });
 }

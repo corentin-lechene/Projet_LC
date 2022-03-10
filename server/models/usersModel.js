@@ -13,6 +13,27 @@ export const getUsers = (result) => {
     });
 }
 
+export const getUsersByCompaniesId = (id, result) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE s.seller_id = ?", [id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
+// Get All Users
+export const getUsersForStaffs = (result) => {
+    db.query("SELECT * FROM users WHERE role != 'staffs' AND role != 'admin'", (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
 // Get Single Users
 export const getUsersById = (id, result) => {
     db.query("SELECT * FROM users WHERE user_id = ?", [id], (err, results) => {

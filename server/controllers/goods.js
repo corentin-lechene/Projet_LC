@@ -23,7 +23,7 @@ export const showGoodsById = (req, res) => {
     });
 }
 
-// Get Single Goods
+// Get Goods by seller
 export const showGoodsBySellerId = (req, res) => {
     getGoodsBySellerId(req.params.id, (err, results) => {
         if (err){

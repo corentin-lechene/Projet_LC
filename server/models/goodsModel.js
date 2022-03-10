@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id", (err, results) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -15,7 +15,7 @@ export const getGoods = (result) => {
 
 // Get Single Goods
 export const getGoodsById = (id, result) => {
-    db.query("SELECT * FROM goods WHERE good_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE good_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -24,9 +24,9 @@ export const getGoodsById = (id, result) => {
     });
 }
 
-// Get Single Goods
+// Get Goods by seller
 export const getGoodsBySellerId = (id, result) => {
-    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id WHERE s.seller_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE s.seller_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
