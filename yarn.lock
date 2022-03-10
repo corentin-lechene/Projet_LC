@@ -9690,6 +9690,14 @@ vue-scrollto@^2.18.1:
   dependencies:
     bezier-easing "2.1.0"
 
+vue-sidebar-menu-akahon@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/vue-sidebar-menu-akahon/-/vue-sidebar-menu-akahon-0.1.4.tgz#9508e41894a8545fb801880a7fb12200abec6783"
+  integrity sha512-Ut1KFNSROs8//qud+1KnJELRw52B1zisTOQUqpTMebS9sYE7VkTA9iV2VUBReifqS8S7AU5xq5NeqoxQnrDA/g==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^2.6.11"
+
 vue-slide-bar@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/vue-slide-bar/-/vue-slide-bar-1.2.0.tgz"

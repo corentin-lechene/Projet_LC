@@ -4,7 +4,7 @@ import db, {generatePassword} from "../config/database.js";
 
 // Get All Staffs
 export const getSellers = (result) => {
-    db.query("SELECT * FROM users u INNER JOIN sellers s WHERE u.user_id = s.user_id", (err, results) => {
+    db.query("SELECT * FROM sellers INNER JOIN users ON sellers.user_id = users.user_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

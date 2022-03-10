@@ -9,6 +9,7 @@ function preventingErrorSQL(result) {
 }
 
 function validRequest(result) {
+    // console.log('result', result);
     if (!result.valid) {
         console.error("Error: ", result.reason);
         return true;
@@ -31,37 +32,27 @@ function createObject(keys, values, onlyKey = false) {
     return obj;
 }
 
-function createValue(src, layer = false) {
-    let values = [];
-
-    if(!layer) {
-        for (const srcKey in src) {
-            if(typeof src[srcKey] === 'object')
-                values.push(Object.values((src[srcKey]))[0]);
-            else
-                values.push(src[srcKey]);
-        }
-        return values;
-    }
-
+function createValue(src, layer) {
     if (typeof src[0] !== 'object') {
         src = [src];
     }
-    const keys_src = Object.keys(src[0]);
-    const keys_layer = layer ? Object.keys(layer) : false;
+
+    let values = [];
+    let temp = [];
 
     for (let i = 0; i < src.length; i++) {
         values.push([]);
-        for (let j = 0; j < keys_layer.length; j++) {
-            for (let k = 0; k < keys_src.length; k++) {
-                if(keys_layer[j] === keys_src[k]) {
-                    values[i].push(src[i][keys_src[k]]);
+        for (let j = 0; j < layer.length; j++) {
+            for (const [key, val] of Object.entries(src[i])) {
+                if (key === layer[j]) {
+                    temp.push([key, val]);
                     break;
                 }
             }
         }
+        values[i] = Object.fromEntries(temp);
     }
-    return values.length !== 1 ? values : values[0];
+    return values;
 }
 
 export {createObject, createValue};
@@ -74,15 +65,17 @@ function generateToken(data) {
         `${process.env.VUE_APP_JWT_KEY_TOKEN}`,
     );
 }
+
 export {generateToken};
 
 function displayLongStr(str, end) {
     if (end <= 0)
         return "Error !";
-    if(typeof str === 'string') {
+    if (typeof str === 'string') {
         str = str.toString();
         return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : ""}`;
     }
     return str;
 }
+
 export {displayLongStr};

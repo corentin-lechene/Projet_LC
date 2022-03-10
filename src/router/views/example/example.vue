@@ -3,97 +3,52 @@
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {validRequest} from "@/components/my-functions";
-import {sendGetUserByToken, sendGetDataTable, sendDeleteTable, sendInsertTable} from "@/components/requests-bdd";
-
 export default {
   name: "example",
   components: {Layout, PageHeader},
   data() {
     return {
       title: "example",
-      users: {},
-      usersById: {},
-      userToken: {},
-      staffs: {},
-      staffsById: {},
-      deleteTable: {},
-      addTable_v: {}
+      width: 250,
+      currentPage: 'user',
     }
   },
-  methods: {
-    getUserByToken() {
-      let promise = sendGetUserByToken();
-      promise.then((res) => {
-        if(!validRequest(res))
-          this.userToken = res.result;
-      });
-    },
-    getStaffs(table, id = false) {
-      let promise = sendGetDataTable(table, id);
-      promise.then((res) => {
-        if(!validRequest(res)) {
-          if (!id)
-            this.staffs = res.result;
-          else
-            this.staffsById = res.result;
-        }
-      });
-    },
-    getUsers(table, id = false) {
-      let promise = sendGetDataTable(table, id);
-      promise.then((res) => {
-        if(!validRequest(res)) {
-          if (!id)
-            this.users = res.result;
-          else
-            this.usersById = res.result;
-        }
-      });
-    },
-    deleteTableById(table, id) {
-      let promise = sendDeleteTable(table, id);
-      promise.then((res) => {
-        if(!validRequest(res))
-          this.deleteTable = res.result;
-      });
-    },
-    addTable(table, body) {
-      let promise = sendInsertTable(table, body);
-      promise.then((res) => {
-        if(!validRequest(res))
-          this.addTable_v = res.result;
-      });
-    },
-  },
-  created() {
-    this.getUserByToken();
-    this.getUsers('users');
-    this.getUsers('users', 2);
-    this.getStaffs('staffs');
-    this.getStaffs('staffs', 4);
-
-    this.deleteTableById('users', 9);
-    this.addTable('users', {
-      postal_code: 'testadd'
-    });
-
-  }
+  methods: {},
+  created() {}
 }
 
 </script>
 
 <template>
-  <Layout>
+  <Layout horizontal>
     <PageHeader :title="title"/>
-    Example pour utiliser les requêtes à la bdd via le fichier<br><br>
-    users : {{users}} <br><br>
-    users id (2) : {{usersById}} <br><br>
-    user token : {{userToken}} <br><br>
-    staff : {{staffs}} <br><br>
-    staff id (4) : {{staffsById}} <br><br>
-    user delete id (6) : {{deleteTable}} <br><br>
-    user insert (6) : {{addTable_v}} <br><br>
+    <b-sidebar id="sidebar-footer" aria-label="Sidebar with custom footer" no-header shadow :width="width + 'px'">
+      <template #footer="{ hide }">
+        <div class="row bg-dark align-items-center">
+          <div class="col d-block ml-2 my-2">
+            <b-button v-if="width === 250"
+                      class="btn-block" size="sm"
+                      @click="width = 100">Close
+            </b-button>
+            <b-button v-else
+                      class="btn-block" size="sm"
+                      @click="width = 250">Open
+            </b-button>
+          </div>
+        </div>
+      </template>
+      <div class="px-3 py-2">
+        <b-nav vertical class="w-25" @click="width = 100">
+          <b-nav-item active @click="currentPage='user'">Active</b-nav-item>
+          <b-nav-item @click="currentPage='other'">Link</b-nav-item>
+          <b-nav-item>Another Link</b-nav-item>
+          <b-nav-item disabled>Disabled</b-nav-item>
+        </b-nav>
+      </div>
+    </b-sidebar>
+
+    <div v-if="currentPage === 'user'">user</div>
+    <div v-if="currentPage === 'other'">other</div>
 
   </Layout>
 </template>

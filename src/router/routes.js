@@ -92,7 +92,7 @@ export default [
     name: 'Back-Office',
     meta: {
     },
-    component: () => import('./views/backoffice/admin')
+    component: () => import('./views/account/account')
   },
   {
     path: '/invoice',

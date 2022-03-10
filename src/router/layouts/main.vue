@@ -1,29 +1,35 @@
 <script>
 
-import NavBar from "@/components/nav-bar";
-import Footer from "@/components/footer";
-
+import Vertical from './vertical';
+import Horizontal from './horizontal';
 
 export default {
-  components: {NavBar, Footer},
+  components: {Vertical, Horizontal},
+  props: {
+    mode: {
+      type: String,
+      default: 'horizontal'
+    }
+  },
   data() {
     return {};
+  },
+  mounted() {
+    if(this.$route.path !== '/admin')
+      document.body.style.paddingLeft = '0px';
   }
 };
 </script>
 
 <template>
-  <div id="layout-wrapper">
-    <NavBar />
-    <div class="main-content">
-      <div class="page-content">
-        <div class="container-fluid">
-          <slot />
-        </div>
-        <!-- container-fluid -->
-      </div>
-      <!-- End Page-content -->
-      <Footer />
-    </div>
+  <div>
+    <vertical v-if="mode === 'vertical'">
+      <slot/>
+    </vertical>
+
+    <Horizontal v-if="mode === 'horizontal'">
+      <slot/>
+    </Horizontal>
   </div>
 </template>
+

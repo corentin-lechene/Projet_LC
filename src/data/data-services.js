@@ -1,8 +1,11 @@
+import i18n from "@/i18n";
+
+
 const servicesData = [
     {
         id: 1,
         category_id: 1,
-        name: "Cléopatre dernière reine d'Egypte",
+        name: i18n.t('navbar.lc_shops'),
         description: "La description du spectacle",
         price: 17,
         note: 3,

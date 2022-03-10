@@ -124,7 +124,7 @@ export default {
 
 
 <template>
-  <Layout>
+  <Layout mode="horizontal">
     <PageHeader :title="title"/>
 
     <div class="row">

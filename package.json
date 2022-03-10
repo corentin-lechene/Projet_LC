@@ -61,6 +61,7 @@
     "vue-pdf": "^4.3.0",
     "vue-router": "^3.3.4",
     "vue-scrollto": "^2.18.1",
+    "vue-sidebar-menu-akahon": "^0.1.4",
     "vue-slide-bar": "^1.2.0",
     "vue-sweetalert2": "^3.0.6",
     "vue-switches": "^2.0.1",

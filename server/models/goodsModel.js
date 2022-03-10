@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("SELECT * FROM goods g INNER JOIN sellers s INNER JOIN warehouses_stocks ws INNER JOIN warehouses w WHERE g.seller_id = s.seller_id AND g.good_id = ws.good_id AND ws.warehouse_id = w.warehouse_id", (err, results) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -20,6 +20,17 @@ export const getGoodsById = (id, result) => {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});
+        }
+    });
+}
+
+// Get Single Goods
+export const getGoodsBySellerId = (id, result) => {
+    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id WHERE s.seller_id = ?", [id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
         }
     });
 }

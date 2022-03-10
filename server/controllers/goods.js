@@ -1,5 +1,5 @@
 // Import function from Goods Model
-import { getGoods, getGoodsById, insertGoods, updateGoodsById, deleteGoodsById } from "../models/goodsModel.js";
+import { getGoods, getGoodsById, insertGoods, updateGoodsById, deleteGoodsById, getGoodsBySellerId } from "../models/goodsModel.js";
 
 // Get All Goods
 export const showGoods = (req, res) => {
@@ -15,6 +15,17 @@ export const showGoods = (req, res) => {
 // Get Single Goods
 export const showGoodsById = (req, res) => {
     getGoodsById(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+// Get Single Goods
+export const showGoodsBySellerId = (req, res) => {
+    getGoodsBySellerId(req.params.id, (err, results) => {
         if (err){
             res.send(err);
         }else{
