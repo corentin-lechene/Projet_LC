@@ -67,7 +67,7 @@
     .has-arrow {
         &:after {
             content: "\F0140";
-            font-family: 'Material Design Icons';
+            font-family: 'Material Design Icons', serif;
             display: block;
             float: right;
             transition: transform .2s;

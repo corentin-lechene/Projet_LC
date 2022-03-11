@@ -17,12 +17,12 @@
 }
 
 .main-content{
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: $sidebar-width;
 }
 
 .footer{
-    left: 0px;
+    left: 0;
     right: $sidebar-width;
 }
 
@@ -49,15 +49,15 @@
 
 .vertical-collpsed {
     .main-content{
-        margin-left: 0px;
+        margin-left: 0;
         margin-right: $sidebar-collapsed-width;
     }
 
     .footer{
-        left: 0px;
+        left: 0;
         right: $sidebar-collapsed-width;
     }
-    
+
     .vertical-menu {
         #sidebar-menu{
             >ul{
@@ -194,7 +194,7 @@ body[data-layout=horizontal] {
 
 .arrow-down{
     &:after{
-        margin-left: 0px;
+        margin-left: 0;
         margin-right: 10px;
     }
 }
@@ -230,7 +230,7 @@ body[data-layout=horizontal] {
     .topnav {
         .dropdown {
             .dropdown-menu {
-                padding-left: 0px;
+                padding-left: 0;
                 padding-right: 15px;
             }
         }
