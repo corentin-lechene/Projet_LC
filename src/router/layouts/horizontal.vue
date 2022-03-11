@@ -48,13 +48,13 @@ export default {
       <NavBar/>
       <div class="main-content">
         <div class="page-content">
-          <div class="container-fluid">
+          <div class="container-fluid" style="margin-bottom: 200px">
             <slot/>
           </div>
           <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-        <Footer/>
+        <Footer v-if="$route.path !== '/admin'"/>
       </div>
       <!-- end main content-->
     </div>

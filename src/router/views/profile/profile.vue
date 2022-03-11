@@ -2,17 +2,6 @@
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
 import Transaction from '@/components/widgets/transaction'
-import Vue from 'vue';
-import {BootstrapVue} from 'bootstrap-vue';
-import Form from '@/components/widgets/form';
-import {formData} from "@/data/data-forms";
-
-// Import Bootstrap an BootstrapVue CSS files (order is important)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue)
 /**
  * Products-order component
  */
@@ -20,12 +9,10 @@ export default {
   page: {
     title: "Profile",
   },
-  components: {Layout, PageHeader, Transaction, Form},
+  components: { Layout, PageHeader, Transaction },
   data() {
     return {
       title: 'Profile',
-      profile: [],
-      formData,
       items: [
         {
           text: 'Ecommerce',
@@ -126,49 +113,80 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title" :items="items"/>
+    <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
+
         <div class="card">
           <div class="card-body">
-            <b-tabs vertical justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
+            <b-tabs justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
               <b-tab active>
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="fas fa-home"></i>
                   </span>
-                  <span class="d-none d-md-inline-block" style="margin-top: 10%;">Mes informations</span>
+                  <span class="d-none d-sm-inline-block">Profil</span>
                 </template>
-                <Form :form="formData.customer" :options="{route: `users`, method: `get`}"/>
+
                 <div class="row">
-                  <b-modal id="modal-1" title="Modifier mes informations" hide-footer size="lg" centered>
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <h4 style="font-size: large;" class="card-title">Vos informations</h4>
-                          <Form :forms="formData.customer" :options="{route: 'users', method: 'update'}" role="update"/>
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 style="font-size: large;" class="card-title">Vos informations</h4>
+                        <div class="row" style="height: 15px;"> </div>
+                        <div class="table-responsive mb-0">
+                          <table class="table table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Prénom</th>
+                              <td>Mattéo</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Nom</th>
+                              <td>Solari</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Né(e) le</th>
+                              <td>16/01/2002</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">E-mail</th>
+                              <td>22matteoz@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Mot de passe</th>
+                              <td>*********</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Téléphone</th>
+                              <td>0658585858</td>
+                            </tr><tr>
+                              <th class="text-nowrap" scope="row">Adresse de livraison</th>
+                              <td>12 avenue de la liberté</td>
+                            </tr>
+                            <tr>
+                              <th class="text-nowrap" scope="row">Adresse de facturation</th>
+                              <td>12 avenue de la liberté</td>
+                            </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
-                  </b-modal>
-                  <div class="row" style="width: 100%;">
-                    <div class="col-5"></div>
-                    <div class="col-7">
-                      <a
-                          class="popup-form btn btn-primary"
-                          href="javascript: void(0);"
-                          v-b-modal.modal-1
-                      >Modifier mes informations</a>
+                    <div style="float: right">
+                      <b-button variant="success" class="w-md">Modifier mon profil</b-button>
                     </div>
                   </div>
+                  <!-- end col -->
                 </div>
+
               </b-tab>
               <b-tab>
                 <template v-slot:title>
                   <span class="d-inline-block d-sm-none">
                     <i class="far fa-user"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block" style="margin-top: 10%;">Mes commandes</span>
+                  <span class="d-none d-sm-inline-block">Historique</span>
                 </template>
                 <div class="card">
                   <div class="card-body">
@@ -176,7 +194,7 @@ export default {
                       <div class="col-sm-4">
                         <div class="search-box mr-2 mb-2 d-inline-block">
                           <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search..."/>
+                            <input type="text" class="form-control" placeholder="Search..." />
                             <i class="bx bx-search-alt search-icon"></i>
                           </div>
                         </div>
@@ -186,7 +204,7 @@ export default {
                       <!-- end col-->
                     </div>
                     <!-- Table data -->
-                    <Transaction :transactions="transactions"/>
+                    <Transaction :transactions="transactions" />
                     <ul class="pagination pagination-rounded justify-content-end mb-2">
                       <li class="page-item disabled">
                         <a class="page-link" href="javascript: void(0);" aria-label="Previous">
@@ -223,17 +241,7 @@ export default {
                   <span class="d-inline-block d-sm-none">
                     <i class="far fa-envelope"></i>
                   </span>
-                  <span class="d-none d-sm-inline-block" style="margin-top: 10%;">Ma carte de fidélité</span>
-                </template>
-
-
-              </b-tab>
-              <b-tab>
-                <template v-slot:title>
-                  <span class="d-inline-block d-sm-none">
-                    <i class="far fa-envelope"></i>
-                  </span>
-                  <span class="d-sm-flex" style="margin-top: 10%;">Mes paramètres</span>
+                  <span class="d-none d-sm-inline-block">Paramètres</span>
                 </template>
                 <div class="row">
                   <div class="col-1"></div>
@@ -241,7 +249,7 @@ export default {
                     <p style="font-size: large;"> La newsletter </p>
                   </div>
                   <div class="col-5">
-                    <input type="text" class="form-control" placeholder="Votre email"/>
+                    <input type="text" class="form-control" placeholder="Votre email" />
 
                   </div>
                   <div class="col-4">

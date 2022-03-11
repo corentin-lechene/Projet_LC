@@ -1,5 +1,5 @@
 // Import function from Customers Model
-import { getCustomers, getCustomersById, insertCustomers, updateCustomersById, deleteCustomersById } from "../models/customersModel.js";
+import { getCustomers, getCustomersById, insertCustomers, updateCustomersById, deleteCustomersById, getCustomersByCompanyId } from "../models/customersModel.js";
 
 // Get All Customers
 export const showCustomers = (req, res) => {
@@ -21,6 +21,17 @@ export const showCustomersById = (req, res) => {
             res.json(results);
        }
    });
+}
+
+// Get Single Customers
+export const showCustomersByCompanyId = (req, res) => {
+    getCustomersByCompanyId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
 }
       
 // Create New Customers

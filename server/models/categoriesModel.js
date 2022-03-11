@@ -2,9 +2,9 @@
 import db from "../config/database.js";
 
 
-// Get All Warehouses
-export const getWarehouses = (result) => {
-    db.query("SELECT * FROM warehouses", (err, results) => {
+// Get All Categories
+export const getCategories = (result) => {
+    db.query("SELECT * FROM categories", (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {
@@ -13,9 +13,9 @@ export const getWarehouses = (result) => {
     });
 }
 
-// Get Single Warehouses
-export const getWarehousesById = (id, result) => {
-    db.query("SELECT * FROM warehouses WHERE warehouse_id = ?", [id], (err, results) => {
+// Get Single Categories
+export const getCategoriesById = (id, result) => {
+    db.query("SELECT * FROM categories WHERE categorie_id = ?", [id], (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {
@@ -24,9 +24,9 @@ export const getWarehousesById = (id, result) => {
     });
 }
 
-// Insert Warehouses to Database
-export const insertWarehouses = (data, result) => {
-    db.query("INSERT INTO warehouses SET ?", [data], (err, results) => {
+// Insert Categories to Database
+export const insertCategories = (data, result) => {
+    db.query("INSERT INTO categories SET ?", [data], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.affectedRows !== 0) {
@@ -35,9 +35,9 @@ export const insertWarehouses = (data, result) => {
     });
 }
 
-// Update Warehouses to Database
-export const updateWarehousesById = (data, id, result) => {
-    db.query("UPDATE warehouses SET name = ? /* TODO */, warehouse_id = ?", [data.name /* TODO */, id], (err, results) => {
+// Update Categories to Database
+export const updateCategoriesById = (data, id, result) => {
+    db.query("UPDATE categories SET name = ? /* TODO */, categorie_id = ?", [data.name /* TODO */, id], (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {
@@ -46,9 +46,9 @@ export const updateWarehousesById = (data, id, result) => {
     });
 }
 
-// Delete Warehouses to Database
-export const deleteWarehousesById = (id, result) => {
-    db.query("DELETE FROM warehouses WHERE warehouse_id = ?", [id], (err, results) => {
+// Delete Categories to Database
+export const deleteCategoriesById = (id, result) => {
+    db.query("DELETE FROM categories WHERE categorie_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.affectedRows !== 0) {

@@ -5,10 +5,11 @@ import express from "express";
 const customersRouter = express.Router();
 
 // import function from controller
-import { showCustomers, showCustomersById, createCustomers, updateCustomers, deleteCustomers } from "../controllers/customers.js";
+import { showCustomers, showCustomersById, createCustomers, updateCustomers, deleteCustomers, showCustomersByCompanyId } from "../controllers/customers.js";
 
 
 customersRouter.get('/customers', showCustomers);
+customersRouter.get('/customers-companies/:id', showCustomersByCompanyId);
 customersRouter.get('/customers/:id', showCustomersById);
 customersRouter.post('/customers', createCustomers);
 customersRouter.put('/customers/:id', updateCustomers);

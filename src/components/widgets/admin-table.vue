@@ -3,6 +3,8 @@
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
+import UserDetail from "@/components/widgets/backoffice/user-detail";
+
 
 export default {
   props: {
@@ -31,7 +33,9 @@ export default {
       }
     }
   },
-  components: {},
+  components: {
+    UserDetail
+  },
   data() {
     return {
       data: [],
@@ -64,6 +68,7 @@ export default {
   mounted() {
     // Set the initial number of items
     this.layer = this.createLayer(this.fields);
+    console.log(this.currentProperties());
   },
   methods: {
     onFiltered(filteredItems) {
@@ -88,10 +93,20 @@ export default {
     createLayer(src) {
       let temp = [];
       for (let i = 0; i < src.length; i++) {
-        if(src[i].layer)
-          temp.push(src[i].key);
+        temp.push(src[i].key);
       }
       return temp
+    },
+
+    currentProperties() {
+      switch (this.modals.info) {
+        case 'UserDetail':
+          return {user_id: this.id};
+        // case '';
+        // return ;
+        default:
+          break;
+      }
     }
   },
   created() {
@@ -146,13 +161,13 @@ export default {
               <template #cell(actions)="row">
                 <div class="text-center" @mouseover="getId(row.item)">
                   <b-button
-                      v-if="modals.info" v-b-modal="modals.info"
+                      v-if="modals.info" v-b-modal="'info'" @click="getId(row.item)"
                       variant="info" size="sm" class="mx-1"><i class="bx bx-info-circle"></i></b-button>
                   <b-button
                       v-if="modals.update" v-b-modal="'update'"
                       variant="success" size="sm" class="mx-1"><i class="bx bx-pencil"></i></b-button>
                   <b-button
-                      v-if="modals.delete" v-b-modal="modals.delete || 'delete'"
+                      v-if="modals.delete" v-b-modal="'delete'"
                       variant="danger" size="sm" class="mx-1"><i class="bx bx-trash"></i></b-button>
                 </div>
               </template>
@@ -176,7 +191,10 @@ export default {
     <b-modal v-if="id !== null" id="info" title="Détail" title-class="font-18" size="xl" hide-footer centered>
       <div class="card">
         <div class="card-body">
-          info id : {{id}}
+          {{id}}
+          <keep-alive>
+            <component :is="modals.info" v-bind="currentProperties()"/>
+          </keep-alive>
         </div>
       </div>
     </b-modal>

@@ -5,13 +5,15 @@ import express from "express";
 const usersRouter = express.Router();
 
 // import function from controller
-import { showUsers, showUsersById, loginUsers, tokenUsers, createUsers, updateUsers, deleteUsers } from "../controllers/users.js";
+import { showUsers, showUsersById, loginUsers, tokenUsers, createUsers, updateUsers, deleteUsers, showUsersForStaffs, showUsersByCompanyId } from "../controllers/users.js";
 
 
+usersRouter.get('/users-staffs', showUsersForStaffs);
 usersRouter.get('/users', showUsers);
+usersRouter.get('/users-company/:id', showUsersByCompanyId);
 usersRouter.get('/users/:id', showUsersById);
-
 usersRouter.get('/token/:token', tokenUsers);
+
 usersRouter.post('/login', loginUsers);
 usersRouter.post('/users', createUsers);
 usersRouter.put('/users/:id', updateUsers);

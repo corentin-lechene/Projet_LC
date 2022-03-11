@@ -52,7 +52,7 @@ export default {
       </div>
       <!-- Boutton Admin -->
       <div class="button-items">
-        <router-link tag="a" class="text-dark" to="/admin">
+        <router-link tag="a" class="text-dark" to="/admin#profile">
         <b-button variant="primary">Admin</b-button>
         </router-link>
       </div>
