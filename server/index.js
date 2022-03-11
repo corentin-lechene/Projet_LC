@@ -15,6 +15,9 @@ import CompaniesRouter from "./routes/companiesRoutes.js";
 import CustomersRouter from "./routes/customersRoutes.js";
 import SellersRouter from "./routes/sellersRoutes.js";
 import ServicesRoutes from "./routes/servicesRoutes.js";
+import WarehousesRoutes from "./routes/warehousesRoutes.js";
+import CategoriesRoutes from "./routes/categoriesRoutes.js";
+import CataloguesRoutes from "./routes/cataloguesRoutes.js";
 
 // init express
 const app = express();
@@ -28,6 +31,9 @@ app.use(cors());
 
 
 // use router
+app.use(CategoriesRoutes); // Categories
+app.use(WarehousesRoutes); //Warehouse
+app.use(CataloguesRoutes); // Catalogues
 app.use(GoodsRoutes);   //Goods
 app.use(ServicesRoutes);   //Services
 app.use(StaffsRouter);  //Staffs

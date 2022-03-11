@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 
 // Get All Customers
 export const getCustomers = (result) => {
-    db.query("SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') AS birthDay FROM users INNER JOIN customers c on users.user_id = c.user_id WHERE users.role = 'customers'", (err, results) => {
+    db.query("SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') AS birthDay FROM users u INNER JOIN customers cu INNER JOIN companies co WHERE u.user_id = cu.user_id AND cu.company_id = co.company_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
