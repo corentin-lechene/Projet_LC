@@ -1,6 +1,5 @@
 // import connection
-import db, {preserve} from "../config/database.js";
-import jsonwebtoken from "jsonwebtoken";
+import db, {preserve, encodeToken, decodeToken} from "../config/database.js";
 
 // Get All Users
 export const getUsers = (result) => {
@@ -53,20 +52,17 @@ export const getUsersByLogIn = (email, password, result) => {
         } else {
             if (results[0] !== undefined) {
                 let data = results[0];
-                let token = data.token || jsonwebtoken.sign(
-                    {user_id: data.user_id, role: data.role},
-                    `${process.env.VUE_APP_JWT_KEY_TOKEN}`,
-                );
+                let token = encodeToken(data);
 
                 db.query("UPDATE users SET token = ? WHERE user_id = ?", [token, data.user_id], (err) => {
                     if (err) {
                         result({error: true, reason: err});
                     } else {
-                        result(null, token);
+                        result({valid: true, result: results[0]});
                     }
                 });
             } else {
-                result({valid: true, result: results[0]});
+                result({valid: false, result: results[0]});
             }
         }
     });
@@ -81,7 +77,7 @@ export const getUserByToken = (token, result) => {
                 if(!results[0]) {
                     result({valid: false, reason: "token invalid"});
                 } else {
-                    const data = jsonwebtoken.verify(token, `${process.env.VUE_APP_JWT_KEY_TOKEN}`);
+                    const data = decodeToken(token);
                     const role = preserve(data.role);
                     db.query("SELECT * FROM users u INNER JOIN "+ role +" s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
                         if(err) {

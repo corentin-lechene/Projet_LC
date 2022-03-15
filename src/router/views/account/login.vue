@@ -2,6 +2,8 @@
 
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
+import {sendGetUserByLogin} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 
 export default {
@@ -40,41 +42,31 @@ export default {
       }
       return true;
     },
-    async getUserByLogin(email, password) {
-      let url = "http://localhost:9000/login";
-      let header = {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email: email, password: password})
-      }
-
-      try {
-        const response = await fetch(url, header);
-        return await response.json();
-      } catch (err) {
-        return null;
-      }
+    login(email, password) {
+      let promise = sendGetUserByLogin({email: email, password: password});
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.user = res.result;
+          if(this.user !== undefined) {
+            localStorage.user_token = this.user.token;
+            this.$router.push({
+                name: 'Homepage',
+                params: {notification: {message: "Connexion réussite", variant: "success"}}
+              });
+          } else {
+            this.authError = "wrong";
+            this.submitted = false;
+          }
+        }
+      })
     },
-    async tryToLogIn() {
+    tryToLogIn() {
       this.submitted = true;
 
       if (this.validForm()) {
         this.authError = null;
         //Connexion en cours
-        this.user = await this.getUserByLogin(this.email, this.password);
-
-        if (this.user !== null) {
-          localStorage.user_token = this.user;
-          await this.$router.push({
-            name: 'Homepage',
-            params: {notification: {message: "Connexion réussite", variant: "success"}}
-          });
-        } else {
-          this.authError = "wrong";
-          this.submitted = false;
-        }
-      } else {
-        this.submitted = false;
+        this.login(this.email, this.password);
       }
     }
   },

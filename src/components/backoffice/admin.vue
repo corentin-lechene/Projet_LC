@@ -3,15 +3,11 @@
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
 
-import {formData} from "@/data/data-forms";
-
 export default {
   name: "admin",
   components: {AdminTable, Profile},
   data() {
     return {
-
-      formData,
 
       roles: {
         companies: {
@@ -58,7 +54,7 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'role', label: 'Role', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'UserDetail', update: 'update', delete: 'delete'}
+          modals: {register: '*', info: 'UserDetail', update: 'update', delete: 'delete'}
         },
         sellers: {
           hash: '#sellers',

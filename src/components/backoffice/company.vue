@@ -25,7 +25,7 @@ export default {
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'UserDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'customers', info: 'UserDetail', update: 'update', delete: 'delete'}
         },
       }
 
