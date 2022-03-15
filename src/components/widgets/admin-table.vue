@@ -3,10 +3,9 @@
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
-import UserDetail from "@/components/widgets/backoffice/user-detail";
-import GoodDetail from "@/components/widgets/backoffice/goodsDetail";
-import ServiceDetail from "@/components/widgets/backoffice/servicesDetail";
-
+import UserDetail from "@/components/modals/backoffice/user-detail";
+import GoodDetail from "@/components/modals/backoffice/good-detail";
+import ServiceDetail from "@/components/modals/backoffice/service-detail";
 
 export default {
   props: {
