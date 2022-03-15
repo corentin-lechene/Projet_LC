@@ -8,8 +8,8 @@ const customersRouter = express.Router();
 import { showCustomers, showCustomersById, createCustomers, updateCustomers, deleteCustomers, showCustomersByCompanyId } from "../controllers/customers.js";
 
 
-customersRouter.get('/customers', showCustomers);
 customersRouter.get('/customers-companies/:id', showCustomersByCompanyId);
+customersRouter.get('/customers', showCustomers);
 customersRouter.get('/customers/:id', showCustomersById);
 customersRouter.post('/customers', createCustomers);
 customersRouter.put('/customers/:id', updateCustomers);
