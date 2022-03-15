@@ -3,7 +3,7 @@
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
 
-import {formData} from "@/data/data-forms";
+import forms from "@/data/data-forms";
 
 export default {
   name: "admin",
@@ -11,7 +11,7 @@ export default {
   data() {
     return {
 
-      formData,
+      forms,
 
       roles: {
         companies: {
@@ -35,7 +35,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'goods', info: 'info', update: 'update', delete: 'delete'}
         },
         services: {
           hash: '#services',
@@ -46,7 +46,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'services', info: 'info', update: 'update', delete: 'delete'}
         },
         users: {
           hash: '#users',
@@ -58,7 +58,7 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'role', label: 'Role', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'UserDetail', update: 'update', delete: 'delete'}
+          modals: {register: '*', info: 'UserDetail', update: 'update', delete: 'delete'}
         },
         sellers: {
           hash: '#sellers',

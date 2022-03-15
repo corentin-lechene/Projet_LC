@@ -1,9 +1,11 @@
 <script>
 
-import {sendGetDataTable} from "@/components/requests-bdd";
+import {sendDeleteTable, sendGetDataTable} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
-import UserDetail from "@/components/widgets/backoffice/user-detail";
+import UserDetail from "@/components/modals/backoffice/user-detail";
+import Register from "@/components/modals/backoffice/register";
+
 
 
 export default {
@@ -29,12 +31,13 @@ export default {
     modals: {
       type: Object,
       default() {
-        return {info: false, update: false, delete: false};
+        return {register: false, info: false, update: false, delete: false};
       }
     }
   },
   components: {
-    UserDetail
+    UserDetail,
+    Register
   },
   data() {
     return {
@@ -42,6 +45,8 @@ export default {
 
       id: null,
       layer: null,
+      route: null,
+      itemsSelect: [],
 
       title: "Advanced Table",
       totalRows: 1,
@@ -55,6 +60,8 @@ export default {
 
       module: null,
       currentTab: 'Form',
+
+      loading: true,
     };
   },
   computed: {
@@ -68,7 +75,6 @@ export default {
   mounted() {
     // Set the initial number of items
     this.layer = this.createLayer(this.fields);
-    console.log(this.currentProperties());
   },
   methods: {
     onFiltered(filteredItems) {
@@ -81,9 +87,9 @@ export default {
       let promise = sendGetDataTable(route, id);
       promise.then((res) => {
         if (!validRequest(res)) {
-          console.log(res.result);
           this.data = createValue(res.result, this.layer);
           this.totalRows = this.data.length;
+          setTimeout(() => {this.loading = false;}, 500);
         }
       })
     },
@@ -97,21 +103,45 @@ export default {
       }
       return temp
     },
-
+    getItemsByRoute(route, val) {
+      switch (route) {
+        case 'users':
+          if (val === '*')
+            return ['customers', 'companies', 'sellers', 'staff'];
+          else if (val === '-')
+            return ['customers', 'companies', 'sellers'];
+          break;
+        case 'users-staffs':
+          if (val === '-')
+            return ['customers', 'companies', 'sellers'];
+          break;
+        default:
+          break;
+      }
+      return (typeof val === 'object') ? val : [val];
+    },
     currentProperties() {
       switch (this.modals.info) {
         case 'UserDetail':
           return {user_id: this.id};
-        // case '';
-        // return ;
+          // case '';
+          // return ;
         default:
           break;
       }
+    },
+    deleteTable(route, id) {
+      let promise = sendDeleteTable(route, id);
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          console.log("del : ", res);
+        }
+      })
     }
   },
   created() {
     this.getInformations(this.options.route, this.options.byId);
-  }
+  },
 
 }
 </script>
@@ -121,36 +151,44 @@ export default {
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Data Table</h4>
-          <div class="row mt-4">
-            <div class="col-sm-12 col-md-6">
+          <h4 class="card-title">TITLE</h4>
+          <div class="row mt-4 mb-2">
+            <div class="col-sm-12 col-md-2 pr-0">
               <div id="tickets-table_length" class="dataTables_length">
                 <label class="d-inline-flex align-items-center">
-                  Show&nbsp;
-                  <b-form-select v-model="perPage" size="sm" :options="pageOptions"></b-form-select>&nbsp;entries
+                  Show
+                  <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
                 </label>
               </div>
             </div>
             <!-- Search -->
-            <div class="col-sm-12 col-md-6">
-              <div id="tickets-table_filter" class="dataTables_filter text-md-right">
-                <label class="d-inline-flex align-items-center">
-                  Search:
-                  <b-form-input
-                      v-model="filter"
-                      type="search"
-                      placeholder="Search..."
-                      class="form-control form-control-sm ml-2"
-                  ></b-form-input>
-                </label>
+            <div class="col-sm-12 col-md-8 pl-0">
+              <div id="tickets-table_filter" class="dataTables_filter text-md-right d-block">
+                <b-form-input
+                    v-model="filter"
+                    type="search"
+                    placeholder="Search..."
+                    class="form-control ml-2"
+                ></b-form-input>
               </div>
             </div>
             <!-- End search -->
+            <!-- Add -->
+            <div class="col-sm-12 col-md-2">
+              <b-dropdown v-if="modals.register" block right text="Add" variant="success">
+                <b-dropdown-item v-for="(item, i) in getItemsByRoute(options.route, modals.register)" :key="i"
+                                 v-b-modal="'register'"
+                                 class="dropdown-item" @click="route = item">{{ item }}
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
+            <!-- End Add -->
           </div>
           <!-- Table -->
           <div class="table-responsive mb-0">
+            <b-skeleton-table v-if="loading" :columns="fields.length" :rows="10"/>
             <b-table
-                v-if="data"
+                v-if="data && !loading"
                 :fields="fields" :items="data"
                 responsive="xl" thead-class="text-center"
                 :per-page="perPage" :current-page="currentPage"
@@ -187,11 +225,17 @@ export default {
       </div>
     </div>
 
+
+    <!--  Modals register  /-->
+    <b-modal id="register" title="Détail" title-class="font-18" size="xl" hide-footer centered @hidden="getInformations(options.route, options.id)">
+      <Register :route="route"/>
+    </b-modal>
+
     <!--  Modals info  /-->
     <b-modal v-if="id !== null" id="info" title="Détail" title-class="font-18" size="xl" hide-footer centered>
       <div class="card">
         <div class="card-body">
-          {{id}}
+          {{ id }}
           <keep-alive>
             <component :is="modals.info" v-bind="currentProperties()"/>
           </keep-alive>
@@ -201,17 +245,17 @@ export default {
 
     <!--  Modals update  /-->
     <b-modal v-if="id !== null" id="update" title="Détail" title-class="font-18" size="xl" hide-footer centered>
-      update {{id}}
+      update {{ id }}
     </b-modal>
 
     <!--  Modals delete  /-->
-    <b-modal v-if="id !== null" id="delete" title="Détail" title-class="font-18" size="xs" hide-footer centered>
+    <b-modal v-if="id !== null" id="delete" ref="delete" title="Détail" title-class="font-18" size="xs" hide-footer centered @hidden="getInformations(options.route, options.id)">
       <div class="card">
         <div class="card-body">
           <h5>Êtes-vous sûr de vouloir supprimer?</h5>
           <div class="row" style="height: 10px;"></div>
-          <b-button variant="outline-success">Oui</b-button>
-          <b-button style="margin-left: 10%;" variant="outline-danger">Non</b-button>
+          <b-button variant="outline-success" @click="deleteTable(options.route, id); $refs['delete'].hide()" >Oui</b-button>
+          <b-button style="margin-left: 10%;" variant="outline-danger" @click="$refs['delete'].hide()">Non</b-button>
         </div>
       </div>
     </b-modal>

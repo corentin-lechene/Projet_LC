@@ -4,10 +4,10 @@ import PageHeader from '@/components/page-header'
 
 import SidebarMenu from "@/components/sidebar-menu";
 
-import Admin from "@/components/widgets/backoffice/admin";
-import Staff from "@/components/widgets/backoffice/staff";
-import Company from "@/components/widgets/backoffice/company";
-import Customer from "@/components/widgets/backoffice/customer"
+import Admin from "@/components/backoffice/admin";
+import Staff from "@/components/backoffice/staff";
+import Company from "@/components/backoffice/company";
+import Customer from "@/components/backoffice/customer"
 
 import role from "@/data/role";
 
@@ -42,8 +42,7 @@ export default {
     <b-button @click="user_role = 'companies'">companies</b-button>
     <b-button @click="user_role = 'sellers'">sellers</b-button>
 
-
-    <div class="row" style="min-height: 80%">
+    <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-body">

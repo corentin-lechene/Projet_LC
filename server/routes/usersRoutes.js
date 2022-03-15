@@ -17,6 +17,8 @@ usersRouter.get('/token/:token', tokenUsers);
 usersRouter.post('/login', loginUsers);
 usersRouter.post('/users', createUsers);
 usersRouter.put('/users/:id', updateUsers);
-usersRouter.delete('/users/:id', deleteUsers);
 
+usersRouter.delete('/customers-companies/:id', deleteUsers);
+usersRouter.delete('/users-staffs/:id', deleteUsers);
+usersRouter.delete('/users/:id', deleteUsers);
 export default usersRouter;

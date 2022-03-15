@@ -4,7 +4,7 @@ import jsonwebtoken from "jsonwebtoken";
 
 // Get All Users
 export const getUsers = (result) => {
-    db.query("SELECT * FROM users", (err, results) => {
+    db.query("SELECT * FROM users ORDER BY user_id DESC", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -14,7 +14,7 @@ export const getUsers = (result) => {
 }
 
 export const getUsersByCompanyId = (id, result) => {
-    db.query("SELECT * FROM users INNER JOIN companies c on users.user_id = c.user_id WHERE company_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM users INNER JOIN companies c on users.user_id = c.user_id WHERE company_id = ? ORDER BY user_id DESC", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -25,7 +25,7 @@ export const getUsersByCompanyId = (id, result) => {
 
 // Get All Users
 export const getUsersForStaffs = (result) => {
-    db.query("SELECT * FROM users WHERE role != 'staffs' AND role != 'admin'", (err, results) => {
+    db.query("SELECT * FROM users WHERE role != 'staffs' AND role != 'admin' ORDER BY user_id DESC", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

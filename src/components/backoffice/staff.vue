@@ -28,7 +28,7 @@ export default {
            {key: 'price', label: 'Price', sortable: true},
            {key: 'company', label: 'Company', sortable: true},
            {key: 'actions', label: 'Actions'}],
-         modals: {info: 'info', update: 'update', delete: 'delete'}
+         modals: {register: 'goods', info: 'info', update: 'update', delete: 'delete'}
        },
        services: {
          hash: '#services',
@@ -39,7 +39,7 @@ export default {
            {key: 'price', label: 'Price', sortable: true},
            {key: 'company', label: 'Company', sortable: true},
            {key: 'actions', label: 'Actions'}],
-         modals: {info: 'info', update: 'update', delete: 'delete'}
+         modals: {register: 'services', info: 'info', update: 'update', delete: 'delete'}
        },
        users: {
          hash: '#users',
@@ -51,7 +51,7 @@ export default {
            {key: 'mail', label: 'Email', sortable: true},
            {key: 'role', label: 'Role', sortable: true},
            {key: 'actions', label: 'Actions'}],
-         modals: {info: 'UserDetail', update: 'update', delete: 'delete'}
+         modals: {register: '-', info: 'UserDetail', update: 'update', delete: 'delete'}
        },
        warehouses: {
          hash: '#warehouses',

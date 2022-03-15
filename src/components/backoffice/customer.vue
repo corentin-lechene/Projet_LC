@@ -3,7 +3,7 @@
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
 
-import {formData} from "@/data/data-forms";
+import forms from "@/data/data-forms";
 
 export default {
   name: "customer",
@@ -11,7 +11,7 @@ export default {
   data() {
     return {
 
-      formData,
+      forms,
 
       roles: {
 
