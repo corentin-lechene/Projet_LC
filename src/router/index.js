@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
     const authPage = privatePages.includes(to.path); //C'est une page privé ?
     const tokenUser = localStorage.getItem('user_token'); //Recupère le token
 
-    if(from.path === '/logout')
+    if(to.path === '/logout' || from.path === '/logout')
         return next();
 
     if (authPage) {
