@@ -4,6 +4,8 @@ import {sendGetDataTable} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
 import UserDetail from "@/components/widgets/backoffice/user-detail";
+import GoodDetail from "@/components/widgets/backoffice/goodsDetail";
+import ServiceDetail from "@/components/widgets/backoffice/servicesDetail";
 
 
 export default {
@@ -34,7 +36,9 @@ export default {
     }
   },
   components: {
-    UserDetail
+    UserDetail,
+    GoodDetail,
+    ServiceDetail
   },
   data() {
     return {
@@ -102,6 +106,10 @@ export default {
       switch (this.modals.info) {
         case 'UserDetail':
           return {user_id: this.id};
+        case 'GoodDetail':
+          return {good_id: this.id};
+        case 'ServiceDetail':
+          return {service_id: this.id};
         // case '';
         // return ;
         default:

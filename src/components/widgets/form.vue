@@ -82,6 +82,14 @@ export default {
         if (!validRequest(res))
           this.valuesForm = createValue(res.result, this.forms);
       })
+    },
+
+    getGoods(table, id) {
+      let promise = sendGetDataTable(table, id);
+      promise.then((res) => {
+        if (!validRequest(res))
+          this.valuesForm = createValue(res.result, this.forms);
+      })
     }
 
 

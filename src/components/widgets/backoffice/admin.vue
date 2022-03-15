@@ -35,7 +35,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {info: 'GoodDetail', update: 'update', delete: 'delete'}
         },
         services: {
           hash: '#services',
@@ -46,7 +46,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {info: 'ServiceDetail', update: 'update', delete: 'delete'}
         },
         users: {
           hash: '#users',

@@ -1,0 +1,103 @@
+<script>
+
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
+
+export default {
+  props: {
+    good_id: {
+      type: Number,
+      default: null
+    }
+  },
+  data() {
+    return {
+      valuesForm: {},
+    };
+  },
+  methods: {
+
+    getGoods(table, id) {
+      let promise = sendGetDataTable(table, id);
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          console.log('goods-detail', res.result);
+          this.valuesForm = res.result;
+        }
+
+      })
+    }
+  },
+  mounted() {
+    this.getGoods('goods', this.good_id);
+  }
+};
+</script>
+
+<template>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 style="font-size: large; padding-left: 5%;" class="card-title">Informations Produit</h4>
+          <div class="row" style="height: 25px; width: 100%;"></div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-10">
+              <div class="row" style="width: 100%;">
+                <div class="col-6">Nom produit
+                  <div class="row" style="height: 5px; width: 100%;"></div>
+                </div>
+                <div class="col-6">Prix
+                  <div class="row" style="height: 5px; width: 100%;"></div>
+                </div>
+              </div>
+              <div class="row" style="width: 100%;">
+                <div class="col-6">
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.name"></b-form-input>
+                </div>
+                <div class="col-6">
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.price"></b-form-input>
+                </div>
+              </div>
+              <div class="row" style="height: 35px; width: 100%;"></div>
+              <div class="row" style="width: 100%;">
+                <div class="col-6">Mail seller
+                  <div class="row" style="height: 5px; width: 100%;"></div>
+                </div>
+                <div class="col-6">Réduction
+                  <div class="row" style="height: 5px; width: 100%;"></div>
+                </div>
+              </div>
+              <div class="row" style="width: 100%;">
+                <div class="col-6">
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.mail"></b-form-input>
+                </div>
+                <div class="col-6">
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.reduction"></b-form-input>
+                </div>
+              </div>
+              <div class="row" style="height: 35px; width: 100%;"></div>
+              <div class="row" style="width: 100%;">
+                <div class="col-6">Description
+                  <div class="row" style="height: 5px; width: 100%;"></div>
+                </div>
+              </div>
+              <div class="row" style="height: 100%;">
+                <div class="col-12">
+                  <b-form-input id="input-default" readonly
+                                v-model="valuesForm.description"></b-form-input>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end col -->
+  </div>
+</template>
