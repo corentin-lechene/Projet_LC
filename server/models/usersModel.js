@@ -46,23 +46,22 @@ export const getUsersById = (id, result) => {
 
 // Login User
 export const getUsersByLogIn = (email, password, result) => {
-    db.query("SELECT * FROM users WHERE mail = ? AND password = ?", [email, password], (err, results) => {
+    db.query("SELECT * FROM users WHERE mail = ? AND password = ?", [email, password], (err, resultsLogin) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            if (results[0] !== undefined) {
-                let data = results[0];
+            if (resultsLogin[0] !== undefined) {
+                let data = resultsLogin[0];
                 let token = encodeToken(data);
-
                 db.query("UPDATE users SET token = ? WHERE user_id = ?", [token, data.user_id], (err) => {
                     if (err) {
                         result({error: true, reason: err});
                     } else {
-                        result({valid: true, result: results[0]});
+                        result({valid: true, result: resultsLogin[0]});
                     }
                 });
             } else {
-                result({valid: false, result: results[0]});
+                result({valid: false, result: "Connexion failed"});
             }
         }
     });
@@ -70,11 +69,11 @@ export const getUsersByLogIn = (email, password, result) => {
 
 // Tokeen du user
 export const getUserByToken = (token, result) => {
-    db.query("SELECT user_id FROM users WHERE token = ?", [token], (err, results) => {
+    db.query("SELECT user_id FROM users WHERE token = ?", [token], (err, resultsToken) => {
         if(err) {
             result({error: true, reason: err});
         } else {
-                if(!results[0]) {
+                if(!resultsToken[0]) {
                     result({valid: false, reason: "token invalid"});
                 } else {
                     const data = decodeToken(token);

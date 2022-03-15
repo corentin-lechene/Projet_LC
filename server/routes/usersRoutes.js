@@ -12,7 +12,8 @@ usersRouter.get('/users-staffs', showUsersForStaffs);
 usersRouter.get('/users', showUsers);
 usersRouter.get('/users-company/:id', showUsersByCompanyId);
 usersRouter.get('/users/:id', showUsersById);
-usersRouter.get('/token/:token', tokenUsers);
+
+usersRouter.post('/token', tokenUsers);
 
 usersRouter.post('/login', loginUsers);
 usersRouter.post('/users', createUsers);

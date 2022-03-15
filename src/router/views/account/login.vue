@@ -47,17 +47,15 @@ export default {
       promise.then((res) => {
         if (!validRequest(res)) {
           this.user = res.result;
-          if(this.user !== undefined) {
-            localStorage.user_token = this.user.token;
-            this.$router.push({
-                name: 'Homepage',
-                params: {notification: {message: "Connexion réussite", variant: "success"}}
-              });
-          } else {
-            this.authError = "wrong";
-            this.submitted = false;
-          }
-        }
+          localStorage.user_token = this.user.token;
+          this.$router.push({
+              name: 'Homepage',
+              params: {notification: {message: "Connexion réussite", variant: "success"}}
+            });
+        } else {
+        this.authError = "wrong";
+        this.submitted = false;
+      }
       })
     },
     tryToLogIn() {

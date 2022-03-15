@@ -34,12 +34,12 @@ export function generatePassword(data = false) {
 export function encodeToken(data) {
     return data.token || jsonwebtoken.sign(
         {user_id: data.user_id, role: data.role},
-        `${process.env.JWT_KEY_TOKEN}`,
+        process.env.JWT_KEY_TOKEN,
     );
 }
 
 export function decodeToken(token) {
-    return jsonwebtoken.verify(token, `${process.env.JWT_KEY_TOKEN}`);
+    return jsonwebtoken.verify(token, process.env.JWT_KEY_TOKEN);
 }
 
 export default db;

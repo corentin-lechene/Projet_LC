@@ -58,7 +58,8 @@ export const loginUsers = (req, res) => {
 
 // Verify the token
 export const tokenUsers = (req, res) => {
-    getUserByToken(req.params.token, (err, results) => {
+    const data = req.body;
+    getUserByToken(data.token, (err, results) => {
         if (err){
             res.send(err);
         } else {
@@ -70,7 +71,6 @@ export const tokenUsers = (req, res) => {
 // Create New Users
 export const createUsers = (req, res) => {
     const data = req.body;
-    console.log(data);
     insertUsers(data, (err, results) => {
         if (err){
             res.send(err);
