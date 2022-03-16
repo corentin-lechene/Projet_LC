@@ -2,6 +2,9 @@
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
 import Transaction from '@/components/widgets/transaction'
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
+
 /**
  * Products-order component
  */
@@ -13,6 +16,7 @@ export default {
   data() {
     return {
       title: 'Profile',
+      valuesForm:{},
       items: [
         {
           text: 'Ecommerce',
@@ -108,6 +112,20 @@ export default {
       ],
     }
   },
+  methods: {
+
+    getUsers(table, id) {
+      let promise = sendGetDataTable(table, id);
+      promise.then((res) => {
+        if (!validRequest(res))
+        {this.valuesForm = res.result;}
+
+      })
+    }
+  },
+  mounted() {
+    this.getUsers('users', 1);
+  },
 }
 </script>
 
@@ -132,45 +150,68 @@ export default {
                   <div class="col-12">
                     <div class="card">
                       <div class="card-body">
-                        <h4 style="font-size: large;" class="card-title">Vos informations</h4>
-                        <div class="row" style="height: 15px;"> </div>
-                        <div class="table-responsive mb-0">
-                          <table class="table table-bordered table-striped">
-                            <tbody>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Prénom</th>
-                              <td>Mattéo</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Nom</th>
-                              <td>Solari</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Né(e) le</th>
-                              <td>16/01/2002</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">E-mail</th>
-                              <td>22matteoz@gmail.com</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Mot de passe</th>
-                              <td>*********</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Téléphone</th>
-                              <td>0658585858</td>
-                            </tr><tr>
-                              <th class="text-nowrap" scope="row">Adresse de livraison</th>
-                              <td>12 avenue de la liberté</td>
-                            </tr>
-                            <tr>
-                              <th class="text-nowrap" scope="row">Adresse de facturation</th>
-                              <td>12 avenue de la liberté</td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                        <h4 style="font-size: large; padding-left: 5%;" class="card-title">Vos informations</h4>
+                        <div class="row" style="height: 25px; width: 100%;"></div>
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-10">
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">Nom
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                              <div class="col-6">Prénom
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.lastname"></b-form-input>
+                              </div>
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.firstname"></b-form-input>
+                              </div>
+                            </div>
+                            <div class="row" style="height: 35px; width: 100%;"></div>
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">Téléphone
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                              <div class="col-6">Email
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.phone"></b-form-input>
+                              </div>
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.mail"></b-form-input>
+                              </div>
+                            </div>
+                            <div class="row" style="height: 35px; width: 100%;"></div>
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">Adresse
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                              <div class="col-6">Code postal
+                                <div class="row" style="height: 5px; width: 100%;"></div>
+                              </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.address"></b-form-input>
+                              </div>
+                              <div class="col-6">
+                                <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                              v-model="valuesForm.postal_code"></b-form-input>
+                              </div>
+                            </div>
+                            <div class="row" style="height: 35px; width: 100%;"></div>
                       </div>
                     </div>
                     <div style="float: right">
@@ -179,6 +220,9 @@ export default {
                   </div>
                   <!-- end col -->
                 </div>
+                  </div>
+                </div>
+
 
               </b-tab>
               <b-tab>
