@@ -1,16 +1,34 @@
 <script>
 
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
+
 export default {
   data() {
     return {
       token: null,
-    }
+      valuesForm:{},
+    };
   },
   created() {
     if(localStorage.user_token) {
       this.token = localStorage.getItem('user_token');
     }
-  }
+  },
+  methods: {
+
+    getUsers(table, id) {
+      let promise = sendGetDataTable(table, id);
+      promise.then((res) => {
+        if (!validRequest(res))
+        {this.valuesForm = res.result;}
+
+      })
+    }
+  },
+  mounted() {
+    this.getUsers('users', 1);
+  },
 };
 </script>
 
@@ -110,7 +128,10 @@ export default {
                 width="460"
                 src="@/assets/images/cartevide.png"
                 data-holder-rendered="true"
-            />
+              />
+            <div class="texte_centrer" style="top: 40%; left: 50%;">g</div>
+            <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                          v-model="valuesForm.name"></b-form-input>
           </b-modal>
           </div>
         </div>
@@ -185,5 +206,9 @@ export default {
   position: relative;
   text-align: center;
   color: red;
+}
+.texte_centrer {
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 </style>

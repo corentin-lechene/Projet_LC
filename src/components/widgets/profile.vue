@@ -1,17 +1,33 @@
 
 
-<script>
-export default {
-  props: {
-    forms: {
-      type: Object,
-      default: function () {
-        return {};
-      }
-    },
-  }
-}
 
+
+<script>
+
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
+
+export default {
+  data() {
+    return {
+      valuesForm:{},
+    };
+  },
+  methods: {
+
+    getUsers(table, id) {
+      let promise = sendGetDataTable(table, id);
+      promise.then((res) => {
+        if (!validRequest(res))
+        {this.valuesForm = res.result;}
+
+      })
+    }
+  },
+  mounted() {
+    this.getUsers('users', 1);
+  },
+};
 </script>
 
 <template>
@@ -34,12 +50,12 @@ export default {
               </div>
               <div class="row" style="width: 100%;">
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="Hkfeo"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.lastname"></b-form-input>
                 </div>
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="Sarah"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.firstname"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>
@@ -53,12 +69,12 @@ export default {
               </div>
               <div class="row" style="width: 100%;">
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="0758585858"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.phone"></b-form-input>
                 </div>
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="michel@gmail.com"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.mail"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>
@@ -72,12 +88,12 @@ export default {
               </div>
               <div class="row" style="width: 100%;">
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="12 avenue de la liberté"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.address"></b-form-input>
                 </div>
                 <div class="col-6">
-                  <b-form-input id="input-default" style="width: 80%; text-align: center;"
-                                placeholder="92250"></b-form-input>
+                  <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
+                                v-model="valuesForm.postal_code"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>
