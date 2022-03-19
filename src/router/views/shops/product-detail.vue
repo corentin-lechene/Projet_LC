@@ -3,7 +3,8 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {productData} from "@/data/data-products";
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 
 export default {
@@ -14,26 +15,53 @@ export default {
     return {
       title: "Detail du produit",
 
-      productData,
       productDetail: -1,
+      products: {},
+      loading: true,
 
-      makeToast() {
-        this.$bvToast.toast('Le produit a été ajouté au panier avec succès', {
-          variant: 'success',
-          noCloseButton: true,
-          autoHideDelay: 5000
-        })
-      }
     }
   },
-  created() {
-    let id = parseInt(this.$route.query.id || 'error');
-    this.productDetail = productData.filter(productData => productData.id === id);
+  methods: {
+    makeToast() {
+      this.$bvToast.toast('Le produit a été ajouté au panier avec succès', {
+        variant: 'success',
+        noCloseButton: true,
+        autoHideDelay: 5000
+      })
+    },
+    getGoodsById() {
+      let id = parseInt(this.$route.query.id || -1);
+      if (id === -1) {
+        this.productDetail = -1;
+        this.$router.push({name: 'InternetServerError'});
+      }
 
-    if (this.productDetail.length === 0) {
-      this.productDetail = null;
-      this.$router.push({name: 'InternetServerError'});
-    }
+      let promise = sendGetDataTable('goods', id);
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          console.log(res.result);
+          this.productDetail = res.result;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    },
+    getGoods() {
+      let promise = sendGetDataTable('goods');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.products = res.result.slice(0, 3);
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    },
+  },
+  mounted() {
+    this.getGoodsById();
+    this.getGoods();
   }
 }
 </script>
@@ -42,7 +70,7 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title"/>
-    <div v-if="productDetail !== null" class="row">
+    <div v-if="productDetail !== -1" class="row">
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
@@ -50,18 +78,18 @@ export default {
               <div class="row">
                 <div class="col-lg-6">
                   <div class="product-detai-imgs">
-                    <b-tabs pills vertical nav-wrapper-class="col-md-2 col-sm-3 col-4">
+                    <b-tabs nav-wrapper-class="col-md-2 col-sm-3 col-4" pills vertical>
                       <b-tab>
                         <template v-slot:title>
                           <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
                           />
                         </template>
                         <div class="product-img">
                           <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block"
                           />
@@ -70,14 +98,14 @@ export default {
                       <b-tab>
                         <template v-slot:title>
                           <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
                           />
                         </template>
                         <div class="product-img">
                           <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block"
                           />
@@ -86,30 +114,14 @@ export default {
                       <b-tab>
                         <template v-slot:title>
                           <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
                           />
                         </template>
                         <div class="product-img">
                           <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
-                        </div>
-                      </b-tab>
-                      <b-tab>
-                        <template v-slot:title>
-                          <img
-                              :src="productDetail[0].img"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
-                        </template>
-                        <div class="product-img">
-                          <img
-                              :src="productDetail[0].img"
+                              :src="productDetail.image"
                               alt
                               class="img-fluid mx-auto d-block"
                           />
@@ -122,7 +134,7 @@ export default {
 
                 <div class="col-lg-6">
                   <div class="mt-3">
-                    <h4 class="mt-1 mb-3">{{ productDetail[0].name }}</h4>
+                    <h4 class="mt-1 mb-3">{{ productDetail.name }}</h4>
 
                     <p class="text-muted float-left mr-3">
                       <span class="bx bx-star text-warning"></span>
@@ -133,20 +145,21 @@ export default {
                     </p>
                     <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>
 
-                    <h6 class="text-success text-uppercase">{{ productDetail[0].discount }} Off</h6>
+                    <h6 class="text-success text-uppercase">{{ productDetail.reduction }} Off</h6>
                     <h5 class="mb-4">
                       Prix :
-                      <b>{{ productDetail[0].price }}€</b>
+                      <b>{{ productDetail.price }}€</b>
                     </h5>
                     <p class="text-muted mb-4">
-                      {{ productDetail[0].description }}
+                      {{ productDetail.description }}
                     </p>
                   </div>
                   <div class="text-left">
-                    <button @click="makeToast()" type="button" class="btn btn-primary waves-effect waves-light my-2 mr-2">
+                    <button class="btn btn-primary waves-effect waves-light my-2 mr-2" type="button"
+                            @click="makeToast()">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
-                    <button type="button" class="btn btn-success waves-effect my-2 mx-2 waves-light">
+                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button">
                       <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
                     </button>
                   </div>
@@ -155,33 +168,31 @@ export default {
 
               <hr class="mt-3 pt-0">
 
-              <div>
-                <div class="card-body">
-                  <div>
-                    <h5 class="mb-3">Specifications :</h5>
+              <div class="card-body">
+                <div>
+                  <h5 class="mb-3">Specifications :</h5>
 
-                    <div class="table-responsive">
-                      <table class="table mb-0 table-bordered">
-                        <tbody>
-                        <tr>
-                          <th scope="row">des choses</th>
-                          <td>encore des choses</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">des choses</th>
-                          <td>encore des choses</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">des choses</th>
-                          <td>encore des choses</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">des choses</th>
-                          <td>encore des choses</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                  <div class="table-responsive">
+                    <table class="table mb-0 table-bordered">
+                      <tbody>
+                      <tr>
+                        <th scope="row">des choses</th>
+                        <td>encore des choses</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">des choses</th>
+                        <td>encore des choses</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">des choses</th>
+                        <td>encore des choses</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">des choses</th>
+                        <td>encore des choses</td>
+                      </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -194,9 +205,9 @@ export default {
     <div class="row mb-4">
       <div class="col-sm-12">
         <router-link
+            class="btn text-muted d-none d-sm-inline-block btn-link"
             tag="a"
             to="/lc-shop"
-            class="btn text-muted d-none d-sm-inline-block btn-link"
         >
           <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
         </router-link>
@@ -209,23 +220,23 @@ export default {
         <h4 class="my-3">Nos nouveautés</h4>
         <b-card-group deck>
           <b-card
-              v-for="data in productData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+              v-for="product in products" :key="product.id" class="col-xl-4 col-sm-6">
             <div class="product-img position-relative">
-              <div v-if="data.discount" class="avatar-sm product-ribbon">
-                <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+              <div v-if="product.reduction" class="avatar-sm product-ribbon">
+                <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
               </div>
-              <router-link tag="a" :to="`/product-detail?id=${data.id}`">
-                <img :src="`${data.img}`" alt class="img-fluid mx-auto d-block"/>
+              <router-link :to="`/product-detail?id=${product.id}`" tag="a">
+                <img :src="`${product.image}`" alt class="img-fluid mx-auto d-block"/>
               </router-link>
             </div>
             <div class="row"></div>
             <b-card-title>
-              <h5 class="card-title text-center">{{ data.name }}</h5>
+              <h5 class="card-title text-center">{{ product.name }}</h5>
             </b-card-title>
 
             <p
                 class="card-text h5 text-center">
-              {{ data.price }}€</p>
+              {{ product.price }}€</p>
           </b-card>
         </b-card-group>
       </div>

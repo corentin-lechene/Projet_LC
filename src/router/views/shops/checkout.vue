@@ -5,7 +5,6 @@ import PageHeader from "@/components/page-header";
 import Multiselect from "vue-multiselect";
 
 import {cartData} from "@/data/data-cart";
-import {productData} from "@/data/data-products";
 
 export default {
   name: "checkout",
@@ -122,7 +121,6 @@ export default {
   },
 
   created() {
-    this.getProductsFromCart(productData);
   }
 }
 </script>

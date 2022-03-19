@@ -4,8 +4,8 @@ import Layout from "../layouts/main";
 import PageHeader from "@/components/page-header";
 
 
-import {OffersData} from "@/data/data-offers";
-import {productData} from "@/data/data-products";
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 /**
  * Dashboard Component
@@ -21,9 +21,38 @@ export default {
   data() {
     return {
       title: "Accueil",
-      OffersData,
-      productData,
+      products: {},
+      services: {},
+      loading: true,
     };
+  },
+  methods: {
+    getGoods() {
+      let promise = sendGetDataTable('goods');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.products = res.result.slice(0, 3);
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    },
+    getServices() {
+      let promise = sendGetDataTable('services');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.services = res.result.slice(0, 3);
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    },
+  },
+  mounted() {
+    this.getGoods();
+    this.getServices();
   },
   created() {
     if (this.$route.params.notification) {
@@ -34,8 +63,6 @@ export default {
         autoHideDelay: 5000
       })
     }
-
-
   }
 };
 </script>
@@ -64,23 +91,23 @@ export default {
             <h4 class="my-3">Nos nouveautés</h4>
             <b-card-group deck>
               <b-card
-                  v-for="data in productData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+                  v-for="product in products" :key="product.good_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
-                  <div v-if="data.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+                  <div v-if="product.reduction" class="avatar-sm product-ribbon">
+                    <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/product-detail?id=${data.id}`">
-                    <img :src="`${data.img}`" alt class="img-fluid mx-auto d-block"/>
+                  <router-link tag="a" :to="`/product-detail?id=${product.good_id}`">
+                    <img :src="product.image" alt class="img-fluid mx-auto d-block"/>
                   </router-link>
                 </div>
                 <div class="row"></div>
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ data.name }}</h5>
+                  <h5 class="card-title text-center">{{ product.name }}</h5>
                 </b-card-title>
 
                 <p
                     class="card-text h5 text-center">
-                  {{ data.price }}€</p>
+                  {{ product.price }}€</p>
               </b-card>
             </b-card-group>
           </div>
@@ -96,26 +123,26 @@ export default {
             <h4 class="my-3">Meilleurs offres partenaires</h4>
             <b-card-group deck>
               <b-card
-                  v-for="data in OffersData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+                  v-for="service in services" :key="service.service_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
-                  <div v-if="data.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+                  <div v-if="service.reduction" class="avatar-sm product-ribbon">
+                    <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/service-detail?id=${data.id}`">
+                  <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
                     <div style="height: 190px !important;">
-                      <img :src="`${data.img}`" style="width: 100%; height: 100%;" alt
+                      <img :src="`${service.image}`" style="width: 100%; height: 100%;" alt
                            class="img-fluid mx-auto d-block"/>
                     </div>
                   </router-link>
                 </div>
                 <div class="row" style="height: 10px"></div>
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ data.name }}</h5>
+                  <h5 class="card-title text-center">{{ service.name }}</h5>
                 </b-card-title>
 
                 <p
                     class="card-text h5 text-center">
-                  {{ data.price }}</p>
+                  {{ service.price }}</p>
               </b-card>
             </b-card-group>
           </div>

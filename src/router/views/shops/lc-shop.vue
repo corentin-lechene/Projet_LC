@@ -4,8 +4,8 @@ import PageHeader from "@/components/page-header";
 
 import VueSlideBar from "vue-slide-bar";
 
-import {categoryGoodsData} from "@/data/data-category-goods";
-import {productData} from "@/data/data-products";
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 export default {
   page: {
@@ -15,12 +15,15 @@ export default {
   data() {
     return {
       title: "Produits",
-      categoryGoodsData,
-      productData,
-      sliderPriceMax: this.getMaxPrice(productData),
-      sliderPriceMin: this.getMinPrice(productData),
+
+      productsData: {},
+      products: {},
+      categoryGoods: {},
+
+      sliderPriceMin: 0,
+      sliderPriceMax: 1,
       dataFilterBy: {
-        price: this.getMaxPrice(productData),
+        price: 1,
         note: 0,
       },
       filterBy: {
@@ -31,7 +34,6 @@ export default {
           this.value = [];
         }
       },
-      debug: null,
     }
   },
   methods: {
@@ -53,17 +55,17 @@ export default {
       for (let i = 0; i < this.filterBy.name.length; ++i) {
         switch (this.filterBy.name[i]) {
           case 'category_id' :
-            this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
+            this.products = this.products.filter(products => parseInt(products[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
             break;
           case 'price' :
-            this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
-            if (this.filterBy.value[i] === this.getMaxPrice(productData)) {
+            this.products = this.products.filter(products => parseInt(products[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
+            if (this.filterBy.value[i] === this.getMaxPrice(this.productsData)) {
               this.filterBy.name.splice(i, 1);
               this.filterBy.value.splice(i, 1);
             }
             break;
           case 'note' :
-            this.productData = this.productData.filter(productData => parseInt(productData[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
+            this.products = this.products.filter(products => parseInt(products[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
             if (this.filterBy.value[i] === 0) {
               this.filterBy.name.splice(i, 1);
               this.filterBy.value.splice(i, 1);
@@ -71,9 +73,9 @@ export default {
             break;
           case 'sort':
             if (this.filterBy.value[i] === '<') {
-              this.productData = this.productData.sort((a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1));
+              this.products = this.products.sort((a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1));
             } else if (this.filterBy.value[i] === '>') {
-              this.productData = this.productData.sort((a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1));
+              this.products = this.products.sort((a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1));
             }
             break;
           default:
@@ -92,7 +94,7 @@ export default {
             this.filterBy.value.push(value);
           } else {
             this.filterBy.value[index] = value;
-            this.productData = productData;
+            this.products = this.productsData;
           }
           break;
         case 'sort':
@@ -101,7 +103,7 @@ export default {
             this.filterBy.value.push(value);
           } else {
             this.filterBy.value[index] = this.filterBy.value[index] === '<' ? '>' : '<';
-            this.productData = productData;
+            this.products = this.productsData;
           }
           break;
         default:
@@ -110,16 +112,51 @@ export default {
       this.useFilter();
     },
     resetFilter() {
-      this.productData = [];
-      this.productData = productData;
+      this.products = this.productsData;
       this.filterBy.reset();
-      this.sliderPriceMax = this.getMaxPrice(this.productData);
-      this.sliderPriceMin = this.getMinPrice(this.productData);
-      this.dataFilterBy.price = this.getMaxPrice(productData);
+      this.sliderPriceMax = this.getMaxPrice(this.productsData);
+      this.sliderPriceMin = this.getMinPrice(this.productsData);
+      this.dataFilterBy.price = this.getMaxPrice(this.productsData);
       this.dataFilterBy.note = 0;
     },
+    init(products) {
+      this.productsData = products;
+      this.sliderPriceMax = this.getMaxPrice(products);
+      this.sliderPriceMin = this.getMinPrice(products);
+      this.dataFilterBy.price = this.getMaxPrice(products);
+    },
+
+
+    getGoods() {
+      let promise = sendGetDataTable('goods');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          console.log(res);
+          this.products = res.result;
+          setTimeout(() => {
+            this.loading = false;
+            this.init(res.result);
+          }, 500);
+        }
+      })
+    },
+    getCategoriesGoods() {
+      let promise = sendGetDataTable('categories_goods');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.categoryGoods = res.result;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    }
   },
-};
+  created() {
+    this.getGoods();
+    this.getCategoriesGoods();
+  }
+}
 </script>
 
 
@@ -154,13 +191,14 @@ export default {
                 <div class="col-md-12 col-xxl-7"> <!--ici-->
                   <b-button v-if="filterBy.name.length >= 2"
                             class="btn-block bg-danger"
-                            @click="resetFilter()" style="width: 100%;height: 100%">Supprimer les filtres
+                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer les filtres
                   </b-button>
                   <b-button v-else-if="filterBy.name.length === 1"
                             class="btn-block bg-danger"
-                            @click="resetFilter()" style="width: 100%;height: 100%">Supprimer le filtre
+                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer le filtre
                   </b-button>
-                  <b-button v-else class="btn-block" @click="resetFilter()" disabled style="width: 100%;height: 100%">Aucun filtre
+                  <b-button v-else class="btn-block" disabled style="width: 100%;height: 100%" @click="resetFilter()">
+                    Aucun filtre
                     ajouté
                   </b-button>
                 </div>
@@ -171,10 +209,10 @@ export default {
             <hr>
 
             <div class="mt-4 pt-3 pb-1">
-              <h5 class="font-size-14">Périphériques : </h5>
+              <h5 class="font-size-14">Nos catégories : </h5>
               <ul class="list-unstyled product-list">
-                <li v-for="categoryGood in categoryGoodsData" :key="categoryGood.id">
-                  <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryGood.id)">
+                <li v-for="categoryGood in categoryGoods" :key="categoryGood.category_id">
+                  <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryGood.category_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                   </a>
                 </li>
@@ -186,7 +224,7 @@ export default {
             <!-- Slider du prix -->
             <div class="mt-4 py-3">
               <h5 class="font-size-14 pb-2">Prix : </h5>
-              <vue-slide-bar class="pt-4" v-model="dataFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax"
+              <vue-slide-bar v-model="dataFilterBy.price" :max="sliderPriceMax" :min="sliderPriceMin" class="pt-4"
                              @input="setFilterBy('price', dataFilterBy.price)"/>
             </div>
             <!-- fin Slider du prix -->
@@ -199,8 +237,8 @@ export default {
               <div>
                 <b-form-checkbox v-for="i in 5" :key="i"
                                  v-model="dataFilterBy.note"
-                                 :value="i"
                                  :unchecked-value="0"
+                                 :value="i"
                                  @input="setFilterBy('note',  dataFilterBy.note)"
                 >
                   {{ i }}
@@ -216,38 +254,44 @@ export default {
       <div class="col-7 col-md-9">
         <div class="row">
 
-          <div v-if="productData.length === 0">
+          <div v-if="products.length === 0">
             Aucun produit trouvé
           </div>
-          <div v-for="product in productData" :key="product.id" class="col-sm-12 col-md-6 col-xl-4">
+          <div v-for="product in products" :key="product.good_id" class="col-sm-12 col-md-6 col-xl-4">
             <div class="card">
               <div class="card-body">
                 <div class="product-img position-relative">
-                  <div v-if="product.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ product.discount }}%</span>
+                  <div v-if="product.reduction" class="avatar-sm product-ribbon">
+                    <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/product-detail?id=${product.id}`">
-                    <img :src="`${product.img}`" alt class="img-fluid mx-auto d-block"/>
+                  <router-link :to="`/product-detail?id=${product.good_id}`" tag="a">
+                    <img v-if="product.image" :src="product.image" alt class="img-fluid mx-auto d-block"/>
+                    <img v-else src="../../../assets/images/no_img.png" alt class="img-fluid mx-auto d-block"/>
+
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">
                   <h5 class="mb-3 text-truncate">
-                    <router-link tag="a" class="text-dark" :to="`/product-detail?id=${product.id}`"
+                    <router-link :to="`/product-detail?id=${product.good_id}`" class="text-dark" tag="a"
                     >{{ product.name }}
                     </router-link>
                   </h5>
 
-                  <div>
-                    <p class="text-muted">
-                      <i v-for="i in 5" :key="i">
-                        <span v-if="product.note >= i" class="bx bx-star text-warning"></span>
-                        <span v-else class="bx bx-star"></span>
-                      </i>
-                    </p>
-                  </div>
+<!--                  <div>-->
+<!--                    <p class="text-muted">-->
+<!--                      <i v-for="i in 5" :key="i">-->
+<!--                        <span v-if="product.note >= i" class="bx bx-star text-warning"></span>-->
+<!--                        <span v-else class="bx bx-star"></span>-->
+<!--                      </i>-->
+<!--                    </p>-->
+<!--                  </div>-->
 
                   <h5 class="my-0">
-                    <b>{{ product.price }}€</b>
+                    <span class="text-muted mr-2">
+                      <del v-if="product.reduction">{{product.price}} €</del>
+                      <b v-else>{{product.price}} €</b>
+                    </span>
+                    <b v-if="product.reduction">{{(product.price - ((product.price * product.reduction) / 100)).toFixed(2)}} €</b>
                   </h5>
                 </div>
               </div>

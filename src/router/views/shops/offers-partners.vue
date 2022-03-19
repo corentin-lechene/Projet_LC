@@ -4,8 +4,8 @@ import PageHeader from "@/components/page-header";
 
 import VueSlideBar from "vue-slide-bar";
 
-import {categoryServicesData} from "@/data/data-category-services";
-import {servicesData} from "@/data/data-services";
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 
 export default {
@@ -17,14 +17,16 @@ export default {
     return {
       title: "Offres partenaires",
 
-      categoryServicesData,
-      servicesData,
+      services: {},
+      categoryServices: {},
+      servicesData: {},
 
-      sliderPriceMax: this.getMaxPrice(servicesData),
-      sliderPriceMin: this.getMinPrice(servicesData),
+
+      sliderPriceMin: 0,
+      sliderPriceMax: 1,
 
       dataFilterBy: {
-        price: this.getMaxPrice(servicesData),
+        price: 1,
         note: 0,
       },
       filterBy: {
@@ -35,8 +37,6 @@ export default {
           this.value = [];
         }
       },
-
-      debug: servicesData,
     }
   },
   methods: {
@@ -52,40 +52,35 @@ export default {
       for (let i = 0; i < data.length; i++) {
         prices[i] = parseInt(data[i].price);
       }
-      return Math.min(...prices) ;
+      return Math.min(...prices) + 1;
     },
-
     useFilter() {
       for (let i = 0; i < this.filterBy.name.length; ++i) {
         switch (this.filterBy.name[i]) {
           case 'category_id' :
-            this.servicesData = this.servicesData.filter(servicesData => parseInt(servicesData[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
+            this.services = this.services.filter(services => parseInt(services[this.filterBy.name[i]]) === parseInt(this.filterBy.value[i]));
             break;
-
           case 'price' :
-            this.servicesData = this.servicesData.filter(servicesData => parseInt(servicesData[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
-            if (this.filterBy.value[i] === this.getMaxPrice(servicesData)) {
+            this.services = this.services.filter(services => parseInt(services[this.filterBy.name[i]]) <= parseInt(this.filterBy.value[i]));
+            if (this.filterBy.value[i] === this.getMaxPrice(this.servicesData)) {
               this.filterBy.name.splice(i, 1);
               this.filterBy.value.splice(i, 1);
             }
             break;
-
           case 'note' :
-            this.servicesData = this.servicesData.filter(servicesData => parseInt(servicesData[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
+            this.services = this.services.filter(services => parseInt(services[this.filterBy.name[i]]) >= parseInt(this.filterBy.value[i]));
             if (this.filterBy.value[i] === 0) {
               this.filterBy.name.splice(i, 1);
               this.filterBy.value.splice(i, 1);
             }
             break;
-
           case 'sort':
             if (this.filterBy.value[i] === '<') {
-              this.servicesData = this.servicesData.sort((a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1));
+              this.services = this.services.sort((a, b) => (parseInt(a.price) >= parseInt(b.price) ? 1 : -1));
             } else if (this.filterBy.value[i] === '>') {
-              this.servicesData = this.servicesData.sort((a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1));
+              this.services = this.services.sort((a, b) => (parseInt(a.price) <= parseInt(b.price) ? 1 : -1));
             }
             break;
-
           default:
             break;
         }
@@ -102,39 +97,66 @@ export default {
             this.filterBy.value.push(value);
           } else {
             this.filterBy.value[index] = value;
-            this.servicesData = servicesData;
+            this.services = this.servicesData;
           }
           break;
-
         case 'sort':
           if (index === -1) {
             this.filterBy.name.push(category);
             this.filterBy.value.push(value);
           } else {
             this.filterBy.value[index] = this.filterBy.value[index] === '<' ? '>' : '<';
-            this.servicesData = servicesData;
+            this.services = this.servicesData;
           }
           break;
-
         default:
           break;
       }
       this.useFilter();
     },
     resetFilter() {
-      this.servicesData = [];
-      this.servicesData = servicesData;
-
+      this.services = this.servicesData;
       this.filterBy.reset();
-
       this.sliderPriceMax = this.getMaxPrice(this.servicesData);
       this.sliderPriceMin = this.getMinPrice(this.servicesData);
-
-      this.dataFilterBy.price = this.getMaxPrice(servicesData);
+      this.dataFilterBy.price = this.getMaxPrice(this.servicesData);
       this.dataFilterBy.note = 0;
-
     },
+    init(services) {
+      this.servicesData = services;
+      this.sliderPriceMax = this.getMaxPrice(services);
+      this.sliderPriceMin = this.getMinPrice(services);
+      this.dataFilterBy.price = this.getMaxPrice(services);
+    },
+
+    getServices() {
+      let promise = sendGetDataTable('services');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.services = res.result;
+          setTimeout(() => {
+            this.loading = false;
+            this.init(res.result);
+          }, 500);
+        }
+      })
+    },
+    getCategoriesServices() {
+      let promise = sendGetDataTable('categories_services');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.categoryServices = res.result;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        }
+      })
+    }
   },
+  created() {
+    this.getServices();
+    this.getCategoriesServices();
+  }
 };
 </script>
 
@@ -188,10 +210,10 @@ export default {
             <hr>
 
             <div class="mt-4 pt-3 pb-1">
-              <h5 class="font-size-14">Périphériques : </h5>
+              <h5 class="font-size-14">Nos catégories : </h5>
               <ul class="list-unstyled product-list">
-                <li v-for="categoryService in categoryServicesData" :key="categoryService.id">
-                  <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryService.id)">
+                <li v-for="categoryService in categoryServices" :key="categoryService.category_service_id">
+                  <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryService.category_service_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryService.title }}
                   </a>
                 </li>
@@ -235,20 +257,21 @@ export default {
           <div v-if="servicesData.length === 0">
             Aucune offre trouvé
           </div>
-          <div v-for="service in servicesData" :key="service.id" class="col-sm-12 col-md-6 col-xl-4">
+          <div v-for="service in services" :key="service.service_id" class="col-sm-12 col-md-6 col-xl-4">
             <div class="card" >
               <div class="card-body">
                 <div class="product-img position-relative">
-                  <div v-if="service.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ service.discount }}%</span>
+                  <div v-if="service.reduction" class="avatar-sm product-ribbon">
+                    <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/service-detail?id=${service.id}`">
-                    <img :src="`${service.img}`" alt class="img-fluid mx-auto d-block" style="height: 100% !important;"/>
+                  <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
+                    <img v-if="service.image" :src="service.image" alt class="img-fluid mx-auto d-block"/>
+                    <img v-else src="../../../assets/images/no_img.png" alt class="img-fluid mx-auto d-block"/>
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">
                   <h5 class="mb-3 text-truncate">
-                    <router-link tag="a" class="text-dark" :to="`/service-detail?id=${service.id}`"
+                    <router-link tag="a" class="text-dark" :to="`/service-detail?id=${service.service_id}`"
                     >{{ service.name }}
                     </router-link>
                   </h5>
@@ -263,7 +286,11 @@ export default {
                   </div>
 
                   <h5 class="my-0">
-                    <b>{{ service.price }}€</b>
+                    <span class="text-muted mr-2">
+                      <del v-if="service.reduction">{{service.price}} €</del>
+                      <b v-else>{{service.price}} €</b>
+                    </span>
+                    <b v-if="service.reduction">{{(service.price - ((service.price * service.reduction) / 100)).toFixed(2)}} €</b>
                   </h5>
                 </div>
               </div>

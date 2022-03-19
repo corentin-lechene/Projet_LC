@@ -18,6 +18,8 @@ import ServicesRoutes from "./routes/servicesRoutes.js";
 import WarehousesRoutes from "./routes/warehousesRoutes.js";
 import CategoriesRoutes from "./routes/categoriesRoutes.js";
 import CataloguesRoutes from "./routes/cataloguesRoutes.js";
+import Categories_goodsRoutes from "./routes/categories_goodsRoutes.js";
+import Categories_servicesRoutes from "./routes/categories_servicesRoutes.js";
 
 // init express
 const app = express();
@@ -41,6 +43,8 @@ app.use(UsersRouter);   //Users
 app.use(SellersRouter); //Sellers
 app.use(CustomersRouter);   //Customers
 app.use(CompaniesRouter);   //Companies
+app.use(Categories_goodsRoutes);   //categories_goods
+app.use(Categories_servicesRoutes);   //categories_services
 
 
 app.listen(9000, () => console.log('Server running at http://localhost:9000'));

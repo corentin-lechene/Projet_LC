@@ -1,7 +1,6 @@
 <script>
 import VueHtml2pdf from 'vue-html2pdf';
 import {cartData} from "@/data/data-cart";
-import {productData} from "@/data/data-products";
 
 export default {
 
@@ -10,7 +9,6 @@ export default {
       title: "PDF",
 
       cartData,
-      productData,
 
       currentCart: [],
 
@@ -59,7 +57,6 @@ export default {
   },
 
   created() {
-    this.getProductsFromCart(productData);
   },
 
   components: {

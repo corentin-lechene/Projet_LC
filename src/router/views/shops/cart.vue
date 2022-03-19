@@ -4,7 +4,6 @@ import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
 import {cartData} from "@/data/data-cart";
-import {productData} from "@/data/data-products";
 
 
 export default {
@@ -15,7 +14,6 @@ export default {
       title: "Panier",
 
       cartData,
-      productData,
 
       currentCart: [],
 
@@ -66,7 +64,6 @@ export default {
   },
 
   created() {
-    this.getProductsFromCart(productData);
   }
 }
 </script>

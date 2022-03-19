@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id", (err, results) => {
+    db.query("SELECT * FROM goods INNER JOIN categories_goods cg on goods.good_id = cg.good_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

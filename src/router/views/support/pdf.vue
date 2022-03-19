@@ -1,7 +1,6 @@
 <script>
 
 import {cartData} from "@/data/data-cart";
-import {productData} from "@/data/data-products";
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 
@@ -12,7 +11,6 @@ export default {
       title: "PDF",
 
       cartData,
-      productData,
 
       currentCart: [],
 
@@ -57,7 +55,6 @@ export default {
   },
 
   created() {
-    this.getProductsFromCart(productData);
   }
 
 };
