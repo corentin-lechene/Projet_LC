@@ -9,7 +9,6 @@ function preventingErrorSQL(result) {
 }
 
 function validRequest(result) {
-    // console.log('result', result);
     if (!result.valid) {
         console.error("Error: ", result.reason);
         return true;

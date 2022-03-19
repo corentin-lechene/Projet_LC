@@ -26,13 +26,25 @@ export function sendInsertTable(table, body) {
 }
 
 export function sendDeleteTable(table, id) {
-    let url = `${process.env.VUE_APP_API_ADDRESS}/${table}/${parseInt(id)}`;
+    let url = getUrl(table, id);
     return fetch(url, {method: 'delete'})
         .then(response => response.json())
         .then((json) => { return json; })
         .catch((err) => { console.error("err: fetch", err); });
 }
 
+export function sendUpdateTable(table, id, body) {
+    let url = getUrl(table, id);
+    let headers = {
+        method: 'put',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+    };
+    return fetch(url, headers)
+        .then(response => response.json())
+        .then((json) => { return json; })
+        .catch((err) => { console.error("err: fetch", err); });
+}
 
 
 export function sendGetUserByToken() {

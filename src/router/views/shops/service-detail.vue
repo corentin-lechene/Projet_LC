@@ -3,7 +3,7 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {sendGetDataTable} from "@/components/requests-bdd";
+import {sendGetDataTable, sendInsertTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
 
 
@@ -18,11 +18,24 @@ export default {
       serviceDetail: -1,
       services: {},
       loading: true,
+      CUSTOMER_ID: 39,
     }
   },
   methods: {
+    addToCart() {
+      let promise = sendInsertTable('carts_services', {
+        customer_id: this.CUSTOMER_ID,
+        quantity: 1,
+        service_id: this.serviceDetail.service_id
+      });
+      promise.then((res) => {
+        if(!validRequest(res.result)) {
+          this.makeToast();
+        }
+      });
+    },
     makeToast() {
-      this.$bvToast.toast('Le service a été ajouté au panier avec succès', {
+      this.$bvToast.toast('Service ajouté avec succès', {
         variant: 'success',
         noCloseButton: true,
         autoHideDelay: 5000
@@ -37,30 +50,17 @@ export default {
 
       let promise = sendGetDataTable('services', id);
       promise.then((res) => {
-        if (!validRequest(res)) {
-          console.log("ici", res);
+        if (!validRequest(res) && res.result !== undefined) {
           this.serviceDetail = res.result;
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
-        }
-      })
-    },
-    getServices() {
-      let promise = sendGetDataTable('services');
-      promise.then((res) => {
-        if (!validRequest(res)) {
-          this.services = res.result; //affiche un seul
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
+        } else {
+          this.serviceDetail = -1;
+          this.$router.push({name: 'InternetServerError'});
         }
       })
     },
   },
   mounted() {
     this.getServiceById();
-    this.getServices();
   }
 }
 </script>
@@ -155,7 +155,7 @@ export default {
                   </div>
                   <div class="text-left">
                     <button class="btn btn-primary waves-effect waves-light my-2 mr-2" type="button"
-                            @click="makeToast()">
+                            @click="addToCart()">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
                     <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button">

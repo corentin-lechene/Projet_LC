@@ -1,9 +1,11 @@
-u<script>
+u
+<script>
 
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {cartData} from "@/data/data-cart";
+import {sendDeleteTable, sendGetDataTable, sendUpdateTable} from "@/components/requests-bdd";
+import {validRequest, displayLongStr} from "@/components/my-functions";
 
 
 export default {
@@ -13,57 +15,52 @@ export default {
     return {
       title: "Panier",
 
-      cartData,
-
-      currentCart: [],
-
-      debug: null,
+      carts: {},
+      products: [],
+      quantity: [],
     }
   },
   methods: {
-    extractData(objet, id, column = null) {
-      let temp = [];
-      for (let i = 0; i < objet.length; i++) {
-        if (objet[i].id !== id)
-          continue;
+    displayLongStr,
+    getCarts() {
+      let promise = sendGetDataTable('carts-customer', 39);
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          console.log(res);
+          this.carts = res.result;
+          for (let i = 0; i < res.result.length; i++) {
+            for (const [key, val] of Object.entries(res.result[i])) {
+              if(key === 'cart_quantity')
+                this.quantity.push(val);
+            }
+          }
+        }
+      })
+    },
+    updateCart(route, id, index) {
+      let promise;
+      route = 'carts_'+ route;
 
-        if (column !== null)
-          temp.push(objet[i][column]);
-        else
-          temp.push(objet[i]);
-      }
-      if (temp.length === 1)
-        return temp[0];
-
-      return {
-        size: temp.length,
-        first: temp[0],
-        last: temp[temp.length - 1],
-        values: temp,
-      };
-    },
-    getProductsFromCart(obj) {
-      for (let i = 0; i < cartData.length; ++i) {
-        this.currentCart[i] = this.extractData(obj, cartData[i].id);
+      if (this.quantity[index] === 0) {
+        this.deleteProduct(route, id);
+      } else {
+        promise = sendUpdateTable(route, id, {quantity: this.quantity[index]});
+        promise.then((res) => {
+          console.log(res);
+        });
       }
     },
-    updateQuantity(index, val) {
-      this.cartData[index].quantity += val;
-      // if(this.cartData[index].quantity <= 0) {
-      //   let id = this.cartData[index].id;
-      //   this.cartData = this.cartData.filter(cartData => parseInt(cartData.id) !== id );
-      //   this.getProductsFromCart(productData);
-      // }
+    deleteProduct(route, id) {
+      const promise = sendDeleteTable('carts_'+ route, id);
+      promise.then((res) => {
+        console.log(res);
+        if(res.valid)
+          this.getCarts();
+      });
     },
-    displayLongStr(str, end) {
-      if (end <= 0)
-        return "Error !";
-      str = str.toString();
-      return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : ""}`;
-    }
   },
-
   created() {
+    this.getCarts();
   }
 }
 </script>
@@ -88,41 +85,38 @@ export default {
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(product, index) in currentCart" :key="index">
+                <td v-if="carts.length <= 0" colspan="5" class="text-center" style="font-size: 25px">Panier vide.</td>
+                <tr v-for="(product, index) in carts" :key="index">
                   <td>
                     <img
-                        :src="product.img"
-                        class="avatar-lg"
+                        :src="product.image"
                         alt="img cart"
+                        class="avatar-lg"
                     />
                   </td>
                   <td>
                     <h5 class="font-size-14 text-truncate">
-                      <router-link :to="`/product-detail?id=${product.id}`" class="text-dark">
+                      <router-link v-if="product.cart_name === 'goods'" :to="`/product-detail?id=${product.product_id}`" class="text-dark">
+                        {{ displayLongStr(product.name, 25) }}
+                      </router-link>
+                      <router-link v-else-if="product.cart_name === 'services'" :to="`/service-detail?id=${product.product_id}`" class="text-dark">
                         {{ displayLongStr(product.name, 25) }}
                       </router-link>
                     </h5>
                     <p>{{ displayLongStr(product.description, 30) }}</p>
                   </td>
-                  <td>{{ product.price }}€</td>
+                  <td>{{ product.price }} €</td>
                   <td style="width: 150px">
-                    <div class="btn-group">
-                      <div>
-                        <b-input v-model="cartData[index].quantity" class="inputQuantity"
-                                 style="height: 100%"></b-input>
-                      </div>
-                      <div class="btn-group-vertical">
-                        <b-button class="spinnerButton" size="sm" @click="updateQuantity(index, 1)">+</b-button>
-                        <b-button class="spinnerButton" size="sm" @click="updateQuantity(index, -1)">-</b-button>
-                      </div>
-                    </div>
+                    <b-form-spinbutton v-model="quantity[index]"
+                                       :min="0" vertical
+                                       @change="updateCart(product.cart_name, product.cart_product_id, index)"/>
                   </td>
                   <td>
-                    {{ (parseFloat(product.price) * parseInt(cartData[index].quantity)).toFixed(2) }}€
+                    {{ (product.price * quantity[index]).toFixed(2) }} €
                   </td>
                   <td>
-                    <a href="javascript:void(0);" class="action-icon text-danger">
-                      <i class="mdi mdi-trash-can font-size-18" @click="currentCart.splice(index, 1)"></i>
+                    <a class="action-icon text-danger" href="javascript:void(0);">
+                      <i class="mdi mdi-trash-can font-size-18" @click="deleteProduct(product.cart_name, product.cart_product_id)"></i>
                     </a>
                   </td>
                 </tr>
@@ -133,14 +127,14 @@ export default {
         </div>
       </div>
 
-      <div class="col-xl-4">
+      <div v-if="false" class="col-xl-4">
         <div class="row">
 
           <div class="col-5 col-xl-12">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title mb-4">Carte de fidélité</h5>
-                <img src="@/assets/images/carte.png" alt="" style="width: 240px; height: 200px">
+                <img alt="" src="@/assets/images/carte.png" style="width: 240px; height: 200px">
               </div>
             </div>
           </div>
@@ -186,9 +180,9 @@ export default {
     <div class="row mb-4">
       <div class="col-sm-6">
         <router-link
+            class="btn text-muted d-none d-sm-inline-block btn-link"
             tag="a"
             to="/lc-shop"
-            class="btn text-muted d-none d-sm-inline-block btn-link"
         >
           <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
         </router-link>
@@ -196,7 +190,7 @@ export default {
       <!-- end col -->
       <div class="col-sm-6">
         <div class="text-sm-right">
-          <router-link tag="a" to="/checkout" class="btn btn-success">
+          <router-link class="btn btn-success" tag="a" to="/checkout">
             <i class="mdi mdi-truck-fast mr-1"></i> Passer la commande
           </router-link>
         </div>
