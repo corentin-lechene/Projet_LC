@@ -20,7 +20,10 @@ export default {
       services: {},
       categoryServices: {},
       servicesData: {},
-
+      loading: {
+        categories: true,
+        services: true,
+      },
 
       sliderPriceMin: 0,
       sliderPriceMax: 1,
@@ -135,7 +138,7 @@ export default {
         if (!validRequest(res)) {
           this.services = res.result;
           setTimeout(() => {
-            this.loading = false;
+            this.loading.services = false;
             this.init(res.result);
           }, 500);
         }
@@ -147,7 +150,7 @@ export default {
         if (!validRequest(res)) {
           this.categoryServices = res.result;
           setTimeout(() => {
-            this.loading = false;
+            this.loading.categories = false;
           }, 500);
         }
       })
@@ -193,13 +196,14 @@ export default {
                 <div class="col-md-12 col-xxl-7">
                   <b-button v-if="filterBy.name.length >= 2"
                             class="btn-block bg-danger"
-                            @click="resetFilter()" style="width: 100%;height: 100%">Supprimer les filtres
+                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer les filtres
                   </b-button>
                   <b-button v-else-if="filterBy.name.length === 1"
                             class="btn-block bg-danger"
-                            @click="resetFilter()" style="width: 100%;height: 100%">Supprimer le filtre
+                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer le filtre
                   </b-button>
-                  <b-button v-else class="btn-block" @click="resetFilter()" disabled style="width: 100%;height: 100%">Aucun filtre
+                  <b-button v-else class="btn-block" disabled style="width: 100%;height: 100%" @click="resetFilter()">
+                    Aucun filtre
                     ajouté
                   </b-button>
                 </div>
@@ -211,9 +215,13 @@ export default {
 
             <div class="mt-4 pt-3 pb-1">
               <h5 class="font-size-14">Nos catégories : </h5>
-              <ul class="list-unstyled product-list">
+              <div v-if="loading.categories">
+                <b-skeleton v-for="i in 4" :key="i"/>
+              </div>
+              <ul v-if="!loading.categories" class="list-unstyled product-list">
                 <li v-for="categoryService in categoryServices" :key="categoryService.category_service_id">
-                  <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryService.category_service_id)">
+                  <a href="javascript: void(0);"
+                     @click="setFilterBy('category_id', categoryService.category_service_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryService.title }}
                   </a>
                 </li>
@@ -225,7 +233,9 @@ export default {
             <!-- Slider du prix -->
             <div class="mt-4 py-3">
               <h5 class="font-size-14 pb-2">Prix : </h5>
-              <vue-slide-bar class="pt-4" v-model="dataFilterBy.price" :min="sliderPriceMin" :max="sliderPriceMax" @input="setFilterBy('price', dataFilterBy.price)"/>
+              <b-skeleton v-if="loading.services"/>
+              <vue-slide-bar v-if="!loading.services" v-model="dataFilterBy.price" :max="sliderPriceMax" :min="sliderPriceMin" class="pt-4"
+                             @input="setFilterBy('price', dataFilterBy.price)"/>
             </div>
             <!-- fin Slider du prix -->
 
@@ -237,8 +247,8 @@ export default {
               <div>
                 <b-form-checkbox v-for="i in 5" :key="i"
                                  v-model="dataFilterBy.note"
-                                 :value="i"
                                  :unchecked-value="0"
+                                 :value="i"
                                  @input="setFilterBy('note',  dataFilterBy.note)"
                 >
                   {{ i }}
@@ -257,40 +267,44 @@ export default {
           <div v-if="servicesData.length === 0">
             Aucune offre trouvé
           </div>
-          <div v-for="service in services" :key="service.service_id" class="col-sm-12 col-md-6 col-xl-4">
-            <div class="card" >
+          <div v-for="service in services " :key="service.service_id" class="col-sm-12 col-md-6 col-xl-4">
+            <div class="card">
               <div class="card-body">
                 <div class="product-img position-relative">
+                  <b-skeleton-img v-if="loading.services"/>
                   <div v-if="service.reduction" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
+                    <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
-                    <img v-if="service.image" :src="service.image" alt class="img-fluid mx-auto d-block"/>
-                    <img v-else src="../../../assets/images/no_img.png" alt class="img-fluid mx-auto d-block"/>
+                  <router-link :to="`/service-detail?id=${service.service_id}`" tag="a">
+                    <img v-if="service.image && !loading.services" :src="service.image" alt class="img-fluid mx-auto d-block"/>
+                    <img v-else-if="!loading.services" alt class="img-fluid mx-auto d-block" src="../../../assets/images/no_img.png"/>
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">
                   <h5 class="mb-3 text-truncate">
-                    <router-link tag="a" class="text-dark" :to="`/service-detail?id=${service.service_id}`"
+                    <b-skeleton v-if="loading.services"/>
+                    <router-link v-if="!loading.services" :to="`/service-detail?id=${service.service_id}`" class="text-dark" tag="a"
                     >{{ service.name }}
                     </router-link>
                   </h5>
 
-                  <div>
-                    <p class="text-muted">
-                      <i v-for="i in 5" :key="i">
-                        <span v-if="service.note >= i" class="bx bx-star text-warning"></span>
-                        <span v-else class="bx bx-star"></span>
-                      </i>
-                    </p>
-                  </div>
+                  <!--                  <div>-->
+                  <!--                    <p class="text-muted">-->
+                  <!--                      <i v-for="i in 5" :key="i">-->
+                  <!--                        <span v-if="service.note >= i" class="bx bx-star text-warning"></span>-->
+                  <!--                        <span v-else class="bx bx-star"></span>-->
+                  <!--                      </i>-->
+                  <!--                    </p>-->
+                  <!--                  </div>-->
 
+                  <b-skeleton v-if="loading.services"/>
                   <h5 class="my-0">
                     <span class="text-muted mr-2">
-                      <del v-if="service.reduction">{{service.price}} €</del>
-                      <b v-else>{{service.price}} €</b>
+                      <del v-if="service.reduction && !loading.services">{{ service.price }} €</del>
+                      <b v-else-if="!loading.services">{{ service.price }} €</b>
                     </span>
-                    <b v-if="service.reduction">{{(service.price - ((service.price * service.reduction) / 100)).toFixed(2)}} €</b>
+                    <b v-if="service.reduction && !loading.services">{{ (service.price - ((service.price * service.reduction) / 100)).toFixed(2) }}
+                      €</b>
                   </h5>
                 </div>
               </div>

@@ -19,6 +19,10 @@ export default {
       productsData: {},
       products: {},
       categoryGoods: {},
+      loading: {
+        categories: true,
+        products: true,
+      },
 
       sliderPriceMin: 0,
       sliderPriceMax: 1,
@@ -130,11 +134,10 @@ export default {
     getGoods() {
       let promise = sendGetDataTable('goods');
       promise.then((res) => {
-        if (!validRequest(res)) {
-          console.log(res);
+        if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result;
           setTimeout(() => {
-            this.loading = false;
+            this.loading.products = false;
             this.init(res.result);
           }, 500);
         }
@@ -143,10 +146,10 @@ export default {
     getCategoriesGoods() {
       let promise = sendGetDataTable('categories_goods');
       promise.then((res) => {
-        if (!validRequest(res)) {
+        if (!validRequest(res) && res.result !== undefined) {
           this.categoryGoods = res.result;
           setTimeout(() => {
-            this.loading = false;
+            this.loading.categories = false;
           }, 500);
         }
       })
@@ -210,7 +213,10 @@ export default {
 
             <div class="mt-4 pt-3 pb-1">
               <h5 class="font-size-14">Nos catégories : </h5>
-              <ul class="list-unstyled product-list">
+              <div v-if="loading.categories">
+                <b-skeleton v-for="i in 4" :key="i"/>
+              </div>
+              <ul v-if="!loading.products" class="list-unstyled product-list">
                 <li v-for="categoryGood in categoryGoods" :key="categoryGood.category_id">
                   <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryGood.category_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
@@ -224,7 +230,8 @@ export default {
             <!-- Slider du prix -->
             <div class="mt-4 py-3">
               <h5 class="font-size-14 pb-2">Prix : </h5>
-              <vue-slide-bar v-model="dataFilterBy.price" :max="sliderPriceMax" :min="sliderPriceMin" class="pt-4"
+              <b-skeleton v-if="loading.products"/>
+              <vue-slide-bar v-if="!loading.products" v-model="dataFilterBy.price" :max="sliderPriceMax" :min="sliderPriceMin" class="pt-4"
                              @input="setFilterBy('price', dataFilterBy.price)"/>
             </div>
             <!-- fin Slider du prix -->
@@ -257,41 +264,44 @@ export default {
           <div v-if="products.length === 0">
             Aucun produit trouvé
           </div>
-          <div v-for="product in products" :key="product.good_id" class="col-sm-12 col-md-6 col-xl-4">
+          <div v-for="product in (products || 9)" :key="product.good_id" class="col-sm-12 col-md-6 col-xl-4">
             <div class="card">
               <div class="card-body">
                 <div class="product-img position-relative">
+                  <b-skeleton-img v-if="loading.products"/>
                   <div v-if="product.reduction" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
+                    <span v-if="!loading.products" class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
                   <router-link :to="`/product-detail?id=${product.good_id}`" tag="a">
-                    <img v-if="product.image" :src="product.image" alt class="img-fluid mx-auto d-block"/>
-                    <img v-else src="../../../assets/images/no_img.png" alt class="img-fluid mx-auto d-block"/>
+                    <img v-if="product.image && !loading.products" :src="product.image" alt class="img-fluid mx-auto d-block"/>
+                    <img v-else-if="!loading.products" alt class="img-fluid mx-auto d-block" src="../../../assets/images/no_img.png"/>
 
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">
                   <h5 class="mb-3 text-truncate">
-                    <router-link :to="`/product-detail?id=${product.good_id}`" class="text-dark" tag="a"
-                    >{{ product.name }}
-                    </router-link>
+                    <b-skeleton v-if="loading.products"/>
+                    <router-link v-if="!loading.products" :to="`/product-detail?id=${product.good_id}`" class="text-dark" tag="a" >{{ product.name }}</router-link>
                   </h5>
 
-<!--                  <div>-->
-<!--                    <p class="text-muted">-->
-<!--                      <i v-for="i in 5" :key="i">-->
-<!--                        <span v-if="product.note >= i" class="bx bx-star text-warning"></span>-->
-<!--                        <span v-else class="bx bx-star"></span>-->
-<!--                      </i>-->
-<!--                    </p>-->
-<!--                  </div>-->
+                  <!--                  <div>-->
+                  <!--                    <p class="text-muted">-->
+                  <!--                      <i v-for="i in 5" :key="i">-->
+                  <!--                        <span v-if="product.note >= i" class="bx bx-star text-warning"></span>-->
+                  <!--                        <span v-else class="bx bx-star"></span>-->
+                  <!--                      </i>-->
+                  <!--                    </p>-->
+                  <!--                  </div>-->
 
+                  <b-skeleton v-if="loading.products"/>
                   <h5 class="my-0">
                     <span class="text-muted mr-2">
-                      <del v-if="product.reduction">{{product.price}} €</del>
-                      <b v-else>{{product.price}} €</b>
+                      <del v-if="product.reduction && !loading.products">{{ product.price }} €</del>
+                      <b v-else-if="!loading.products">
+                        {{ product.price }} €
+                      </b>
                     </span>
-                    <b v-if="product.reduction">{{(product.price - ((product.price * product.reduction) / 100)).toFixed(2)}} €</b>
+                    <b v-if="product.reduction && !loading.products">{{(product.price - ((product.price * product.reduction) / 100)).toFixed(2)}} €</b>
                   </h5>
                 </div>
               </div>

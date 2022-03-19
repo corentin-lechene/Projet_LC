@@ -23,7 +23,11 @@ export default {
       title: "Accueil",
       products: {},
       services: {},
-      loading: true,
+      loading: {
+        products: true,
+        services: true,
+        slider: true,
+      },
     };
   },
   methods: {
@@ -33,8 +37,8 @@ export default {
         if (!validRequest(res)) {
           this.products = res.result.slice(0, 3);
           setTimeout(() => {
-            this.loading = false;
-          }, 500);
+            this.loading.products = false;
+          }, 750);
         }
       })
     },
@@ -44,8 +48,8 @@ export default {
         if (!validRequest(res)) {
           this.services = res.result.slice(0, 3);
           setTimeout(() => {
-            this.loading = false;
-          }, 500);
+            this.loading.services = false;
+          }, 750);
         }
       })
     },
@@ -53,6 +57,7 @@ export default {
   mounted() {
     this.getGoods();
     this.getServices();
+    setTimeout(() => {this.loading.slider = false}, 750);
   },
   created() {
     if (this.$route.params.notification) {
@@ -75,8 +80,9 @@ export default {
         <div class="card">
           <div class="card-body">
             <b-carousel controls>
-              <b-carousel-slide :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
+              <b-skeleton-img v-if="loading.slider"/>
+              <b-carousel-slide v-if="!loading.slider" :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
+              <b-carousel-slide v-if="!loading.slider" :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
             </b-carousel>
           </div>
         </div>
@@ -94,18 +100,21 @@ export default {
                   v-for="product in products" :key="product.good_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
                   <div v-if="product.reduction" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
+                    <span v-if="!loading.products" class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
                   <router-link tag="a" :to="`/product-detail?id=${product.good_id}`">
-                    <img :src="product.image" alt class="img-fluid mx-auto d-block"/>
+                    <b-skeleton-img v-if="loading.products"/>
+                    <img v-if="!loading.products" :src="product.image" alt class="img-fluid mx-auto d-block"/>
                   </router-link>
                 </div>
                 <div class="row"></div>
+                <b-skeleton v-if="loading.products" />
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ product.name }}</h5>
+                  <h5 v-if="!loading.products" class="card-title text-center">{{ product.name }}</h5>
                 </b-card-title>
 
-                <p
+                <b-skeleton v-if="loading.products" />
+                <p v-if="!loading.products"
                     class="card-text h5 text-center">
                   {{ product.price }}€</p>
               </b-card>
@@ -126,21 +135,25 @@ export default {
                   v-for="service in services" :key="service.service_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
                   <div v-if="service.reduction" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
+                    <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
                   <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
                     <div style="height: 190px !important;">
-                      <img :src="`${service.image}`" style="width: 100%; height: 100%;" alt
+                      <b-skeleton-img v-if="loading.services"/>
+                      <img v-if="!loading.services" :src="`${service.image}`" style="width: 100%; height: 100%;" alt
                            class="img-fluid mx-auto d-block"/>
                     </div>
                   </router-link>
                 </div>
                 <div class="row" style="height: 10px"></div>
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ service.name }}</h5>
+                  <b-skeleton v-if="loading.services" />
+                  <h5 v-if="!loading.services" class="card-title text-center">{{ service.name }}</h5>
                 </b-card-title>
 
-                <p
+                <b-skeleton v-if="loading.services" />
+                <b-skeleton v-if="loading.services" />
+                <p v-if="!loading.services"
                     class="card-text h5 text-center">
                   {{ service.price }}</p>
               </b-card>

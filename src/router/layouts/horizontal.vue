@@ -13,12 +13,15 @@ export default {
     };
   },
   mounted() {
-    document.getElementById("preloader").style.display = "block";
-    document.getElementById("status").style.display = "block";
-    setTimeout(function () {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("status").style.display = "none";
-    }, 500);
+    if(this.$route.path === '/admin') {
+      document.getElementById("preloader").style.display = "block";
+      document.getElementById("status").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("status").style.display = "none";
+      }, 500);
+    }
+
   },
   created() {
     document.body.setAttribute("data-layout", "horizontal");
@@ -28,7 +31,7 @@ export default {
 
 <template>
   <div>
-    <div id="preloader">
+    <div v-if="$route.path === '/admin'" id="preloader">
       <div id="status">
         <div class="spinner-chase">
           <div class="chase-dot"></div>

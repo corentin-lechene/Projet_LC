@@ -17,7 +17,10 @@ export default {
 
       serviceDetail: -1,
       services: {},
-      loading: true,
+      loading: {
+        serviceDetail: true,
+        services: true,
+      },
       CUSTOMER_ID: 39,
     }
   },
@@ -52,15 +55,30 @@ export default {
       promise.then((res) => {
         if (!validRequest(res) && res.result !== undefined) {
           this.serviceDetail = res.result;
+          setTimeout(() => {
+            this.loading.serviceDetail = false;
+          }, 500);
         } else {
           this.serviceDetail = -1;
           this.$router.push({name: 'InternetServerError'});
         }
       })
     },
+    getServices() {
+      let promise = sendGetDataTable('services');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.services = res.result;
+          setTimeout(() => {
+            this.loading.services = false;
+          }, 500);
+        }
+      })
+    },
   },
   mounted() {
     this.getServiceById();
+    this.getServices();
   }
 }
 </script>
@@ -79,8 +97,10 @@ export default {
                   <div class="product-detai-imgs">
                     <b-tabs nav-wrapper-class="col-md-2 col-sm-3 col-4" pills vertical>
                       <b-tab>
+                        <b-skeleton-img v-if="loading.serviceDetail" />
                         <template v-slot:title>
                           <img
+                              v-if="!loading.serviceDetail"
                               :src="serviceDetail.image"
                               alt
                               class="img-fluid mx-auto d-block tab-img rounded"
@@ -88,6 +108,7 @@ export default {
                         </template>
                         <div class="product-img">
                           <img
+                              v-if="!loading.serviceDetail"
                               :src="serviceDetail.image"
                               alt
                               class="img-fluid mx-auto d-block"
@@ -133,9 +154,10 @@ export default {
 
                 <div class="col-lg-6">
                   <div class="mt-3">
-                    <h4 class="mt-1 mb-3">{{ serviceDetail.name }}</h4>
+                    <b-skeleton v-if="loading.serviceDetail" />
+                    <h4 v-if="!loading.serviceDetail" class="mt-1 mb-3">{{ serviceDetail.name }}</h4>
 
-                    <p class="text-muted float-left mr-3">
+                    <p v-if="!loading.serviceDetail" class="text-muted float-left mr-3">
                       <span class="bx bx-star text-warning"></span>
                       <span class="bx bx-star text-warning ml-1"></span>
                       <span class="bx bx-star text-warning ml-1"></span>
@@ -144,8 +166,9 @@ export default {
                     </p>
                     <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>
 
-                    <h6 class="text-success text-uppercase">{{ serviceDetail.reduction }} Off</h6>
-                    <h5 class="mb-4">
+                    <b-skeleton v-if="loading.serviceDetail" />
+                    <h6 v-if="!loading.serviceDetail" class="text-success text-uppercase">{{ serviceDetail.reduction }} Off</h6>
+                    <h5 v-if="!loading.serviceDetail" class="mb-4">
                       Prix :
                       <b>{{ serviceDetail.price }}€</b>
                     </h5>
@@ -155,10 +178,10 @@ export default {
                   </div>
                   <div class="text-left">
                     <button class="btn btn-primary waves-effect waves-light my-2 mr-2" type="button"
-                            @click="addToCart()">
+                            @click="addToCart()" :disabled="loading.serviceDetail">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
-                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button">
+                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button" :disabled="loading.serviceDetail">
                       <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
                     </button>
                   </div>
@@ -167,6 +190,7 @@ export default {
 
               <hr class="mt-3 pt-0">
 
+              <b-skeleton-table v-if="loading.serviceDetail" :rows="5" :columns="3"/>
               <div class="card-body">
                 <div>
                   <h5 class="mb-3">Specifications :</h5>
@@ -225,14 +249,17 @@ export default {
                 <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
               </div>
               <router-link :to="`/service-detail?id=${service.id}`" tag="a">
+                <b-skeleton-img v-if="loading.services" />
                 <img :src="`${service.image}`" alt class="img-fluid mx-auto d-block"/>
               </router-link>
             </div>
             <div class="row"></div>
             <b-card-title>
+              <b-skeleton v-if="loading.services" />
               <h5 class="card-title text-center">{{ service.name }}</h5>
             </b-card-title>
 
+            <b-skeleton v-if="loading.services" />
             <p
                 class="card-text h5 text-center">
               {{ service.price }}€</p>
