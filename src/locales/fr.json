@@ -1,108 +1,104 @@
 {
-    "navbar": {
-        "offer_partner": "Offres Partenaires",
-        "lc_shops": "LC Shop",
-        "search": "Rechercher...",
-        "profile": {
-            "text": "Mon profil",
-            "orders": "Mes commandes",
-            "settings": "Paramètres",
-            "logout": "Déconnexion"
-        }
+  "cart": {
+    "fidelity_card": "Carte de fidélité",
+    "summary": {
+      "discount": "Réduction",
+      "point": {
+        "text": "Gain des points",
+        "word": "points "
+      },
+      "shipping": "Frais de port",
+      "title": "Récapitulatif du panier",
+      "total": "Total",
+      "total_ttc": "Total TTC"
     },
-    "footer": {
-        "help": "Besoin d'aide",
-        "about": "A propos",
-        "join_us": "Rejoignez-nous",
-        "legal_info": "Informations légales"
+    "table": {
+      "name": "Nom du produit",
+      "price": "Prix",
+      "product": "Produit",
+      "quantity": "Quantité",
+      "total": "Total"
     },
-    "home_page": {
-        "title": "Accueil",
-        "new_goods": "Nos nouveautés",
-        "best_services": "Les meilleurs offres partenaires",
-        "best_partners": "Nos meilleurs partenaires",
-        "help": {
-            "title": "Besoin d'aide ?",
-            "subtitle": "Du texte parce que l'aide voila"
-        }
+    "title": "Panier"
+  },
+  "footer": {
+    "about": "A propos",
+    "help": "Besoin d'aide",
+    "join_us": "Rejoignez-nous",
+    "legal_info": "Informations légales"
+  },
+  "home_page": {
+    "best_partners": "Nos meilleurs partenaires",
+    "best_services": "Les meilleurs offres partenaires",
+    "help": {
+      "subtitle": "Du texte parce que l'aide voila",
+      "title": "Besoin d'aide ?"
     },
-    "lc_shop": {
-        "title": "Produits",
-        "filter": {
-            "title": "Filtre des produits",
-            "sort": {
-                "title": "Trie",
-                "subtitle": "Trié par ...",
-                "relevance": "Pertinence",
-                "asc": "Prix croissant",
-                "desc": "Prix décroissant"
-            },
-            "reset_filter": {
-                "none": "Aucun filtre Ajouté",
-                "one": "Supprime le filtre",
-                "all": "Supprimer les filtres"
-            },
-            "category": {
-                "peripherals": "Périphériques"
-            },
-            "price": "Prix",
-            "Note": {
-                "title": "Note",
-                "more": "plus"
-            }
-        }
+    "new_goods": "Nos nouveautés",
+    "title": "Accueil"
+  },
+  "lc_shop": {
+    "filter": {
+      "Note": {
+        "more": "plus",
+        "title": "Note"
+      },
+      "category": {
+        "peripherals": "Périphériques"
+      },
+      "price": "Prix",
+      "reset_filter": {
+        "all": "Supprimer les filtres",
+        "none": "Aucun filtre Ajouté",
+        "one": "Supprime le filtre"
+      },
+      "sort": {
+        "asc": "Prix croissant",
+        "desc": "Prix décroissant",
+        "relevance": "Pertinence",
+        "subtitle": "Trié par ...",
+        "title": "Trie"
+      },
+      "title": "Filtre des produits"
     },
-    "offer_partners": {
-        "title": "Avantages",
-        "filter": {
-            "title": "Filtre des offres",
-            "sort": {
-                "title": "Trie",
-                "subtitle": "Trié par ...",
-                "relevance": "Pertinence",
-                "asc": "Prix croissant",
-                "desc": "Prix décroissant"
-            },
-            "reset_filter": {
-                "none": "Aucun filtre Ajouté",
-                "one": "Supprime le filtre",
-                "all": "Supprimer les filtres"
-            },
-            "category": {
-                "travel": "Voyage",
-                "show": "Spectable"
-            },
-            "price": "Prix",
-            "Note": {
-                "title": "Note",
-                "more": "plus"
-            }
-        }
+    "title": "Produits"
+  },
+  "navbar": {
+    "lc_shops": "LC Shop",
+    "offer_partner": "Offres Partenaires",
+    "profile": {
+      "logout": "Déconnexion",
+      "orders": "Mes commandes",
+      "settings": "Paramètres",
+      "text": "Mon profil"
     },
-    "cart": {
-        "title": "Panier",
-        "table": {
-            "product": "Produit",
-            "name": "Nom du produit",
-            "price": "Prix",
-            "quantity": "Quantité",
-            "total": "Total"
-        },
-        "fidelity_card": "Carte de fidélité",
-        "summary": {
-            "title": "Récapitulatif du panier",
-            "total_ttc": "Total TTC",
-            "discount": "Réduction",
-            "shipping": "Frais de port",
-            "total": "Total",
-            "point": {
-                "text": "Gain des points",
-                "word": "points "
-            }
-        }
+    "search": "Rechercher..."
+  },
+  "offer_partners": {
+    "filter": {
+      "Note": {
+        "more": "plus",
+        "title": "Note"
+      },
+      "category": {
+        "show": "Spectable",
+        "travel": "Voyage"
+      },
+      "price": "Prix",
+      "reset_filter": {
+        "all": "Supprimer les filtres",
+        "none": "Aucun filtre Ajouté",
+        "one": "Supprime le filtre"
+      },
+      "sort": {
+        "asc": "Prix croissant",
+        "desc": "Prix décroissant",
+        "relevance": "Pertinence",
+        "subtitle": "Trié par ...",
+        "title": "Trie"
+      },
+      "title": "Filtre des offres"
     },
-    "checkout": {
-
-    }
-
+    "title": "Avantages"
+  }
 }

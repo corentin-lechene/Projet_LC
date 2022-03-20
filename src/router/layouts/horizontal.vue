@@ -51,8 +51,8 @@ export default {
       <NavBar/>
       <div class="main-content">
         <div class="page-content">
-          <div class="container-fluid" style="margin-bottom: 200px">
-            <slot/>
+          <div class="container-fluid" style="margin-bottom: 250px !important;">
+            <slot />
           </div>
           <!-- container-fluid -->
         </div>

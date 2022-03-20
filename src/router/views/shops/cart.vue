@@ -21,7 +21,7 @@ export default {
       total: {
         ttc: [],
         reduction: [],
-        shipping: 25,
+        shipping: 0,
         final: 0,
         getTotalTTC: (quantity) => {
           let temp = 0;
@@ -36,7 +36,7 @@ export default {
           let temp = 0;
           if (this.total.ttc !== 0) {
             for (let i = 0; i < this.total.ttc.length; i++) {
-              temp += getReductionOf(this.total.reduction[i], this.total.ttc[i]);
+              temp += (getReductionOf(this.total.reduction[i], this.total.ttc[i]) * this.quantity[i]);
             }
             return temp;
           }
@@ -44,13 +44,22 @@ export default {
         getTotalFinal: (quantity) => {
           return (this.total.getTotalTTC(quantity)).toFixed(2) - (this.total.getTotalReduction()).toFixed(2);
         },
+        getTotalPoints: () => {
+          let temp = this.total.getTotalFinal(this.quantity);
+          let total = temp * 0.3;
+          for (let i = 1; i < temp / 100; i++) {
+            total++;
+          }
+          return total.toFixed(0);
+        },
         reset: () => {
           this.total.ttc = [];
           this.total.reduction = [];
-          this.total.shipping = 25;
+          this.total.shipping = 0;
           this.total.final = 0;
         }
       },
+      CUSTOMER_ID: 39, //TODO
     }
   },
   methods: {
@@ -58,7 +67,7 @@ export default {
     getTotalReductionOf,
 
     getCarts() {
-      let promise = sendGetDataTable('carts-customer', 39);
+      let promise = sendGetDataTable('carts-customer', this.CUSTOMER_ID);
       promise.then((res) => {
         if (!validRequest(res)) {
           this.total.reset();
@@ -210,7 +219,7 @@ export default {
                   </table>
                 </div>
                 <!-- end table-responsive -->
-                <p class="text-center font-italic">Gain des points : {{ (total.getTotalFinal(quantity) / 10).toFixed(0) }} points</p>
+                <p class="text-center font-italic">Gain des points : {{ total.getTotalPoints() }} points</p>
               </div>
             </div>
           </div>
