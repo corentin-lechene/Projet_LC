@@ -35,7 +35,7 @@ export default {
       });
 
       promise.then((res) => {
-        if(!validRequest(res)) {
+        if (!validRequest(res)) {
           this.makeToast();
         }
       });
@@ -89,7 +89,7 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title"/>
+    <PageHeader id="product" :title="title"/>
     <div v-if="productDetail !== -1" class="row">
       <div class="row">
         <div class="col-lg-12">
@@ -100,20 +100,24 @@ export default {
                   <div class="product-detai-imgs">
                     <b-tabs nav-wrapper-class="col-md-2 col-sm-3 col-4" pills vertical>
                       <b-tab>
-                        <b-skeleton-img v-if="loading.productDetail" />
+                        <b-skeleton-img v-if="loading.productDetail"/>
                         <template v-slot:title>
-                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img v-if="!loading.productDetail"
+                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img v-if="!loading.productDetail"
+                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
                         <template v-slot:title>
-                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img v-if="!loading.productDetail"
+                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img v-if="!loading.productDetail"
+                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
@@ -139,27 +143,28 @@ export default {
 
                 <div class="col-lg-6">
                   <div class="mt-3">
-                    <b-skeleton v-if="loading.productDetail" />
+                    <b-skeleton v-if="loading.productDetail"/>
                     <h4 v-if="!loading.productDetail" class="mt-1 mb-3">{{ productDetail.name }}</h4>
 
-<!--                    <b-skeleton v-if="loading.productDetail" />
-                    <p class="text-muted float-left mr-3">
-                      <span class="bx bx-star text-warning"></span>
-                      <span class="bx bx-star text-warning ml-1"></span>
-                      <span class="bx bx-star text-warning ml-1"></span>
-                      <span class="bx bx-star text-warning ml-1"></span>
-                      <span class="bx bx-star ml-1"></span>
-                    </p>
-                    <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>-->
+                    <!--                    <b-skeleton v-if="loading.productDetail" />
+                                        <p class="text-muted float-left mr-3">
+                                          <span class="bx bx-star text-warning"></span>
+                                          <span class="bx bx-star text-warning ml-1"></span>
+                                          <span class="bx bx-star text-warning ml-1"></span>
+                                          <span class="bx bx-star text-warning ml-1"></span>
+                                          <span class="bx bx-star ml-1"></span>
+                                        </p>
+                                        <p class="text-muted mb-4">( 0 utilisateurs ont acheté )</p>-->
 
-                    <h6 v-if="productDetail.reduction && !loading.productDetail" class="text-success text-uppercase">{{ productDetail.reduction }} %</h6>
+                    <h6 v-if="productDetail.reduction && !loading.productDetail" class="text-success text-uppercase">
+                      {{ productDetail.reduction }} %</h6>
                     <h5 v-if="!loading.productDetail" class="mb-4">
                       Prix :
                       <b v-if="!loading.productDetail">{{ productDetail.price }}€</b>
                     </h5>
-                    <b-skeleton v-if="loading.productDetail" />
-                    <b-skeleton v-if="loading.productDetail" />
-                    <b-skeleton v-if="loading.productDetail" />
+                    <b-skeleton v-if="loading.productDetail"/>
+                    <b-skeleton v-if="loading.productDetail"/>
+                    <b-skeleton v-if="loading.productDetail"/>
                     <b-skeleton v-if="loading.productDetail" width="80%"/>
                     <p v-if="!loading.productDetail"
                        class="text-muted mb-4">
@@ -167,11 +172,12 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <button class="btn btn-primary waves-effect waves-light my-2 mr-2" type="button"
-                            @click="addToCart()" :disabled="loading.products">
+                    <button :disabled="loading.products" class="btn btn-primary waves-effect waves-light my-2 mr-2"
+                            type="button" @click="addToCart()">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
-                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button" :disabled="loading.products">
+                    <button :disabled="loading.products" class="btn btn-success waves-effect my-2 mx-2 waves-light"
+                            type="button">
                       <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
                     </button>
                   </div>
@@ -184,7 +190,7 @@ export default {
                 <div>
                   <h5 class="mb-3">Specifications :</h5>
 
-                  <b-skeleton-table v-if="loading.productDetail" :rows="5" :columns="3"/>
+                  <b-skeleton-table v-if="loading.productDetail" :columns="3" :rows="5"/>
                   <div class="table-responsive">
                     <table class="table mb-0 table-bordered">
                       <tbody>
@@ -238,18 +244,21 @@ export default {
               <div v-if="product.reduction" class="avatar-sm product-ribbon">
                 <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
               </div>
-              <a :href="`/product-detail?id=${product.good_id}`">
-                <b-skeleton-img v-if="loading.products" />
+              <b-skeleton-img v-if="loading.products"/>
+              <a v-if="productDetail.good_id !== product.good_id" :href="`/product-detail?id=${product.good_id}`">
+                <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
+              </a>
+              <a v-else href="#product">
                 <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
               </a>
             </div>
             <div class="row"></div>
             <b-card-title>
-              <b-skeleton v-if="loading.products" />
+              <b-skeleton v-if="loading.products"/>
               <h5 class="card-title text-center">{{ product.name }}</h5>
             </b-card-title>
 
-            <b-skeleton v-if="loading.products" />
+            <b-skeleton v-if="loading.products"/>
             <p
                 class="card-text h5 text-center">
               {{ product.price }}€</p>

@@ -18,14 +18,14 @@ export default {
       user: null,
       userToken: null,
 
-      email: "stafftest@gmail.com",
+      email: "corentin.lechene@orange.fr",
       password: "Test1234!",
 
       submitted: false,
       formError: null,
       authError: null,
 
-      test: [],
+      params: null,
 
     }
   },
@@ -35,9 +35,11 @@ export default {
       let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
       if (this.email === "" || this.password === "") {
         this.formError = "empty";
+        this.submitted = false;
         return false;
       } else if (this.email.match(emailRegex) === null || this.password.match(passwordRegex) === null) {
         this.formError = "invalid";
+        this.submitted = false;
         return false;
       }
       return true;
@@ -49,13 +51,13 @@ export default {
           this.user = res.result;
           localStorage.user_token = this.user.token;
           this.$router.push({
-              name: 'Homepage',
+              name: this.params.redirect || 'Homepage',
               params: {notification: {message: "Connexion réussite", variant: "success"}}
             });
         } else {
-        this.authError = "wrong";
-        this.submitted = false;
-      }
+          this.authError = "wrong";
+          this.submitted = false;
+        }
       })
     },
     tryToLogIn() {
@@ -85,6 +87,7 @@ export default {
         autoHideDelay: 5000
       })
     }
+    this.params = this.$route.params;
   }
 };
 </script>

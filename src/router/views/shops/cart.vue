@@ -61,7 +61,7 @@ export default {
       let promise = sendGetDataTable('carts-customer', 39);
       promise.then((res) => {
         if (!validRequest(res)) {
-          this.getCarts();
+          this.total.reset();
           this.carts = res.result;
           for (let i = 0; i < res.result.length; i++) {
             for (const [key, val] of Object.entries(res.result[i])) {
@@ -116,25 +116,21 @@ export default {
               <table class="table table-centered mb-0 table-nowrap">
                 <thead class="thead-light">
                 <tr>
-                  <th>Produits</th>
-                  <th>Description du produit</th>
+                  <th>Produit</th>
+                  <th>Description</th>
                   <th>Prix</th>
-                  <th>Reduction</th>
+                  <th>Réduction</th>
                   <th style="min-width: 100px; max-width: 100px">Quantité</th>
                   <th colspan="2">Total (reduction + quantité)</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="carts.length <= 0" >
-                  <td class="text-center" colspan="5" style="font-size: 25px">Panier vide.</td>
+                  <td class="text-center" colspan="6" style="font-size: 25px">Panier vide.</td>
                 </tr>
                 <tr v-for="(product, index) in carts" :key="index">
                   <td>
-                    <img
-                        :src="product.image"
-                        alt="img cart"
-                        class="avatar-lg"
-                    />
+                    <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
                   </td>
                   <td>
                     <h5 class="font-size-14 text-truncate">
@@ -237,9 +233,8 @@ export default {
       <!-- end col -->
       <div class="col-sm-6">
         <div class="text-sm-right">
-          <router-link class="btn btn-success" tag="a" to="/checkout">
-            <i class="mdi mdi-truck-fast mr-1"></i> Passer la commande
-          </router-link>
+          <b-button v-if="total.ttc.length > 0" variant="success" @click="$router.push({path: '/checkout'})"><i class="mdi mdi-truck-fast mr-1"></i> Passer la commande</b-button>
+          <b-button v-else variant="success" disabled><i class="mdi mdi-truck-fast mr-1"></i> Passer la commande</b-button>
         </div>
       </div>
       <!-- end col -->

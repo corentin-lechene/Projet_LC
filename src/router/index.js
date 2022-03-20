@@ -33,7 +33,7 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const privatePages = ['/profile'] //Les pages qui sont privé
+    const privatePages = ['/profile', '/checkout'] //Les pages qui sont privé
     const authPage = privatePages.includes(to.path); //C'est une page privé ?
     const tokenUser = localStorage.getItem('user_token'); //Recupère le token
 
@@ -71,6 +71,7 @@ router.beforeEach((to, from, next) => {
             return next({
                 name: 'login',
                 params: {
+                    redirect: to.name,
                     notification: {message: "Vous devez être connecté pour acceder à cette page", variant: "danger"}
                 }
             })

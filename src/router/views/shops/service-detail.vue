@@ -86,7 +86,7 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title"/>
+    <PageHeader id="service" :title="title"/>
     <div v-if="serviceDetail !== -1" class="row">
       <div class="row">
         <div class="col-lg-12">
@@ -248,9 +248,11 @@ export default {
               <div v-if="service.reduction" class="avatar-sm product-ribbon">
                 <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
               </div>
-              <a :href="`/product-detail?id=${service.service_id}`">
-                <b-skeleton-img v-if="loading.services" />
-                <img :src="`${service.image}`" alt class="img-fluid mx-auto d-block"/>
+              <a v-if="serviceDetail.service_id !== service.service_id" :href="`/product-detail?id=${service.service_id}`">
+<!--                <b-img :src="require(`@/assets/images/services/${service.image}`)" alt="img" fluid/>-->
+              </a>
+              <a v-else href="#service">
+<!--                <b-img :src="require(`@/assets/images/services/${service.image}`)" alt="img" fluid/>-->
               </a>
             </div>
             <div class="row"></div>

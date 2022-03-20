@@ -3,6 +3,8 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 import Multiselect from "vue-multiselect";
+import {validRequest} from "@/components/my-functions";
+import {sendGetUserByToken} from "@/components/requests-bdd";
 
 export default {
   name: "checkout",
@@ -10,6 +12,8 @@ export default {
   data() {
     return {
       title: "Payement",
+
+      user: {},
 
       currentCart: [],
 
@@ -82,10 +86,25 @@ export default {
     }
   },
   methods: {
+    getUserByToken() {
+      let promise = sendGetUserByToken();
+      promise.then((res) => {
+        console.log(res);
+        if (!validRequest(res) && res.result !== undefined) {
+          this.user = res.result;
+        }
+      })
+    },
+    getCartByUserId() {
 
+    }
   },
 
-  created() {
+  mounted() {
+    const tokenUser = localStorage.getItem('user_token'); //Recupère le token
+    if(tokenUser) {
+      this.getUserByToken();
+    }
   }
 }
 </script>
@@ -283,7 +302,7 @@ export default {
               <!-- end col -->
               <div class="col-sm-6">
                 <div class="text-sm-right">
-                  <router-link tag="a" to="/ecommerce/checkout" class="btn btn-success">
+                  <router-link tag="a" to="/checkout" class="btn btn-success">
                     <i class="mdi mdi-truck-fast mr-1"></i> Procéder au payement
                   </router-link>
                 </div>
