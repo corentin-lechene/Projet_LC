@@ -78,3 +78,15 @@ function displayLongStr(str, end) {
 }
 
 export {displayLongStr};
+
+export function getTotalReductionOf(reduction, price) {
+    if(reduction === 0)
+        return price;
+    return price - (price * (reduction / 100));
+}
+
+export function getReductionOf(reduction, price) {
+    if(reduction === 0)
+        return 0;
+    return price * (reduction / 100);
+}

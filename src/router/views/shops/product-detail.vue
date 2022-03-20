@@ -33,7 +33,7 @@ export default {
         good_id: this.productDetail.good_id
       });
       promise.then((res) => {
-        if(!validRequest(res.result)) {
+        if(!validRequest(res)) {
           this.makeToast();
         }
       });

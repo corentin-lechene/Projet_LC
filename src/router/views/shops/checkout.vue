@@ -86,38 +86,7 @@ export default {
     }
   },
   methods: {
-    extractData(objet, id, column = null) {
-      let temp = [];
-      for (let i = 0; i < objet.length; i++) {
-        if (objet[i].id !== id)
-          continue;
 
-        if (column !== null)
-          temp.push(objet[i][column]);
-        else
-          temp.push(objet[i]);
-      }
-      if (temp.length === 1)
-        return temp[0];
-
-      return {
-        size: temp.length,
-        first: temp[0],
-        last: temp[temp.length - 1],
-        values: temp,
-      };
-    },
-    getProductsFromCart(obj) {
-      for (let i = 0; i < cartData.length; ++i) {
-        this.currentCart[i] = this.extractData(obj, cartData[i].id);
-      }
-    },
-    displayLongStr(str, end) {
-      if(end <= 0)
-        return "Error !";
-      str = str.toString();
-      return `${str.substring(0, end)} ${(str.length > end) ? "[..]" : "" }`;
-    }
   },
 
   created() {

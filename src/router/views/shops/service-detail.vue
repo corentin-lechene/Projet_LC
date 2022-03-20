@@ -32,7 +32,7 @@ export default {
         service_id: this.serviceDetail.service_id
       });
       promise.then((res) => {
-        if(!validRequest(res.result)) {
+        if(!validRequest(res)) {
           this.makeToast();
         }
       });

@@ -5,7 +5,7 @@ import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
 import {sendDeleteTable, sendGetDataTable, sendUpdateTable} from "@/components/requests-bdd";
-import {validRequest, displayLongStr} from "@/components/my-functions";
+import {validRequest, displayLongStr, getTotalReductionOf, getReductionOf} from "@/components/my-functions";
 
 
 export default {
@@ -18,10 +18,45 @@ export default {
       carts: {},
       products: [],
       quantity: [],
+      total: {
+        ttc: [],
+        reduction: [],
+        shipping: 25,
+        final: 0,
+        getTotalTTC: (quantity) => {
+          let temp = 0;
+          if (this.total.ttc !== 0) {
+            for (let i = 0; i < this.total.ttc.length; i++) {
+              temp += this.total.ttc[i] * quantity[i];
+            }
+            return temp;
+          }
+        },
+        getTotalReduction: () => {
+          let temp = 0;
+          if (this.total.ttc !== 0) {
+            for (let i = 0; i < this.total.ttc.length; i++) {
+              temp += getReductionOf(this.total.reduction[i], this.total.ttc[i]);
+            }
+            return temp;
+          }
+        },
+        getTotalFinal: (quantity) => {
+          return (this.total.getTotalTTC(quantity)).toFixed(2) - (this.total.getTotalReduction()).toFixed(2);
+        },
+        reset: () => {
+          this.total.ttc = [];
+          this.total.reduction = [];
+          this.total.shipping = 25;
+          this.total.final = 0;
+        }
+      },
     }
   },
   methods: {
     displayLongStr,
+    getTotalReductionOf,
+
     getCarts() {
       let promise = sendGetDataTable('carts-customer', 39);
       promise.then((res) => {
@@ -30,8 +65,12 @@ export default {
           this.carts = res.result;
           for (let i = 0; i < res.result.length; i++) {
             for (const [key, val] of Object.entries(res.result[i])) {
-              if(key === 'cart_quantity')
+              if (key === 'cart_quantity')
                 this.quantity.push(val);
+              else if (key === 'reduction')
+                this.total.reduction.push(val);
+              else if (key === 'price')
+                this.total.ttc.push(val);
             }
           }
         }
@@ -39,23 +78,23 @@ export default {
     },
     updateCart(route, id, index) {
       let promise;
-      route = 'carts_'+ route;
 
       if (this.quantity[index] === 0) {
         this.deleteProduct(route, id);
       } else {
-        promise = sendUpdateTable(route, id, {quantity: this.quantity[index]});
+        promise = sendUpdateTable('carts_'+ route, id, {quantity: this.quantity[index]});
         promise.then((res) => {
           console.log(res);
         });
       }
     },
     deleteProduct(route, id) {
-      const promise = sendDeleteTable('carts_'+ route, id);
+      const promise = sendDeleteTable('carts_' + route, id);
       promise.then((res) => {
-        console.log(res);
-        if(res.valid)
+        if (res.valid) {
+          this.total.reset();
           this.getCarts();
+        }
       });
     },
   },
@@ -80,12 +119,15 @@ export default {
                   <th>Produits</th>
                   <th>Description du produit</th>
                   <th>Prix</th>
+                  <th>Reduction</th>
                   <th style="min-width: 100px; max-width: 100px">Quantité</th>
-                  <th colspan="2">Total</th>
+                  <th colspan="2">Total (reduction + quantité)</th>
                 </tr>
                 </thead>
                 <tbody>
-                <td v-if="carts.length <= 0" colspan="5" class="text-center" style="font-size: 25px">Panier vide.</td>
+                <tr v-if="carts.length <= 0" >
+                  <td class="text-center" colspan="5" style="font-size: 25px">Panier vide.</td>
+                </tr>
                 <tr v-for="(product, index) in carts" :key="index">
                   <td>
                     <img
@@ -96,27 +138,31 @@ export default {
                   </td>
                   <td>
                     <h5 class="font-size-14 text-truncate">
-                      <router-link v-if="product.cart_name === 'goods'" :to="`/product-detail?id=${product.product_id}`" class="text-dark">
+                      <router-link v-if="product.cart_name === 'goods'" :to="`/product-detail?id=${product.product_id}`"
+                                   class="text-dark">
                         {{ displayLongStr(product.name, 25) }}
                       </router-link>
-                      <router-link v-else-if="product.cart_name === 'services'" :to="`/service-detail?id=${product.product_id}`" class="text-dark">
+                      <router-link v-else-if="product.cart_name === 'services'"
+                                   :to="`/service-detail?id=${product.product_id}`" class="text-dark">
                         {{ displayLongStr(product.name, 25) }}
                       </router-link>
                     </h5>
                     <p>{{ displayLongStr(product.description, 30) }}</p>
                   </td>
                   <td>{{ product.price }} €</td>
+                  <td>{{product.reduction}} %</td>
                   <td style="width: 150px">
                     <b-form-spinbutton v-model="quantity[index]"
                                        :min="0" vertical
                                        @change="updateCart(product.cart_name, product.cart_product_id, index)"/>
                   </td>
                   <td>
-                    {{ (product.price * quantity[index]).toFixed(2) }} €
+                    {{ (getTotalReductionOf(product.reduction, product.price) * quantity[index]).toFixed(2) }} €
                   </td>
                   <td>
                     <a class="action-icon text-danger" href="javascript:void(0);">
-                      <i class="mdi mdi-trash-can font-size-18" @click="deleteProduct(product.cart_name, product.cart_product_id)"></i>
+                      <i class="mdi mdi-trash-can font-size-18"
+                         @click="deleteProduct(product.cart_name, product.cart_product_id)"></i>
                     </a>
                   </td>
                 </tr>
@@ -127,7 +173,7 @@ export default {
         </div>
       </div>
 
-      <div v-if="false" class="col-xl-4">
+      <div class="col-xl-4">
         <div class="row">
 
           <div class="col-5 col-xl-12">
@@ -149,25 +195,26 @@ export default {
                     <tbody>
                     <tr>
                       <td>Total TTC :</td>
-                      <td>800€</td>
+                      <td>{{ (total.getTotalTTC(quantity)).toFixed(2) }} €</td>
                     </tr>
                     <tr>
                       <td>Réduction :</td>
-                      <td>- 200€</td>
+                      <td>- {{ (total.getTotalReduction()).toFixed(2) }} €</td>
                     </tr>
                     <tr>
                       <td>Frais de port :</td>
-                      <td>25€</td>
+                      <td v-if="total.ttc[0]">{{ total.shipping.toFixed(2) }} €</td>
+                      <td v-else>0 €</td>
                     </tr>
                     </tbody>
                     <tr>
                       <th>Total :</th>
-                      <th>1200€</th>
+                      <th>{{ (total.getTotalFinal(quantity)).toFixed(2) }} €</th>
                     </tr>
                   </table>
                 </div>
                 <!-- end table-responsive -->
-                <p class="text-center font-italic">Gain des points : 20 points</p>
+                <p class="text-center font-italic">Gain des points : {{ (total.getTotalFinal(quantity) / 10).toFixed(0) }} points</p>
               </div>
             </div>
           </div>
@@ -200,19 +247,5 @@ export default {
 
   </Layout>
 </template>
-
-
-<style>
-.inputQuantity {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.spinnerButton {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-}
-
-</style>
 
 
