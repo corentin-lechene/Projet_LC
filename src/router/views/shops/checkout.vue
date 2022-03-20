@@ -4,16 +4,12 @@ import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 import Multiselect from "vue-multiselect";
 
-import {cartData} from "@/data/data-cart";
-
 export default {
   name: "checkout",
   components: {Layout, PageHeader, Multiselect},
   data() {
     return {
       title: "Payement",
-
-      cartData,
 
       currentCart: [],
 

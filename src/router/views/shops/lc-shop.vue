@@ -273,9 +273,7 @@ export default {
                     <span v-if="!loading.products" class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
                   <router-link :to="`/product-detail?id=${product.good_id}`" tag="a">
-                    <img v-if="product.image && !loading.products" :src="product.image" alt class="img-fluid mx-auto d-block"/>
-                    <img v-else-if="!loading.products" alt class="img-fluid mx-auto d-block" src="../../../assets/images/no_img.png"/>
-
+                    <b-img v-if="!loading.products" :src="require(`@/assets/images/product/${product.image}`)" fluid alt="img" />
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">

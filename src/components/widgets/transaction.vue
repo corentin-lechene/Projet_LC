@@ -90,7 +90,7 @@ export default {
           <tr>
             <th scope="row">
               <div>
-                <img src="@/assets/images/product/keyboards/img_1.jpg" alt class="avatar-sm" />
+                <img src="" alt class="avatar-sm" />
               </div>
             </th>
             <td>
@@ -104,7 +104,7 @@ export default {
           <tr>
             <th scope="row">
               <div>
-                <img src="@/assets/images/product/keyboards/img_2.jpg" alt class="avatar-sm" />
+                <img src="" alt class="avatar-sm" />
               </div>
             </th>
             <td>

@@ -1,14 +1,11 @@
 <script>
 import VueHtml2pdf from 'vue-html2pdf';
-import {cartData} from "@/data/data-cart";
 
 export default {
 
   data() {
     return {
       title: "PDF",
-
-      cartData,
 
       currentCart: [],
 
@@ -46,11 +43,7 @@ export default {
         values: temp,
       };
     },
-    getProductsFromCart(obj) {
-      for (let i = 0; i < cartData.length; ++i) {
-        this.currentCart[i] = this.extractData(obj, cartData[i].id);
-      }
-    },
+
     generateReport(){
       this.$refs.html2Pdf.generatePdf();
     }

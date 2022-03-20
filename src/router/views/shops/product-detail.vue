@@ -27,11 +27,13 @@ export default {
   },
   methods: {
     addToCart() {
+      console.log('id: ', this.productDetail.good_id);
       let promise = sendInsertTable('carts_goods', {
         customer_id: this.CUSTOMER_ID,
         quantity: 1,
         good_id: this.productDetail.good_id
       });
+
       promise.then((res) => {
         if(!validRequest(res)) {
           this.makeToast();
@@ -100,36 +102,18 @@ export default {
                       <b-tab>
                         <b-skeleton-img v-if="loading.productDetail" />
                         <template v-slot:title>
-                          <img
-                              v-if="!loading.productDetail"
-                              :src="productDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
+                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <img
-                              v-if="!loading.productDetail"
-                              :src="productDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
+                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
                         <template v-slot:title>
-                          <img
-                              :src="productDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
+                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <img
-                              :src="productDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
+                          <b-img v-if="!loading.productDetail" :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
@@ -254,10 +238,10 @@ export default {
               <div v-if="product.reduction" class="avatar-sm product-ribbon">
                 <span class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
               </div>
-              <router-link :to="`/product-detail?id=${product.good_id}`" tag="a">
+              <a :href="`/product-detail?id=${product.good_id}`">
                 <b-skeleton-img v-if="loading.products" />
-                <img :src="`${product.image}`" alt class="img-fluid mx-auto d-block"/>
-              </router-link>
+                <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
+              </a>
             </div>
             <div class="row"></div>
             <b-card-title>

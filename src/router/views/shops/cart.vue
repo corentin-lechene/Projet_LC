@@ -61,7 +61,7 @@ export default {
       let promise = sendGetDataTable('carts-customer', 39);
       promise.then((res) => {
         if (!validRequest(res)) {
-          console.log(res);
+          this.getCarts();
           this.carts = res.result;
           for (let i = 0; i < res.result.length; i++) {
             for (const [key, val] of Object.entries(res.result[i])) {
@@ -247,5 +247,4 @@ export default {
 
   </Layout>
 </template>
-
 

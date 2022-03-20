@@ -248,10 +248,10 @@ export default {
               <div v-if="service.reduction" class="avatar-sm product-ribbon">
                 <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
               </div>
-              <router-link :to="`/service-detail?id=${service.id}`" tag="a">
+              <a :href="`/product-detail?id=${service.service_id}`">
                 <b-skeleton-img v-if="loading.services" />
                 <img :src="`${service.image}`" alt class="img-fluid mx-auto d-block"/>
-              </router-link>
+              </a>
             </div>
             <div class="row"></div>
             <b-card-title>
