@@ -17,7 +17,7 @@ export default {
            {key: 'company', label: 'Company', sortable: true},
            {key: 'user_id', label: 'ID', sortable: true},
            {key: 'actions', label: 'Actions'}],
-         modals: {info: 'info', update: 'update', delete: 'delete'}
+         modals: {info: 'CompanyDetail', update: 'update', delete: 'delete'}
        },
        goods: {
          hash: '#goods',
@@ -96,7 +96,7 @@ export default {
            {key: 'mail', label: 'Email', sortable: true},
            {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
            {key: 'actions', label: 'Actions'}],
-         modals: {info: 'UserDetail', update: 'update', delete: 'delete'}
+         modals: {info: 'SellerDetail', update: 'update', delete: 'delete'}
        },
      }
 

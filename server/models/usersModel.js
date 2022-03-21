@@ -13,7 +13,7 @@ export const getUsers = (result) => {
 }
 
 export const getUsersByCompanyId = (id, result) => {
-    db.query("SELECT * FROM users INNER JOIN companies c on users.user_id = c.user_id WHERE company_id = ? ORDER BY user_id DESC", [id], (err, results) => {
+    db.query("SELECT * FROM users INNER JOIN companies c on users.user_id = c.user_id WHERE company_id = ? ORDER BY users.user_id DESC", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

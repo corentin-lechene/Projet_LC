@@ -1,7 +1,3 @@
-
-
-
-
 <script>
 
 import {sendGetDataTable} from "@/components/requests-bdd";
