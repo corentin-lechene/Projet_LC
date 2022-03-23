@@ -56,8 +56,8 @@ export const insertCarts_services = (data, result) => {
             db.query("INSERT INTO carts(customer_id) VALUES(?)", [data.customer_id], (err, resultsCarts) => {
                 if (err) {
                     result({error: true, reason: err});
-                } else if (resultsCarts[0].insertId) {
-                    db.query("INSERT INTO carts_service(cart_id, cart_quantity, service_id) VALUES(?, 1, ?)", [resultsCarts[0].insertId, data.service_id], (err, results) => {
+                } else if (resultsCarts !== undefined) {
+                    db.query("INSERT INTO carts_service(cart_id, cart_quantity, service_id) VALUES(?, 1, ?)", [resultsCarts.insertId, data.service_id], (err, results) => {
                         if (err) {
                             result({error: true, reason: err});
                         } else {

@@ -1,7 +1,7 @@
 // import connection
 import db/*, {generatePassword}*/ from "../config/database.js";
 //import {generateToken} from "../my-functions.js";
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 
 // Get All Customers
 export const getCustomers = (result) => {
@@ -53,28 +53,7 @@ export const insertCustomers = (data, result) => {
                             result({error: true, reason: err});
                         } else {
 
-                            let transporter = nodemailer.createTransport({
-                                service: `${process.env.VUE_APP_MAIL_SERVICE}`,
-                                auth: {
-                                    user: `${process.env.VUE_APP_MAIL_USER}`,
-                                    pass: `${process.env.VUE_APP_MAIL_PWD}`
-                                }
-                            });
 
-                            let mailOptions = {
-                                from: `${process.env.VUE_APP_MAIL_USER}`,
-                                to: data.mail,
-                                subject: "Inscription à LoyalyCard",
-                                text: `Bonjour ${data.firstname},\nUn compte a été créé par votre entreprise.\nVos identifiants: \nemail: ${data.mail}\nmot de passe: ${password}.`,
-                            };
-
-                            transporter.sendMail(mailOptions, (err, info) => {
-                                if(err) {
-                                    console.error(err);
-                                } else {
-                                    console.log("email sent : ", info.response);
-                                }
-                            });
 
                             result({valid: true, result: "tout est ok !"});
                         }

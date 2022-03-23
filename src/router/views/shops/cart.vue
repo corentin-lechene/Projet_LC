@@ -16,36 +16,32 @@ export default {
       title: "Panier",
 
       carts: {},
-      products: [],
-      quantity: [],
       total: {
         ttc: [],
         reduction: [],
         shipping: 0,
         final: 0,
-        getTotalTTC: (quantity) => {
+        getTotalTTC: () => {
           let temp = 0;
-          if (this.total.ttc !== 0) {
-            for (let i = 0; i < this.total.ttc.length; i++) {
-              temp += this.total.ttc[i] * quantity[i];
-            }
-            return temp;
+          for (let i = 0; i < this.total.ttc.length; i++) {
+            temp += this.total.ttc[i];
           }
+          return temp.toFixed(2);
         },
         getTotalReduction: () => {
           let temp = 0;
           if (this.total.ttc !== 0) {
             for (let i = 0; i < this.total.ttc.length; i++) {
-              temp += (getReductionOf(this.total.reduction[i], this.total.ttc[i]) * this.quantity[i]);
+              temp += getReductionOf(this.total.reduction[i], this.total.ttc[i]);
             }
-            return temp;
+            return temp.toFixed(2);
           }
         },
-        getTotalFinal: (quantity) => {
-          return (this.total.getTotalTTC(quantity)).toFixed(2) - (this.total.getTotalReduction()).toFixed(2);
+        getTotalFinal: () => {
+          return ((this.total.getTotalTTC()) - (this.total.getTotalReduction())).toFixed(2);
         },
         getTotalPoints: () => {
-          let temp = this.total.getTotalFinal(this.quantity);
+          let temp = this.total.getTotalFinal();
           let total = temp * 0.3;
           for (let i = 1; i < temp / 100; i++) {
             total++;
@@ -66,21 +62,23 @@ export default {
     displayLongStr,
     getTotalReductionOf,
 
-    getCarts() {
+    getCart() {
       let promise = sendGetDataTable('carts-customer', this.CUSTOMER_ID);
       promise.then((res) => {
         if (!validRequest(res)) {
           this.total.reset();
           this.carts = res.result;
           for (let i = 0; i < res.result.length; i++) {
+            let quantity = 1;
             for (const [key, val] of Object.entries(res.result[i])) {
               if (key === 'cart_quantity')
-                this.quantity.push(val);
+                quantity = val;
               else if (key === 'reduction')
                 this.total.reduction.push(val);
               else if (key === 'price')
                 this.total.ttc.push(val);
             }
+            this.total.ttc[i] *= quantity;
           }
         }
       })
@@ -88,12 +86,15 @@ export default {
     updateCart(route, id, index) {
       let promise;
 
-      if (this.quantity[index] === 0) {
+      if (this.carts[index].cart_quantity === 0) {
         this.deleteProduct(route, id);
       } else {
-        promise = sendUpdateTable('carts_'+ route, id, {quantity: this.quantity[index]});
+        promise = sendUpdateTable('carts_'+ route, id, {quantity: this.carts[index].cart_quantity});
         promise.then((res) => {
-          console.log(res);
+          if(!validRequest(res)) {
+            this.total.reset();
+            this.getCart();
+          }
         });
       }
     },
@@ -102,13 +103,13 @@ export default {
       promise.then((res) => {
         if (res.valid) {
           this.total.reset();
-          this.getCarts();
+          this.getCart();
         }
       });
     },
   },
   created() {
-    this.getCarts();
+    this.getCart();
   }
 }
 </script>
@@ -157,12 +158,12 @@ export default {
                   <td>{{ product.price }} €</td>
                   <td>{{product.reduction}} %</td>
                   <td style="width: 150px">
-                    <b-form-spinbutton v-model="quantity[index]"
+                    <b-form-spinbutton v-model="product.cart_quantity"
                                        :min="0" vertical
                                        @change="updateCart(product.cart_name, product.cart_product_id, index)"/>
                   </td>
                   <td>
-                    {{ (getTotalReductionOf(product.reduction, product.price) * quantity[index]).toFixed(2) }} €
+                    {{ (getTotalReductionOf(product.reduction, product.price) * product.cart_quantity).toFixed(2) }} €
                   </td>
                   <td>
                     <a class="action-icon text-danger" href="javascript:void(0);">
@@ -200,11 +201,11 @@ export default {
                     <tbody>
                     <tr>
                       <td>Total TTC :</td>
-                      <td>{{ (total.getTotalTTC(quantity)).toFixed(2) }} €</td>
+                      <td>{{ (total.getTotalTTC()) }} €</td>
                     </tr>
                     <tr>
                       <td>Réduction :</td>
-                      <td>- {{ (total.getTotalReduction()).toFixed(2) }} €</td>
+                      <td>- {{ (total.getTotalReduction())}} €</td>
                     </tr>
                     <tr>
                       <td>Frais de port :</td>
@@ -214,7 +215,7 @@ export default {
                     </tbody>
                     <tr>
                       <th>Total :</th>
-                      <th>{{ (total.getTotalFinal(quantity)).toFixed(2) }} €</th>
+                      <th>{{ (total.getTotalFinal()) }} €</th>
                     </tr>
                   </table>
                 </div>

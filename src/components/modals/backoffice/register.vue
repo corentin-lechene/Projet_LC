@@ -14,18 +14,27 @@ export default {
   },
   data() {
     return {
-      data: {},
+      values: [null],
       forms,
+      currentForms: {},
     };
   },
   methods: {
     addTable(table, values) {
-      let promise = sendInsertTable(table, createObject(this.forms[this.route], values));
+      let promise = sendInsertTable(table, createObject(this.forms, values));
       promise.then((res) => {
         if (!validRequest(res))
           console.log(res.result);
       });
-      this.$route.params.refresh = '1';
+    }
+  },
+  created() {
+    this.currentForms = forms[this.route];
+    const temp = this.currentForms;
+    for (const key in temp) {
+      if(typeof temp[key].onCreate !== "undefined") {
+        temp[key].onCreate(this.route);
+      }
     }
   }
 }
@@ -33,35 +42,35 @@ export default {
 
 <template>
   <div>
-    <b-form @submit.prevent="addTable(route, data)">
-      <div class="row">
-        <b-form-group v-for="form in forms[route]" :key="form.id" class="col-lg-4">
-          <label>{{ form.title }} : </label>
-          <div v-if="form.type === 'select'">
-            <b-form-select
-                v-model="data[form.id]"
-                :options="form.options"
-                :value="null"
-            />
-          </div>
+    <b-container>
+      <b-row align-h="center">
+        <b-col cols="5">
+          <b-img :src="require(`@/assets/images/form-wizard-1.jpg`)" alt="img" fluid-grow/>
+        </b-col>
+        <b-col cols="7">
+          <b-row align-h="center">
+            <h1>Registration</h1>
 
-          <div v-else>
-            <b-form-input
-                v-model="data[form.id]"
-                class="form-control"
-                :type="form.type"
-                :value="null"
-            />
-          </div>
-        </b-form-group>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="text-right">
-            <b-button type="submit" variant="success" @click="$refs['register'].hide()">Ajouter {{data[0]}}</b-button>
-          </div>
-        </div>
-      </div>
-    </b-form>
+            <b-form-row>
+              <b-form-group v-for="form in currentForms" :key="form.id" class="col-12">
+                <label>{{ form.label }}</label>
+                <b-form-select v-if="form.type === 'select'" v-model="values[0]" :value="null" :options="form.options"/>
+                <b-form-textarea v-else-if="form.type === 'textarea'" :placeholder="form.placeHolder" :rows="form.rows" :max-rows="form.max_rows"/>
+                <b-form-file v-else-if="form.type === 'file'" :placeholder="form.placeHolder" :accept="form.accept" :browse-text="form.browse_text"/>
+                <b-form-input v-else :type="form.type" :placeholder="form.placeHolder"/>
+              </b-form-group>
+            </b-form-row>
+          </b-row>
+        </b-col>
+
+      </b-row>
+    </b-container>
   </div>
 </template>
+
+<style scoped>
+.form-control, .custom-select {
+  border: none;
+  border-bottom: 2px solid #2a3042;
+}
+</style>

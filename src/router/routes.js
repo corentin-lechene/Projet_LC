@@ -88,6 +88,13 @@ export default [
     component: () => import('./views/shops/checkout')
   },
   {
+    path: '/checkout-succeed',
+    name: 'Checkout succeed',
+    meta: {
+    },
+    component: () => import('./views/shops/checkout-succeed')
+  },
+  {
     path: '/admin',
     name: 'Back-Office',
     meta: {
@@ -120,6 +127,14 @@ export default [
   },
 
   //Errors
+  {
+    path: '/maintenance',
+    name: 'Maintenance',
+    meta : {
+      title: 'Maintenance',
+    },
+    component: () => import('./views/errors/maintenance')
+  },
   {
     path: '/500',
     name: 'InternetServerError',

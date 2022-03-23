@@ -57,7 +57,7 @@ export default {
       lineItems: [],
 
       loading: false,
-      successURL: 'http://localhost:8081/checkoutsucced',
+      successURL: 'http://localhost:8081/checkout-succeed',
       cancelURL: 'http://localhost:8081/checkout',
 
       stateValue: null,

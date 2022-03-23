@@ -1,15 +1,22 @@
 /* Global */
 
 function getUrl(table, id = false) {
-    return `${process.env.VUE_APP_API_ADDRESS}/${table}${parseInt(id) ? `/${parseInt(id)}` : ``}`;
+    id = !id ? '' : '/'+ parseInt(id);
+    return `${process.env.VUE_APP_API_ADDRESS}/${table}${id}`;
 }
 
 export function sendGetDataTable(table, id = false) {
     let url = getUrl(table, id);
     return fetch(url)
-        .then(response => response.json())
-        .then((json) => { return json; })
-        .catch((err) => { console.error("err: fetch", err); });
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Something went wrong');
+        }).then((json) => { return json; })
+        .catch((err) => {
+            console.error("My Error: [fetch]", err);
+        });
 }
 
 export function sendInsertTable(table, body) {
@@ -22,7 +29,7 @@ export function sendInsertTable(table, body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => { console.error("err: fetch", err); });
+        .catch((err) => {  console.error("My Err : [fetch]", err); });
 }
 
 export function sendDeleteTable(table, id) {
@@ -30,7 +37,7 @@ export function sendDeleteTable(table, id) {
     return fetch(url, {method: 'delete'})
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => { console.error("err: fetch", err); });
+        .catch((err) => {  console.error("My Err : [fetch]", err); });
 }
 
 export function sendUpdateTable(table, id, body) {
@@ -43,7 +50,7 @@ export function sendUpdateTable(table, id, body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => { console.error("err: fetch", err); });
+        .catch((err) => {  console.error("My Err : [fetch]", err); });
 }
 
 
@@ -59,7 +66,7 @@ export function sendGetUserByToken() {
         return fetch(url, headers)
             .then(response => response.json())
             .then((json) => { return json; })
-            .catch((err) => { console.error("err: fetch", err); });
+            .catch((err) => {  console.error("My Err : [fetch]", err); });
     } else {
         console.error("error token not found");
     }
@@ -75,6 +82,6 @@ export function sendGetUserByLogin(body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => { console.error("err: fetch", err); });
+        .catch((err) => {  console.error("My Err : [fetch]", err); });
 }
 

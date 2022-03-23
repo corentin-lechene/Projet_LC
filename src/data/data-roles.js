@@ -15,11 +15,11 @@ const services = {link: '#services', name: 'Services', icon: 'bxs-plane-alt'};
 const categories = {link: '#categories', name: 'Categories', icon: 'bx bx-list-ul'};
 const catalogues = {link: '#catalogues', name: 'Catalogues', icon: 'bx bx-food-menu'}
 
-const role = {
+const roles = {
     customers: [profile, orders, settings],
     sellers: [dashboard, profile, goods, services, orders, settings],
     companies: [profile, customers, settings],
     staffs: [profile, users, companies, sellers, goods, services, warehouses, categories, catalogues, settings],
     admin: [profile, users, companies, sellers, goods, services, warehouses, categories, catalogues, logs, settings]
 };
-export default role;
+export default roles;

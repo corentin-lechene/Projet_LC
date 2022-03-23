@@ -5,7 +5,7 @@ import PageHeader from "@/components/page-header";
 
 
 import {sendGetDataTable} from "@/components/requests-bdd";
-import {validRequest} from "@/components/my-functions";
+import {preventingErrorSQL, validRequest} from "@/components/my-functions";
 
 /**
  * Dashboard Component
@@ -34,11 +34,13 @@ export default {
     getGoods() {
       let promise = sendGetDataTable('goods');
       promise.then((res) => {
-        if (!validRequest(res)) {
-          this.products = res.result.slice(0, 3);
-          setTimeout(() => {
-            this.loading.products = false;
-          }, 750);
+        if(!preventingErrorSQL(res)) {
+          if (!validRequest(res)) {
+            this.products = res.result.slice(0, 3);
+            setTimeout(() => {
+              this.loading.products = false;
+            }, 750);
+          }
         }
       })
     },
