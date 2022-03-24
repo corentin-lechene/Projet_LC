@@ -1,30 +1,51 @@
 <script>
 
+
+import {sendGetDataTable} from "@/components/requests-bdd";
+
 export default {
   name: "maintenance",
+  data() {
+    return {
+      route: null,
+    };
+  },
+  methods: {
+    tryToConnect() {
+      const user = sendGetDataTable('users', -1);
+      user.then((res) => {
+        if(res === -1) {
+          this.$router.push('/maintenance');
+        } else {
+          this.$router.push('/');
+        }
+      })
+    }
+
+  },
 }
 </script>
 
 <template>
   <div>
     <div class="home-btn d-none d-sm-block">
-      <router-link tag="a" to="/" class="text-dark">
+      <b-button @click="tryToConnect" style="background-color: transparent; border: none">
         <i class="fas fa-home h2"></i>
-      </router-link>
+      </b-button>
     </div>
-    <section class="my-5 pt-5">
+    <section class="my-5 pt-2">
       <div class="container">
         <div class="row">
           <div class="col-12 text-center">
             <div class="home-wrapper">
               <div class="mb-5">
-                <img src="@/assets/images/logolc.png" alt="logo"/>
+                <b-img :src="require(`@/assets/images/logolc.svg`)" alt="img" fluid height="100" width="100"/>
               </div>
 
               <div class="row justify-content-center">
                 <div class="col-sm-4">
                   <div class="maintenance-img">
-                    <img src="@/assets/images/maintenance.png" alt class="img-fluid mx-auto d-block" />
+                    <img alt class="img-fluid mx-auto d-block" src="@/assets/images/maintenance.png"/>
                   </div>
                 </div>
               </div>
@@ -65,8 +86,8 @@ export default {
                         If you are going to use a passage of Lorem
                         Ipsum, you need to be sure there isn't anything embar..
                         <a
-                            href="mailto:no-reply@domain.com"
                             class="text-decoration-underline"
+                            href="mailto:no-reply@domain.com"
                         >no-reply@domain.com</a>
                       </p>
                     </div>

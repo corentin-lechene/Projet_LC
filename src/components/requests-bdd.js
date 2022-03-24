@@ -14,9 +14,7 @@ export function sendGetDataTable(table, id = false) {
             }
             throw new Error('Something went wrong');
         }).then((json) => { return json; })
-        .catch((err) => {
-            console.error("My Error: [fetch]", err);
-        });
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
 
 export function sendInsertTable(table, body) {
@@ -29,7 +27,7 @@ export function sendInsertTable(table, body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => {  console.error("My Err : [fetch]", err); });
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
 
 export function sendDeleteTable(table, id) {
@@ -37,7 +35,7 @@ export function sendDeleteTable(table, id) {
     return fetch(url, {method: 'delete'})
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => {  console.error("My Err : [fetch]", err); });
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
 
 export function sendUpdateTable(table, id, body) {
@@ -50,7 +48,7 @@ export function sendUpdateTable(table, id, body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => {  console.error("My Err : [fetch]", err); });
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
 
 
@@ -66,7 +64,7 @@ export function sendGetUserByToken() {
         return fetch(url, headers)
             .then(response => response.json())
             .then((json) => { return json; })
-            .catch((err) => {  console.error("My Err : [fetch]", err); });
+            .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
     } else {
         console.error("error token not found");
     }
@@ -82,6 +80,6 @@ export function sendGetUserByLogin(body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
-        .catch((err) => {  console.error("My Err : [fetch]", err); });
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
 
