@@ -19,17 +19,21 @@ export function preserve(data) {
 
 export function generatePassword(data = false) {
     let pass = '';
-    let str = data || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$';
+    let str = data || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     for (let i = 1; i <= 8; i++) {
         const char = Math.floor(Math.random() * str.length + 1);
         pass += str.charAt(char)
     }
+    pass = '2a'+ pass;
+    pass = pass +'*Z';
+
     return {
         pwd_visible: pass,
         pwd_hash: sha512(pass)
     };
 }
+
 
 export function encodeToken(data) {
     return data.token || jsonwebtoken.sign(

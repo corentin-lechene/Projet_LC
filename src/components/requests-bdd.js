@@ -82,4 +82,3 @@ export function sendGetUserByLogin(body) {
         .then((json) => { return json; })
         .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
-

@@ -3,10 +3,12 @@ import {createValue} from "@/components/my-functions";
 
 async function createSelect(route, attribute, placeHolder) {
     const res = await sendGetDataTable(route);
-    let b = createValue(res.result, [attribute]);
+    let b = createValue(res.result, attribute);
     for (let i = 0; i < b.length; i++) {
-        b[i].text = b[i][attribute];
-        delete b[i][attribute];
+        b[i].value = b[i][attribute[0]];
+        delete b[i][attribute[0]];
+        b[i].text = b[i][attribute[1]];
+        delete b[i][attribute[1]];
     }
     b.unshift({value: null, text: placeHolder, disabled: true});
     return b;
@@ -18,8 +20,8 @@ const mail = {label: "Email", placeHolder: "Saisir l'email", type: "email"};
 const address = {label: 'Adresse', placeHolder: "Saisir l'adresse", type: 'textarea', rows: 2, max_rows: 4};
 const phone = {label: "Téléphone", placeHolder: "Saisir le numéro de téléphone", type: "tel"};
 
-const companies = {label: "Nom de l'entreprise", placeHolder: "Choisir l'entreprise", type: "select", options: [] , onCreate: async (route) => { forms[route].companies.options = await createSelect('companies', 'company', companies.placeHolder) }};
-const sellers = {label: "Nom du vendeur", placeHolder: "Choisir le vendeur", type: "select", options: [] , onCreate: async (route) => { forms[route].sellers.options = await createSelect('sellers', 'company', sellers.placeHolder) }};
+const companies = {label: "Nom de l'entreprise", placeHolder: "Choisir l'entreprise", type: "select", options: [] , onCreate: async (route) => { forms[route].companies.options = await createSelect('companies', ['company_id', 'company'], companies.placeHolder) }};
+const sellers = {label: "Nom du vendeur", placeHolder: "Choisir le vendeur", type: "select", options: [] , onCreate: async (route) => { forms[route].sellers.options = await createSelect('sellers', ['seller_id', 'company'], sellers.placeHolder) }};
 
 const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};
 const nameGood = {label: 'Nom du produit', placeHolder: "Saisir le nom du produit", type: 'text'};
@@ -28,9 +30,9 @@ const nameCategory = {label: 'Nom de la catégorie', placeHolder: "Saisir le nom
 const nameCatalogue = {label: 'Nom de la catalogue', placeHolder: "Saisir le nom du catalogue", type: 'text'};
 
 const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"};
-const status = {label: "Status", type: "select", options: [{value: null, text: "Saisir le status", disabled: true}, {text: "Biens"}, {text: "Services"}, {text: "Biens et services"}]};
-const categories = {label: 'Type de catégorie', type: 'select', options: [{value: null, text: "Saisir le type de catégorie", disabled: true}, {text: "Produits"}, {text: "Services"}]};
-const catalogues = {label: 'Type de catalogue', type: 'select', options: [{value: null, text: "Saisir le type de catalogue", disabled: true}, {text: "Produits"}, {text: "Services"}]};
+const status = {label: "Status", type: "select", options: [{value: null, text: "Saisir le status", disabled: true}, {value: 'biens', text: "Biens"}, {value: 'services', text: "Services"}, {value: 'biens et services', text: "Biens et services"}]};
+const categories = {label: 'Type de catégorie', type: 'select', options: [{value: null, text: "Saisir le type de catégorie", disabled: true}, {value: 'goods', text: "Produits"}, {value: 'services', text: "Services"}]};
+const catalogues = {label: 'Type de catalogue', type: 'select', options: [{value: null, text: "Saisir le type de catalogue", disabled: true}, {value: 'goods', text: "Produits"}, {value: 'services', text: "Services"}]};
 
 const description = {label: 'Description', placeHolder: "Saisir la description", type: 'textarea', rows: 3, max_rows: 6};
 const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
@@ -50,7 +52,6 @@ const forms = {
     catalogues: {nameCatalogue, catalogues},
 
     warehouses: {address, phone},
-
 }
 
 export default forms;

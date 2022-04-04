@@ -18,9 +18,10 @@ export default {
   },
   methods: {
 
-    getUsers(table, id) {
-      let promise = sendGetDataTable(table, id);
+    getUsers() {
+      let promise = sendGetDataTable('users', this.user_id);
       promise.then((res) => {
+        console.log(res);
         if (!validRequest(res)) {
           this.user = res.result;
           // this.loading = false;
@@ -29,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    this.getUsers('users', this.user_id);
+    this.getUsers();
     setTimeout(() => {this.loading = false;}, 500);
   }
 };

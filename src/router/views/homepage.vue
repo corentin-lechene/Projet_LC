@@ -106,7 +106,7 @@ export default {
                   </div>
                   <router-link tag="a" :to="`/product-detail?id=${product.good_id}`">
                     <b-skeleton-img v-if="loading.products"/>
-                    <img v-if="!loading.products" :src="product.image" alt class="img-fluid mx-auto d-block"/>
+                    <b-img :src="require(`@/assets/images/product/${product.image}`)" fluid alt="img" />
                   </router-link>
                 </div>
                 <div class="row"></div>

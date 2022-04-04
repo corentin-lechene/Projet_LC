@@ -1,5 +1,5 @@
 // import connection
-import db, {generatePassword} from "../config/database.js";
+import db, {encodeToken, generatePassword} from "../config/database.js";
 
 
 // Get All Companies
@@ -26,20 +26,46 @@ export const getCompaniesById = (id, result) => {
 
 // Insert Companies to Database
 export const insertCompanies = (data, result) => {
-    const password = generatePassword();
-    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'companies')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else if (results.insertId) {
-            db.query("INSERT INTO companies(company, user_id) VALUES(?, ?)", [data.company, results.insertId], (err, results) => {
-                if (err) {
+    db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
+        if(err) {
+            result(err);
+        } else if(resultsEmail[0]) {
+            result({valid: false, result: "Email already used"});
+        } else {
+            db.query("SELECT company_id FROM companies WHERE company = ?", [data.nameCompany], (err, resultCompany) => {
+                if(err) {
                     result({error: true, reason: err});
+                } else if(resultCompany[0]) {
+                    result({valid: false, result: "Company already created"});
                 } else {
-                    result({valid: true, result: results[0]});
+                    const password = generatePassword();
+                    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'companies')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
+                        if (err) {
+                            result({error: true, reason: err});
+                        } else if (resultsUsers.insertId) {
+                            const user_id = resultsUsers.insertId;
+                            const token = encodeToken({user_id: user_id, role: data.role});
+                            db.query("UPDATE users set token = ? WHERE user_id = ?", [token, user_id], (err) => {
+                                if(err) {
+                                    result({error: true, reason: err});
+                                } else {
+                                    db.query("INSERT INTO companies(company, user_id) VALUES(?, ?)", [data.nameCompany, user_id], (err, results) => {
+                                        if (err) {
+                                            result({error: true, reason: err});
+                                        } else if(results.insertId) {
+                                            result({valid: true, result: "OK"});
+                                        } else {
+                                            result({valid: false, result: results});
+                                        }
+                                    })
+                                }
+                            });
+                        }
+                    });
                 }
-            })
+            });
         }
-    });
+    })
 }
 
 // Update Companies to Database

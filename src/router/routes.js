@@ -13,11 +13,6 @@ export default [
     component: () => import('./views/account/login'),
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('./views/account/register'),
-  },
-  {
     path: '/forgot-password',
     name: 'Forgot password',
     component: () => import('./views/account/forgot-password'),

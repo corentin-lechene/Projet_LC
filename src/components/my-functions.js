@@ -19,7 +19,7 @@ function validRequest(result) {
         return true;
     }
     if (!result.valid) {
-        console.error("My Error: ", result.reason);
+        console.error("My Error: ", result.result);
         return true;
     }
     return false;

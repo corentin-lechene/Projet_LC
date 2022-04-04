@@ -1,5 +1,6 @@
 // import connection
 import db, {preserve, encodeToken, decodeToken} from "../config/database.js";
+import {sha512} from "js-sha512";
 
 // Get All Users
 export const getUsers = (result) => {
@@ -35,7 +36,7 @@ export const getUsersForStaffs = (result) => {
 
 // Get Single Users
 export const getUsersById = (id, result) => {
-    db.query("SELECT * FROM users WHERE user_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM users INNER JOIN customers c on users.user_id = c.user_id INNER JOIN cards c2 on c.card_id = c2.card_id INNER JOIN companies c3 on c.company_id = c3.company_id WHERE users.user_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -46,7 +47,7 @@ export const getUsersById = (id, result) => {
 
 // Login User
 export const getUsersByLogIn = (email, password, result) => {
-    db.query("SELECT * FROM users WHERE mail = ? AND password = ?", [email, password], (err, resultsLogin) => {
+    db.query("SELECT * FROM users WHERE mail = ? AND password = ?", [email, sha512(password)], (err, resultsLogin) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -72,21 +73,18 @@ export const getUserByToken = (token, result) => {
     db.query("SELECT user_id FROM users WHERE token = ?", [token], (err, resultsToken) => {
         if(err) {
             result({error: true, reason: err});
+        } else if (!resultsToken[0]) {
+            result({valid: false, reason: "token invalid"});
         } else {
-                if(!resultsToken[0]) {
-                    result({valid: false, reason: "token invalid"});
+            const data = decodeToken(token);
+            const role = preserve(data.role);
+            db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
                 } else {
-                    const data = decodeToken(token);
-                    const role = preserve(data.role);
-                    db.query("SELECT * FROM users u INNER JOIN "+ role +" s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
-                        if(err) {
-                            result({error: true, reason: err});
-                        } else {
-                            result({valid: true, result: results[0]});
-                        }
-                    })
+                    result({valid: true, result: results[0]});
                 }
-
+            })
         }
     });
 }
