@@ -1,5 +1,6 @@
 // import connection
 import db, {encodeToken, generatePassword} from "../config/database.js";
+import {sendEmail} from "../mails/mails.js";
 
 
 // Get All Companies
@@ -53,6 +54,17 @@ export const insertCompanies = (data, result) => {
                                         if (err) {
                                             result({error: true, reason: err});
                                         } else if(results.insertId) {
+                                            const templateRegister = `
+                                                <h3>Bonjour ${data.firstname},</h3>
+                                                <p>Notre administration a créé un compte avec votre email.</p>
+                                                <p>Pour vous connecter, voici vos identifiants.</p>
+                                                <p>Email : ${data.mail}</p>    
+                                                <p>Email : ${password.pwd_visible}</p> 
+                                                <p>Vous pouvez vous connecter <a href="http://localhost:8081/login">ici</a></p>
+                                                <p>Cordialement</p>
+                                                <p><u>LoyaltyCard</u></p>
+                                            `; //FIXME changer l'adresse du lien
+                                            sendEmail(data.mail, "Inscription sur LoyaltyCard", templateRegister);
                                             result({valid: true, result: "OK"});
                                         } else {
                                             result({valid: false, result: results});
