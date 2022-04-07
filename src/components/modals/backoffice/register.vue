@@ -5,6 +5,15 @@ import forms from "@/data/data-forms";
 import {sendInsertTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
 
+const base64Encode = data =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(data);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+
 export default {
   props: {
     route: {
@@ -26,13 +35,12 @@ export default {
     reload(i) {
       document.getElementById(`error_${i}`).innerHTML = "";
     },
-    addTable() {
+    async addTable() {
       this.add = true;
       let error = false;
       let i = 0;
-      console.log(this.values);
       for (const valuesKey in this.values) {
-        if(this.values[valuesKey] === null || this.values[valuesKey] === "") {
+        if (this.values[valuesKey] === null || this.values[valuesKey] === "") {
           document.getElementById(`error_${i}`).innerHTML = " Ne peut être vide !";
           error = true;
         } else {
@@ -41,7 +49,28 @@ export default {
         i++;
       }
 
-      if(!error) {
+      for (const key in this.values) {
+        if (key === 'file') {
+          if (this.values[key] !== null && this.values[key].size > 1024 * 1024) {
+            this.error = "Image size not accepted";
+          } else if (this.values[key] !== null && this.values[key][0] !== null) {
+            const base = await base64Encode(this.values[key]);
+            let t = [];
+            let min = 0, max = 512;
+            for (let j = 0; j < base.length / 512; j++) {
+              t.push(base.slice(min, max))
+              min += 512;
+              max += 512;
+            }
+            const name = this.values[key].name;
+            this.values[key] = t;
+            this.values[key].unshift(name);
+          }
+        }
+      }
+
+
+      if (!error) {
         const promise = sendInsertTable(this.route, this.values);
         promise.then((res) => {
           console.log(res);
@@ -59,7 +88,7 @@ export default {
     this.currentForms = forms[this.route];
     const temp = this.currentForms;
     for (const key in temp) {
-      if(typeof temp[key].onCreate !== "undefined") {
+      if (typeof temp[key].onCreate !== "undefined") {
         temp[key].onCreate(this.route);
       }
     }
@@ -69,6 +98,8 @@ export default {
     }
 
     console.log(this.route); //TODO enlever cette ligne
+    console.log(this.currentForms); //TODO enlever cette ligne
+    console.log(this.values); //TODO enlever cette ligne
   },
 }
 </script>
@@ -77,7 +108,7 @@ export default {
   <div>
     <b-container>
       <b-row align-h="center">
-        <b-col cols="5" class="my-5 py-4">
+        <b-col class="my-5 py-4" cols="5">
           <b-img :src="require(`@/assets/images/form-wizard-1.jpg`)" alt="img" fluid-grow/>
         </b-col>
         <b-col cols="7">
@@ -85,19 +116,20 @@ export default {
             <h1 class="mb-3 pt-3">Registration</h1>
 
             <b-form-row>
-              <b-alert v-if="error" variant="danger" class="mt-3" dismissible show>{{error}}</b-alert>
+              <b-alert v-if="error" class="mt-3" dismissible show variant="danger">{{ error }}</b-alert>
               <b-form-group v-for="(form, index, i) in currentForms" :key="index" class="col-12">
-                <label>{{ form.label }}* <span :id="`error_${i}`" class="text-danger font-italic"> Ne peut être vide !</span></label>
-                <b-form-select v-if="form.type === 'select'" v-model="values[index]" @keydown="reload(i)"
-                               :options="form.options" :value="null"/>
-                <b-form-textarea v-else-if="form.type === 'textarea'" v-model="values[index]" @keydown="reload(i)"
-                                 :placeholder="form.placeHolder" :rows="form.rows" :max-rows="form.max_rows"/>
-                <b-form-file v-else-if="form.type === 'file'" v-model="values[index]" @keydown="reload(i)"
-                             :placeholder="form.placeHolder" :accept="form.accept" :browse-text="form.browse_text"/>
-                <b-form-input v-else :type="form.type" v-model="values[index]" @keydown="reload(i)"
-                              :placeholder="form.placeHolder"/>
+                <label>{{ form.label }}* <span :id="`error_${i}`"
+                                               class="text-danger font-italic"> Ne peut être vide !</span></label>
+                <b-form-select v-if="form.type === 'select'" v-model="values[index]" :options="form.options"
+                               :value="null" @keydown="reload(i)"/>
+                <b-form-textarea v-else-if="form.type === 'textarea'" v-model="values[index]" :max-rows="form.max_rows"
+                                 :placeholder="form.placeHolder" :rows="form.rows" @keydown="reload(i)"/>
+                <b-form-file v-else-if="form.type === 'file'" v-model="values[index]" :accept="form.accept"
+                             :browse-text="form.browse_text" :placeholder="form.placeHolder" @keydown="reload(i)"/>
+                <b-form-input v-else v-model="values[index]" :placeholder="form.placeHolder" :type="form.type"
+                              @keydown="reload(i)"/>
               </b-form-group>
-              <b-button variant="success" class="mx-3" block @click="addTable">Add</b-button>
+              <b-button block class="mx-3" variant="success" @click="addTable">Add</b-button>
             </b-form-row>
           </b-row>
         </b-col>

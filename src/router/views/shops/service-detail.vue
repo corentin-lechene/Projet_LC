@@ -99,36 +99,22 @@ export default {
                       <b-tab>
                         <b-skeleton-img v-if="loading.serviceDetail" />
                         <template v-slot:title>
-                          <img
-                              v-if="!loading.serviceDetail"
-                              :src="serviceDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
+                          <b-img v-if="!loading.serviceDetail"
+                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <img
-                              v-if="!loading.serviceDetail"
-                              :src="serviceDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
+                          <b-img v-if="!loading.serviceDetail"
+                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
                         <template v-slot:title>
-                          <img
-                              :src="serviceDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block tab-img rounded"
-                          />
+                          <b-img v-if="!loading.serviceDetail"
+                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <img
-                              :src="serviceDetail.image"
-                              alt
-                              class="img-fluid mx-auto d-block"
-                          />
+                          <b-img v-if="!loading.serviceDetail"
+                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>

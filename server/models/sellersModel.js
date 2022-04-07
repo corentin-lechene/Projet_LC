@@ -50,7 +50,7 @@ export const insertSellers = (data, result) => {
                                 if (err) {
                                     result({error: true, reason: err});
                                 } else {
-                                    db.query("INSERT INTO sellers(status, company, user_id) VALUES(?, ?, ?)", [data.status, data.company, user_id], (err, results) => {
+                                    db.query("INSERT INTO sellers(status, company, user_id) VALUES(?, ?, ?)", [data.status, data.nameCompany, user_id], (err, results) => {
                                         if (err) {
                                             result({error: true, reason: err});
                                         } else if (results.insertId) {

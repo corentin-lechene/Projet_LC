@@ -219,7 +219,7 @@ export default {
                 <b-skeleton v-for="i in 4" :key="i"/>
               </div>
               <ul v-if="!loading.categories" class="list-unstyled product-list">
-                <li v-for="categoryService in categoryServices" :key="categoryService.category_service_id">
+                <li v-for="(categoryService, i) in categoryServices" :key="i">
                   <a href="javascript: void(0);"
                      @click="setFilterBy('category_id', categoryService.category_service_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryService.title }}
@@ -276,8 +276,7 @@ export default {
                     <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
                   <router-link :to="`/service-detail?id=${service.service_id}`" tag="a">
-                    <img v-if="service.image && !loading.services" :src="service.image" alt class="img-fluid mx-auto d-block"/>
-                    <img v-else-if="!loading.services" alt class="img-fluid mx-auto d-block" src="../../../assets/images/no_img.png"/>
+                    <b-img v-if="service.image && !loading.services" :src="require(`@/assets/images/product/${service.image}`)" fluid alt="img" />
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">

@@ -217,7 +217,7 @@ export default {
                 <b-skeleton v-for="i in 4" :key="i"/>
               </div>
               <ul v-if="!loading.products" class="list-unstyled product-list">
-                <li v-for="categoryGood in categoryGoods" :key="categoryGood.category_id">
+                <li v-for="(categoryGood, i) in categoryGoods" :key="i">
                   <a href="javascript: void(0);" @click="setFilterBy('category_id', categoryGood.category_id)">
                     <i class="mdi mdi-chevron-right mr-1"></i> {{ categoryGood.title }}
                   </a>
@@ -264,7 +264,7 @@ export default {
           <div v-if="products.length === 0">
             Aucun produit trouvé
           </div>
-          <div v-for="product in (products || 9)" :key="product.good_id" class="col-sm-12 col-md-6 col-xl-4">
+          <div v-for="product in products" :key="product.good_id" class="col-sm-12 col-md-6 col-xl-4">
             <div class="card">
               <div class="card-body">
                 <div class="product-img position-relative">
