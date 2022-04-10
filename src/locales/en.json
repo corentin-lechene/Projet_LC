@@ -17,7 +17,7 @@
 
   "nav-bar": {
     "cart": {
-      "fidelity_card": "Ma loyalty card"
+      "loyalty-card": "Ma loyalty card"
     },
     "profile": {
       "text": "My profile",
