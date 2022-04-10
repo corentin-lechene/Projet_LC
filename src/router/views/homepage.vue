@@ -23,6 +23,7 @@ export default {
       title: "Accueil",
       products: {},
       services: {},
+      catalogues: {},
       loading: {
         products: true,
         services: true,
@@ -55,11 +56,20 @@ export default {
         }
       })
     },
+    getCatalogues() {
+      let promise = sendGetDataTable('catalogues');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.catalogues = res.result;
+          setTimeout(() => {this.loading.slider = false}, 750);
+        }
+      })
+    },
   },
   mounted() {
     this.getGoods();
     this.getServices();
-    setTimeout(() => {this.loading.slider = false}, 750);
+    this.getCatalogues();
   },
   created() {
     if (this.$route.params.notification) {
@@ -82,9 +92,7 @@ export default {
         <div class="card">
           <div class="card-body">
             <b-carousel controls>
-              <b-skeleton-img v-if="loading.slider"/>
-              <b-carousel-slide v-if="!loading.slider" :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
-              <b-carousel-slide v-if="!loading.slider" :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
+              <b-carousel-slide v-for="catalogue in catalogues" :key="catalogue.id" :img-src="require(`@/assets/images/catalogues/${catalogue.image}`)" />
             </b-carousel>
           </div>
         </div>

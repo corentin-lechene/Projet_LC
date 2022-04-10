@@ -1,5 +1,5 @@
 // import connection
-import db from "../config/database.js";
+import db, {getValueImage} from "../config/database.js";
 import fs from 'fs-extra';
 
 // Get All Goods
@@ -41,28 +41,20 @@ export const insertGoods = (data, result) => {
         result({valid: false, result: "Price cant be negative"});
     }
 
-    const ext = data.file[0].match(/jpeg|png|jpg/)[0];
-    data.file.shift(); // supprime le titre du fichier
-    const binImage = new Buffer((data.file.join('')).replace(/data:image\/(jpeg|jpg|png);base64,/, ""), 'base64');
-    const category_id = data.goodCategories;
+    const image = getValueImage(data.file);
+    const category_id = data.categories;
 
-    data.name = data.nameGood;
-    data.seller_id = data.sellers;
-    delete data.nameGood;
-    delete data.sellers;
-    delete data.goodCategories; // no need for goods but for categories_goods
-    delete data.file; //no need data of image
-
-    if(ext !== ('jpeg' && 'png' && 'jpg')) {
+    if(image.ext !== ('jpeg' && 'png' && 'jpg')) {
         result({valid: false, result: "Extension incompatible"});
     } else {
-        db.query("INSERT INTO goods SET ?", [data], (err, resultsInsert) => {
+        db.query("INSERT INTO goods(name, description, price, seller_id) value(?, ?, ?, ?)", [data.nameGood, data.description, data.price, data.sellers], (err, resultsInsert) => {
             if (err) {
                 result({error: true, reason: err});
             } else {
                 const good_id = resultsInsert.insertId;
-                const path = "../src/assets/images/product/img-"+ data.seller_id +"-"+ good_id +"."+ ext;
-                db.query("UPDATE goods SET image = ? WHERE good_id = ?", ["img-"+ data.seller_id +"-"+ good_id +"."+ ext, good_id], (err) => {
+                const image_name = "img-"+ data.seller_id +"-"+ good_id +"."+ image.ext;
+                const path = "../src/assets/images/product/"+ image_name;
+                db.query("UPDATE goods SET image = ? WHERE good_id = ?", [image_name, good_id], (err) => {
                     if (err) {
                         result({error: true, reason: err});
                     } else {
@@ -70,7 +62,7 @@ export const insertGoods = (data, result) => {
                             if (err) {
                                 result({error: true, reason: err});
                             } else {
-                                fs.outputFile(path, binImage);
+                                fs.outputFile(path, image.bin);
                                 result({valid: true, result: "Colonne ajoutée"});
                             }
                         });

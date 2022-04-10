@@ -1,5 +1,5 @@
 // import connection
-import db from "../config/database.js";
+import db, {getValueImage} from "../config/database.js";
 import fs from "fs-extra";
 
 
@@ -42,28 +42,23 @@ export const insertServices = (data, result) => {
         result({valid: false, result: "Price cant be negative"});
     }
 
-    const ext = data.file[0].match(/jpeg|png|jpg/)[0];
-    data.file.shift(); // supprime le titre du fichier
-    const binImage = new Buffer((data.file.join('')).replace(/data:image\/(jpeg|jpg|png);base64,/, ""), 'base64');
-    const category_id = data.serviceCategories;
+    const image = getValueImage(data.file);
+    const category_id = data.categories;
 
     data.name = data.nameService;
     data.seller_id = data.sellers;
-    delete data.nameService;
-    delete data.sellers;
-    delete data.serviceCategories; // no need for goods but for categories_services
-    delete data.file; //no need data of image
 
-    if(ext !== ('jpeg' && 'png' && 'jpg')) {
+    if(image.ext !== ('jpeg' && 'png' && 'jpg')) {
         result({valid: false, result: "Extension incompatible"});
     } else {
-        db.query("INSERT INTO services SET ?", [data], (err, resultsInsert) => {
+        db.query("INSERT INTO services(name, description, price, seller_id) value(?, ?, ?, ?)", [data.nameService, data.description, data.price, data.sellers], (err, resultsInsert) => {
             if (err) {
                 result({error: true, reason: err});
             } else {
                 const service_id = resultsInsert.insertId;
-                const path = "../src/assets/images/product/img-"+ data.seller_id +"-"+ service_id +"."+ ext;
-                db.query("UPDATE services SET image = ? WHERE service_id = ?", ["img-"+ data.seller_id +"-"+ service_id +"."+ ext, service_id], (err) => {
+                const image_name = "img-"+ data.seller_id +"-"+ service_id +"."+ image.ext;
+                const path = "../src/assets/images/product/"+ image_name;
+                db.query("UPDATE services SET image = ? WHERE service_id = ?", [image_name, service_id], (err) => {
                     if (err) {
                         result({error: true, reason: err});
                     } else {
@@ -71,7 +66,7 @@ export const insertServices = (data, result) => {
                             if (err) {
                                 result({error: true, reason: err});
                             } else {
-                                fs.outputFile(path, binImage);
+                                fs.outputFile(path, image.bin);
                                 result({valid: true, result: "Colonne ajoutée"});
                             }
                         });

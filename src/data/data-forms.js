@@ -20,6 +20,38 @@ const mail = {label: "Email", placeHolder: "Saisir l'email", type: "email"};
 const address = {label: 'Adresse', placeHolder: "Saisir l'adresse", type: 'textarea', rows: 2, max_rows: 4};
 const phone = {label: "Téléphone", placeHolder: "Saisir le numéro de téléphone", type: "tel"};
 
+const description = {label: 'Description', placeHolder: "Saisir la description", type: 'textarea', rows: 3, max_rows: 6};
+const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"};
+const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
+const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
+const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
+const endDate = {label: 'Date', placeHolder: "Saisir la date de fin", type: 'date'};
+
+const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};
+const nameGood = {label: 'Nom du produit', placeHolder: "Saisir le nom du produit", type: 'text'};
+const nameService = {label: "Nom du service ", placeHolder: "Saisir le nom du service", type: 'text'};
+const nameCategory = {label: "Nom de la catégorie", placeHolder: "Saisir le nom de la catégorie", type: 'text'};
+const nameCatalogue = {label: "Nom de la catalogue", placeHolder: "Saisir le nom du catalogue", type: 'text'};
+const nameWareHouse = {label: "Nom de l'entrepot", placeHolder: "Saisir le nom de l'entrepot", type: 'text'};
+
+const goods = {
+    label: "les biens",
+    placeHolder: "Choisir les biens",
+    type: "select",
+    options: [],
+    onCreate: async (route) => {
+        forms[route].goods.options = await createSelect('goods', ['good_id', 'name'], goods.placeHolder)
+    }
+};
+const services = {
+    label: "les services",
+    placeHolder: "Choisir les services",
+    type: "select",
+    options: [],
+    onCreate: async (route) => {
+        forms[route].services.options = await createSelect('services', ['service_id', 'name'], services.placeHolder)
+    }
+};
 const companies = {
     label: "Nom de l'entreprise",
     placeHolder: "Choisir l'entreprise",
@@ -38,32 +70,16 @@ const sellers = {
         forms[route].sellers.options = await createSelect('sellers', ['seller_id', 'company'], sellers.placeHolder)
     }
 };
-const goodCategories = {
+const categories = {
     label: "Catégorie du produit",
     placeHolder: "Choisir la catégorie",
     type: "select",
     options: [],
     onCreate: async (route) => {
-        forms[route].goodCategories.options = await createSelect('categories_goods', ['category_id', 'title'], sellers.placeHolder)
-    }
-};
-const serviceCategories = {
-    label: "Catégorie du service",
-    placeHolder: "Choisir la catégorie",
-    type: "select",
-    options: [],
-    onCreate: async (route) => {
-        forms[route].serviceCategories.options = await createSelect('categories_services', ['category_id', 'title'], sellers.placeHolder)
+        forms[route].categories.options = await createSelect('categories', ['category_id', 'title'], categories.placeHolder)
     }
 };
 
-const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};
-const nameGood = {label: 'Nom du produit', placeHolder: "Saisir le nom du produit", type: 'text'};
-const nameService = {label: 'Nom du service ', placeHolder: "Saisir le nom du service", type: 'text'};
-const nameCategory = {label: 'Nom de la catégorie', placeHolder: "Saisir le nom de la catégorie", type: 'text'};
-const nameCatalogue = {label: 'Nom de la catalogue', placeHolder: "Saisir le nom du catalogue", type: 'text'};
-
-const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"};
 const status = {
     label: "Status",
     type: "select",
@@ -74,41 +90,16 @@ const status = {
         {value: 'biens et services', text: "Biens et services"}
     ]
 };
-const categories = {
-    label: 'Type de catégorie',
-    type: 'select',
+// eslint-disable-next-line no-unused-vars
+const typeProducts = {
+    label: "Categories",
+    type: "select",
     options: [
-        {value: null, text: "Saisir le type de catégorie", disabled: true},
-        {value: 'goods', text: "Produits"},
-        {value: 'services', text: "Services"}
+        {value: null, text: "Saisir le type de produit", disabled: true},
+        {value: 'goods', text: "Biens"},
+        {value: 'services', text: "Services"},
     ]
 };
-const catalogues = {
-    label: 'Type de catalogue',
-    type: 'select',
-    options: [
-        {value: null, text: "Saisir le type de catalogue", disabled: true},
-        {value: 'goods', text: "Produits"},
-        {value: 'services', text: "Services"}
-    ]
-};
-
-const description = {
-    label: 'Description',
-    placeHolder: "Saisir la description",
-    type: 'textarea',
-    rows: 3,
-    max_rows: 6
-};
-const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
-const file = {
-    label: 'Image',
-    placeHolder: "Inserer le fichier",
-    type: 'file',
-    accept: "image/jpeg, image/png, image/jpg",
-    browse_text: "Choisir l'image"
-};
-
 
 const forms = {
     customers: {firstname, lastname, mail, companies},
@@ -116,13 +107,13 @@ const forms = {
     companies: {firstname, lastname, mail, nameCompany},
     staffs: {firstname, lastname, mail, job},
 
-    goods: {nameGood, description, price, file, sellers, goodCategories},
-    services: {nameService, description, price, file, sellers, serviceCategories},
+    goods: {nameGood, description, price, file, sellers, categories},
+    services: {nameService, description, price, file, sellers, categories},
 
-    categories: {nameCategory, categories},
-    catalogues: {nameCatalogue, catalogues},
+    categories: {nameCategory},
+    catalogues: {nameCatalogue, startDate, endDate, file},
 
-    warehouses: {address, phone},
+    warehouses: {nameWareHouse, address, phone},
 }
 
 export default forms;

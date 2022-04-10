@@ -10,6 +10,7 @@ const db = mysql.createConnection({
     password: `${process.env.BDD_PWD}`,
     database: `${process.env.BDD_DATABASE}`
 });
+export default db;
 
 
 
@@ -46,4 +47,13 @@ export function decodeToken(token) {
     return jsonwebtoken.verify(token, process.env.JWT_KEY_TOKEN);
 }
 
-export default db;
+export function getValueImage(data) {
+    const ext = data[0].match(/jpeg|png|jpg/)[0];
+    data.shift(); // supprime le titre du fichier
+    return {
+
+        ext: ext,
+        bin: new Buffer((data.join('')).replace(/data:image\/(jpeg|jpg|png);base64,/, ""), 'base64')
+    }
+}
+
