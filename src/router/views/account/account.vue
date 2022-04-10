@@ -9,18 +9,19 @@ import Staff from "@/components/backoffice/staff";
 import Company from "@/components/backoffice/company";
 import Customer from "@/components/backoffice/customer"
 
-import role from "@/data/role";
+import roles from "@/data/data-roles";
+import Sellers from "@/components/backoffice/seller";
 
 
 export default {
   page: {
     title: "Admin",
   },
-  components: {Layout, PageHeader, SidebarMenu, Admin, Staff, Company, Customer},
+  components: {Sellers, Layout, PageHeader, SidebarMenu, Admin, Staff, Company, Customer},
   data() {
     return {
       title: 'Admin',
-      role,
+      role: roles,
 
       user_role: 'admin',
     }
@@ -48,10 +49,10 @@ export default {
           <div class="card-body">
             <h1 class="text-center">Role : {{user_role}}</h1>
             <Admin v-if="user_role === 'admin'" />
-            <Staff v-if="user_role === 'staffs'" />
-            <Company v-if="user_role === 'companies'"/>
-            <Customer v-if="user_role === 'customers'"/>
-
+            <Staff v-else-if="user_role === 'staffs'" />
+            <Company v-else-if="user_role === 'companies'"/>
+            <Customer v-else-if="user_role === 'customers'"/>
+            <Sellers v-else-if="user_role === 'sellers'"/>
           </div>
         </div>
         <!-- end card -->

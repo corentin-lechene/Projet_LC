@@ -63,6 +63,11 @@ export default {
       module: null,
       currentTab: 'Form',
 
+      registerItems: {
+        all_users: ['customers', 'companies', 'sellers', 'staffs'],
+        users: ['customers', 'companies', 'sellers'],
+      },
+
       loading: true,
     };
   },
@@ -107,7 +112,7 @@ export default {
     },
     getItemsByRoute(route, val) {
       if (val === '*')
-        return ['customers', 'companies', 'sellers', 'staff'];
+        return ['customers', 'companies', 'sellers', 'staffs'];
       else if (val === '-')
         return ['customers', 'companies', 'sellers'];
       return (typeof val === 'object') ? val : [val];
@@ -153,7 +158,7 @@ export default {
               <div id="tickets-table_length" class="dataTables_length">
                 <label class="d-inline-flex align-items-center">
                   Show
-                  <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
+                  <b-form-select v-model="perPage" :options="pageOptions" />
                 </label>
               </div>
             </div>
@@ -171,12 +176,13 @@ export default {
             <!-- End search -->
             <!-- Add -->
             <div class="col-sm-12 col-md-2">
-              <b-dropdown v-if="modals.register" block right text="Add" variant="success">
-                <b-dropdown-item v-for="(item, i) in getItemsByRoute(options.route, modals.register)" :key="i"
+              <b-dropdown v-if="modals.register && typeof registerItems[modals.register] === 'object'" block right text="Add" variant="success">
+                <b-dropdown-item v-for="(item, i) in registerItems[modals.register]" :key="i"
                                  v-b-modal="'register'"
                                  class="dropdown-item" @click="route = item">{{ item }}
                 </b-dropdown-item>
               </b-dropdown>
+              <b-button v-else-if="modals.register" v-b-modal="'register'" variant="success" block  @click="route = modals.register">Add</b-button>
             </div>
             <!-- End Add -->
           </div>
@@ -222,7 +228,7 @@ export default {
     </div>
 
     <!--  Modals register  /-->
-    <b-modal id="register" title="Détail" title-class="font-18" size="xl" hide-footer centered @hidden="getInformations(options.route, options.byId)">
+      <b-modal id="register" title="Détail" title-class="font-18" size="lg" hide-footer centered @hidden="getInformations(options.route, options.byId)">
       <Register :route="route"/>
     </b-modal>
 

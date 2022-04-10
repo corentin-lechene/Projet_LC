@@ -1,17 +1,25 @@
 import jsonwebtoken from "jsonwebtoken";
 
 function preventingErrorSQL(result) {
+    if(result === undefined) {
+        console.error("My Error: request empty !");
+        return true;
+    }
     if (result.error && result.valid === undefined) {
-        console.error("SQL Error: ", result.reason);
+        this.$router.push({name: 'Maintenance'});
+        console.error("My SQL Error: ", result.reason);
         return true;
     }
     return false;
 }
 
 function validRequest(result) {
-    // console.log('result', result);
+    if(result === undefined) {
+        console.error("My Error: request empty !");
+        return true;
+    }
     if (!result.valid) {
-        console.error("Error: ", result.reason);
+        console.error("My Error: ", result.result);
         return true;
     }
     return false;
@@ -79,3 +87,15 @@ function displayLongStr(str, end) {
 }
 
 export {displayLongStr};
+
+export function getTotalReductionOf(reduction, price) {
+    if(reduction === 0)
+        return price;
+    return price - (price * (reduction / 100));
+}
+
+export function getReductionOf(reduction, price) {
+    if(reduction === 0)
+        return 0;
+    return price * (reduction / 100);
+}

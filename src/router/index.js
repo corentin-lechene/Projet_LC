@@ -4,7 +4,7 @@ import VueMeta from 'vue-meta'
 
 import routes from './routes'
 
-import {sendGetUserByToken} from "@/components/requests-bdd";
+import {sendGetDataTable, sendGetUserByToken} from "@/components/requests-bdd";
 import {preventingErrorSQL, validRequest} from "@/components/my-functions";
 
 Vue.use(VueRouter)
@@ -33,9 +33,18 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const privatePages = ['/profile'] //Les pages qui sont privé
+    const privatePages = ['/profile', '/checkout'] //Les pages qui sont privé
     const authPage = privatePages.includes(to.path); //C'est une page privé ?
     const tokenUser = localStorage.getItem('user_token'); //Recupère le token
+
+    //Verifie si connexion à l'API
+    const user = sendGetDataTable('users', -1);
+    user.then((res) => {
+        if(res === -1) {
+            return next({path: '/maintenance'});
+        }
+    })
+
 
     if(to.path === '/logout' || from.path === '/logout')
         return next();
@@ -71,6 +80,7 @@ router.beforeEach((to, from, next) => {
             return next({
                 name: 'login',
                 params: {
+                    redirect: to.name,
                     notification: {message: "Vous devez être connecté pour acceder à cette page", variant: "danger"}
                 }
             })

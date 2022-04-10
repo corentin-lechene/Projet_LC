@@ -13,11 +13,6 @@ export default [
     component: () => import('./views/account/login'),
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('./views/account/register'),
-  },
-  {
     path: '/forgot-password',
     name: 'Forgot password',
     component: () => import('./views/account/forgot-password'),
@@ -88,6 +83,13 @@ export default [
     component: () => import('./views/shops/checkout')
   },
   {
+    path: '/checkout-succeed',
+    name: 'Checkout succeed',
+    meta: {
+    },
+    component: () => import('./views/shops/checkout-succeed')
+  },
+  {
     path: '/admin',
     name: 'Back-Office',
     meta: {
@@ -120,6 +122,14 @@ export default [
   },
 
   //Errors
+  {
+    path: '/maintenance',
+    name: 'Maintenance',
+    meta : {
+      title: 'Maintenance',
+    },
+    component: () => import('./views/errors/maintenance')
+  },
   {
     path: '/500',
     name: 'InternetServerError',

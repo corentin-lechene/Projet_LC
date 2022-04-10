@@ -1,7 +1,5 @@
 <script>
 
-import {cartData} from "@/data/data-cart";
-import {productData} from "@/data/data-products";
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 
@@ -10,9 +8,6 @@ export default {
   data() {
     return {
       title: "PDF",
-
-      cartData,
-      productData,
 
       currentCart: [],
 
@@ -28,36 +23,9 @@ export default {
 
       return dateTime;
     },
-    extractData(objet, id, column = null) {
-      let temp = [];
-      for (let i = 0; i < objet.length; i++) {
-        if (objet[i].id !== id)
-          continue;
-
-        if (column !== null)
-          temp.push(objet[i][column]);
-        else
-          temp.push(objet[i]);
-      }
-      if (temp.length === 1)
-        return temp[0];
-
-      return {
-        size: temp.length,
-        first: temp[0],
-        last: temp[temp.length - 1],
-        values: temp,
-      };
-    },
-    getProductsFromCart(obj) {
-      for (let i = 0; i < cartData.length; ++i) {
-        this.currentCart[i] = this.extractData(obj, cartData[i].id);
-      }
-    },
   },
 
   created() {
-    this.getProductsFromCart(productData);
   }
 
 };

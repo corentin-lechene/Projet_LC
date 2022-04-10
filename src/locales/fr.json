@@ -1,108 +1,90 @@
 {
-    "navbar": {
-        "offer_partner": "Offres Partenaires",
-        "lc_shops": "LC Shop",
-        "search": "Rechercher...",
-        "profile": {
-            "text": "Mon profil",
-            "orders": "Mes commandes",
-            "settings": "Paramètres",
-            "logout": "Déconnexion"
-        }
-    },
-    "footer": {
-        "help": "Besoin d'aide",
-        "about": "A propos",
-        "join_us": "Rejoignez-nous",
-        "legal_info": "Informations légales"
-    },
-    "home_page": {
-        "title": "Accueil",
-        "new_goods": "Nos nouveautés",
-        "best_services": "Les meilleurs offres partenaires",
-        "best_partners": "Nos meilleurs partenaires",
-        "help": {
-            "title": "Besoin d'aide ?",
-            "subtitle": "Du texte parce que l'aide voila"
-        }
-    },
-    "lc_shop": {
-        "title": "Produits",
-        "filter": {
-            "title": "Filtre des produits",
-            "sort": {
-                "title": "Trie",
-                "subtitle": "Trié par ...",
-                "relevance": "Pertinence",
-                "asc": "Prix croissant",
-                "desc": "Prix décroissant"
-            },
-            "reset_filter": {
-                "none": "Aucun filtre Ajouté",
-                "one": "Supprime le filtre",
-                "all": "Supprimer les filtres"
-            },
-            "category": {
-                "peripherals": "Périphériques"
-            },
-            "price": "Prix",
-            "Note": {
-                "title": "Note",
-                "more": "plus"
-            }
-        }
-    },
-    "offer_partners": {
-        "title": "Avantages",
-        "filter": {
-            "title": "Filtre des offres",
-            "sort": {
-                "title": "Trie",
-                "subtitle": "Trié par ...",
-                "relevance": "Pertinence",
-                "asc": "Prix croissant",
-                "desc": "Prix décroissant"
-            },
-            "reset_filter": {
-                "none": "Aucun filtre Ajouté",
-                "one": "Supprime le filtre",
-                "all": "Supprimer les filtres"
-            },
-            "category": {
-                "travel": "Voyage",
-                "show": "Spectable"
-            },
-            "price": "Prix",
-            "Note": {
-                "title": "Note",
-                "more": "plus"
-            }
-        }
-    },
+  "g": {
+    "add": "ajouter",
+    "mod": "modifier",
+    "del": "supprmer",
+    "info": "information",
+    "login": "connexion",
+    "logout": "deconnexion",
+    "price": "prix",
+    "discount": "reduction",
+    "total": "total",
+    "see": "voir",
+    "see-more": "voir +",
+    "go-checkout": "Proceder au paiement",
+    "back-shop": "Retour à la boutique"
+  },
+
+  "nav-bar": {
     "cart": {
-        "title": "Panier",
-        "table": {
-            "product": "Produit",
-            "name": "Nom du produit",
-            "price": "Prix",
-            "quantity": "Quantité",
-            "total": "Total"
-        },
-        "fidelity_card": "Carte de fidélité",
-        "summary": {
-            "title": "Récapitulatif du panier",
-            "total_ttc": "Total TTC",
-            "discount": "Réduction",
-            "shipping": "Frais de port",
-            "total": "Total",
-            "point": {
-                "text": "Gain des points",
-                "word": "points "
-            }
-        }
+      "loyalty-card": "Ma carte de fidélité"
     },
-    "checkout": {
-
+    "profile": {
+      "text": "Mon profil",
+      "orders": "Mes commandes",
+      "settings": "Paramètres"
     }
+  },
+  "footer": {
+    "about": "A propos",
+    "products": "Produits",
+    "join-us": "Rejoignez-nous",
+    "help": "Besoin d'aide",
+    "legal-info": "Informations légales"
+  },
 
+  "homepage": {
+    "title": "Accueil",
+    "news": "Nos nouveautés",
+    "offers-partners": "Nos meilleurs offres partenaires",
+    "partners": "Nos meilleurs partenaires",
+    "support": "Contact"
+  },
+  "shops": {
+    "title": {
+      "goods": "Boutique des biens",
+      "services": "Boutique des services"
+    },
+    "filter": {
+      "title": {
+        "goods": "Filtrer les biens",
+        "services": "Filtrer les services"
+      },
+      "sort-by": {
+        "text": "Filtrer par",
+        "asc": "Croissant",
+        "desc": "Décroissant",
+        "relevance": "Pertinence"
+      },
+      "reset": {
+        "none": "Aucun filtre",
+        "filter": "Supprimer le filtre",
+        "filters": "Supprimer les filtres"
+      },
+      "categories": "Nos catégories",
+      "Note": {
+        "more": "plus",
+        "title": "Note"
+      }
+    }
+  },
+  "cart": {
+    "title": "Panier",
+    "table": {
+      "product": "Produit",
+      "description": "Description",
+      "quantity": "Quantité",
+      "total": "Total (reduction + quantité"
+    },
+    "loyalty-card": "Carte de fidélité",
+    "summary": {
+      "title": "Récapitulatif du panier",
+      "total-ttc": "Total TTC",
+      "shipping": "Frais de port",
+      "points": {
+        "text": "Gain des points",
+        "word": "points"
+      }
+    }
+  }
 }

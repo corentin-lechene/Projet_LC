@@ -1,5 +1,5 @@
 // import connection
-import db, {generatePassword} from "../config/database.js";
+import db, {encodeToken, generatePassword} from "../config/database.js";
 
 
 // Get All Staffs
@@ -26,18 +26,34 @@ export const getStaffsById = (id, result) => {
 
 // Insert Staffs to Database
 export const insertStaffs = (data, result) => {
-    const password = generatePassword();
-    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'staffs')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else if (results.insertId) {
-            db.query("INSERT INTO staffs(job, user_id) VALUES(?, ?)", [data.job, results.insertId], (err, results) => {
+    db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
+        if(err) {
+            result(err);
+        } else if(resultsEmail[0]) {
+            result({valid: false, result: "Email already used"});
+        } else {
+            const password = generatePassword();
+            db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'staffs')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
                 if (err) {
                     result({error: true, reason: err});
-                } else {
-                    result({valid: true, result: results[0]});
+                } else if (resultsUsers.insertId) {
+                    const user_id = resultsUsers.insertId;
+                    const token = encodeToken({user_id: user_id, role: data.role});
+                    db.query("UPDATE users set token = ? WHERE user_id = ?", [token, user_id], (err) => {
+                        if (err) {
+                            result({error: true, reason: err});
+                        } else {
+                            db.query("INSERT INTO staffs(job, user_id) VALUES(?, ?)", [data.job, user_id], (err, results) => {
+                                if (err) {
+                                    result({error: true, reason: err});
+                                } else {
+                                    result({valid: true, result: results[0]});
+                                }
+                            });
+                        }
+                    });
                 }
-            })
+            });
         }
     });
 }

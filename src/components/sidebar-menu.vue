@@ -43,12 +43,12 @@
             <input
                 type="text"
                 :placeholder="searchPlaceholder"
-                @input="$emit('search-input-emit', $event.target.value)"
+                @input="searchBar($event)"
             >
             <span class="tooltip">{{ searchTooltip }}</span>
           </li>
 
-          <li v-for="(menuItem, index) in menuItems"
+          <li v-for="(menuItem, index) in saveItems"
               :key="index">
             <a :href="menuItem.link">
               <i
@@ -212,11 +212,24 @@ export default {
   },
   data() {
     return {
-      isOpened: false
+      isOpened: false,
+      items: {},
+      saveItems: [],
+    }
+  },
+  methods: {
+    searchBar(e) {
+      const searchStr = e.target.value;
+      this.saveItems = this.menuItems.filter(item => {
+        return (
+            item.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
+        );
+      });
     }
   },
   mounted() {
-    this.isOpened = this.isMenuOpen
+    this.isOpened = this.isMenuOpen;
+    this.saveItems = this.menuItems;
   },
   computed: {
     cssVars() {
@@ -238,6 +251,9 @@ export default {
   watch: {
     isOpened() {
       window.document.body.style.paddingLeft = this.isOpened && this.isPaddingLeft ? this.menuOpenedPaddingLeftBody : this.menuClosedPaddingLeftBody
+    },
+    menuItems() {
+      this.saveItems = this.menuItems;
     }
   }
 }
