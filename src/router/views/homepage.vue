@@ -11,16 +11,12 @@ import {preventingErrorSQL, validRequest} from "@/components/my-functions";
  * Dashboard Component
  */
 export default {
-  page: {
-    title: "Accueil",
-  },
   components: {
     Layout,
     PageHeader,
   },
   data() {
     return {
-      title: "Accueil",
       products: {},
       services: {},
       catalogues: {},
@@ -86,7 +82,7 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title"/>
+    <PageHeader :title="$t('homepage.title')"/>
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -104,7 +100,7 @@ export default {
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="my-3">Nos nouveautés</h4>
+            <h4 class="my-3">{{ $t('homepage.news') }}</h4>
             <b-card-group deck>
               <b-card
                   v-for="product in products" :key="product.good_id" class="col-xl-4 col-sm-6">
@@ -139,7 +135,7 @@ export default {
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="my-3">Meilleurs offres partenaires</h4>
+            <h4 class="my-3">{{ $t('homepage.offers-partners') }}</h4>
             <b-card-group deck>
               <b-card
                   v-for="service in services" :key="service.service_id" class="col-xl-4 col-sm-6">
@@ -183,10 +179,10 @@ export default {
           <div class="row">
             <div class="col-10">
               <div class="row" style="height: 10px"></div>
-              <h2 style="text-align: center">NOS MEILLEURS PARTENAIRES</h2>
+              <h2 style="text-align: center">{{ $t('homepage.partners') }}</h2>
             </div>
             <div class="col-2" style="padding-top: 8px;">
-              <b-button pill variant="light">Voir +</b-button>
+              <b-button pill variant="light">{{ $t('g.see-more') }}</b-button>
             </div>
           </div>
           <div class="row" style="height: 20px"></div>

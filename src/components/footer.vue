@@ -26,7 +26,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">About us</a>
+              <a href="#!" class="text-white">{{ $t('footer.about') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -34,7 +34,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">Products</a>
+              <a href="#!" class="text-white">{{ $t('footer.products') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -42,7 +42,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">Awards</a>
+              <a href="#!" class="text-white">{{ $t('footer.join-us') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -50,7 +50,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">Help</a>
+              <a href="#!" class="text-white">{{ $t('footer.help') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -58,7 +58,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">Contact</a>
+              <a href="#!" class="text-white">{{ $t('footer.legal-info') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -75,7 +75,7 @@
         class="text-center p-3"
         style="background-color: rgba(0, 0, 0, 0.2)"
     >
-      © DATE Copyright :
+      © {{ (new Date()).getFullYear() }} Copyright :
       <a class="text-white" href="/">LoyaltyCard</a>
     </div>
     <!-- Copyright -->

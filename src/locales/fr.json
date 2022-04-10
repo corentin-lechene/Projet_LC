@@ -1,104 +1,90 @@
 {
-  "cart": {
-    "fidelity_card": "Carte de fidélité",
-    "summary": {
-      "discount": "Réduction",
-      "point": {
-        "text": "Gain des points",
-        "word": "points "
-      },
-      "shipping": "Frais de port",
-      "title": "Récapitulatif du panier",
-      "total": "Total",
-      "total_ttc": "Total TTC"
+  "g": {
+    "add": "ajouter",
+    "mod": "modifier",
+    "del": "supprmer",
+    "info": "information",
+    "login": "connexion",
+    "logout": "deconnexion",
+    "price": "prix",
+    "discount": "reduction",
+    "total": "total",
+    "see": "voir",
+    "see-more": "voir +",
+    "go-checkout": "Proceder au paiement",
+    "back-shop": "Retour à la boutique"
+  },
+
+  "nav-bar": {
+    "cart": {
+      "loyalty-card": "Ma carte de fidélité"
     },
-    "table": {
-      "name": "Nom du produit",
-      "price": "Prix",
-      "product": "Produit",
-      "quantity": "Quantité",
-      "total": "Total"
-    },
-    "title": "Panier"
+    "profile": {
+      "text": "Mon profil",
+      "orders": "Mes commandes",
+      "settings": "Paramètres"
+    }
   },
   "footer": {
     "about": "A propos",
+    "products": "Produits",
+    "join-us": "Rejoignez-nous",
     "help": "Besoin d'aide",
-    "join_us": "Rejoignez-nous",
-    "legal_info": "Informations légales"
+    "legal-info": "Informations légales"
   },
-  "home_page": {
-    "best_partners": "Nos meilleurs partenaires",
-    "best_services": "Les meilleurs offres partenaires",
-    "help": {
-      "subtitle": "Du texte parce que l'aide voila",
-      "title": "Besoin d'aide ?"
+
+  "homepage": {
+    "title": "Accueil",
+    "news": "Nos nouveautés",
+    "offers-partners": "Nos meilleurs offres partenaires",
+    "partners": "Nos meilleurs partenaires",
+    "support": "Contact"
+  },
+  "shops": {
+    "title": {
+      "goods": "Boutique des biens",
+      "services": "Boutique des services"
     },
-    "new_goods": "Nos nouveautés",
-    "title": "Accueil"
-  },
-  "lc_shop": {
     "filter": {
+      "title": {
+        "goods": "Filtrer les biens",
+        "services": "Filtrer les services"
+      },
+      "sort-by": {
+        "text": "Filtrer par",
+        "asc": "Croissant",
+        "desc": "Décroissant",
+        "relevance": "Pertinence"
+      },
+      "reset": {
+        "none": "Aucun filtre",
+        "filter": "Supprimer le filtre",
+        "filters": "Supprimer les filtres"
+      },
+      "categories": "Nos catégories",
       "Note": {
         "more": "plus",
         "title": "Note"
-      },
-      "category": {
-        "peripherals": "Périphériques"
-      },
-      "price": "Prix",
-      "reset_filter": {
-        "all": "Supprimer les filtres",
-        "none": "Aucun filtre Ajouté",
-        "one": "Supprime le filtre"
-      },
-      "sort": {
-        "asc": "Prix croissant",
-        "desc": "Prix décroissant",
-        "relevance": "Pertinence",
-        "subtitle": "Trié par ...",
-        "title": "Trie"
-      },
-      "title": "Filtre des produits"
-    },
-    "title": "Produits"
+      }
+    }
   },
-  "navbar": {
-    "lc_shops": "LC Shop",
-    "offer_partner": "Offres Partenaires",
-    "profile": {
-      "logout": "Déconnexion",
-      "orders": "Mes commandes",
-      "settings": "Paramètres",
-      "text": "Mon profil"
+  "cart": {
+    "title": "Panier",
+    "table": {
+      "product": "Produit",
+      "description": "Description",
+      "quantity": "Quantité",
+      "total": "Total (reduction + quantité"
     },
-    "search": "Rechercher..."
-  },
-  "offer_partners": {
-    "filter": {
-      "Note": {
-        "more": "plus",
-        "title": "Note"
-      },
-      "category": {
-        "show": "Spectable",
-        "travel": "Voyage"
-      },
-      "price": "Prix",
-      "reset_filter": {
-        "all": "Supprimer les filtres",
-        "none": "Aucun filtre Ajouté",
-        "one": "Supprime le filtre"
-      },
-      "sort": {
-        "asc": "Prix croissant",
-        "desc": "Prix décroissant",
-        "relevance": "Pertinence",
-        "subtitle": "Trié par ...",
-        "title": "Trie"
-      },
-      "title": "Filtre des offres"
-    },
-    "title": "Avantages"
+    "loyalty-card": "Carte de fidélité",
+    "summary": {
+      "title": "Récapitulatif du panier",
+      "total-ttc": "Total TTC",
+      "shipping": "Frais de port",
+      "points": {
+        "text": "Gain des points",
+        "word": "points"
+      }
+    }
   }
 }

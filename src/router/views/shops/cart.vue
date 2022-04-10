@@ -13,8 +13,6 @@ export default {
   components: {Layout, PageHeader},
   data() {
     return {
-      title: "Panier",
-
       carts: {},
       total: {
         ttc: [],
@@ -116,7 +114,7 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="title"/>
+    <PageHeader :title="$t('cart.title')"/>
 
     <div class="row">
       <div class="col-xl-8">
@@ -126,12 +124,12 @@ export default {
               <table class="table table-centered mb-0 table-nowrap">
                 <thead class="thead-light">
                 <tr>
-                  <th>Produit</th>
-                  <th>Description</th>
-                  <th>Prix</th>
-                  <th>Réduction</th>
-                  <th style="min-width: 100px; max-width: 100px">Quantité</th>
-                  <th colspan="2">Total (reduction + quantité)</th>
+                  <th>{{ $t('cart.table.product') }}</th>
+                  <th>{{ $t('cart.table.description') }}</th>
+                  <th>{{ $t('g.price') }}</th>
+                  <th>{{ $t('g.discount') }}</th>
+                  <th style="min-width: 100px; max-width: 100px">{{ $t('cart.table.quantity') }}</th>
+                  <th colspan="2">{{ $t('cart.table.total') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -185,7 +183,7 @@ export default {
           <div class="col-5 col-xl-12">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title mb-4">Carte de fidélité</h5>
+                <h5 class="card-title mb-4">{{ $t('cart.loyalty-card') }}</h5>
                 <img alt="" src="@/assets/images/carte.png" style="width: 240px; height: 200px">
               </div>
             </div>
@@ -194,33 +192,33 @@ export default {
           <div class="col-7 col-xl-12">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title mb-3">Récapitulatif du panier</h4>
+                <h4 class="card-title mb-3">{{ $t('cart.summary.title') }}</h4>
 
                 <div class="table-responsive">
                   <table class="table mb-0">
                     <tbody>
                     <tr>
-                      <td>Total TTC :</td>
+                      <td>{{ $t('cart.summary.total-ttc') }} : </td>
                       <td>{{ (total.getTotalTTC()) }} €</td>
                     </tr>
                     <tr>
-                      <td>Réduction :</td>
+                      <td>{{ $t('g.discount') }} : </td>
                       <td>- {{ (total.getTotalReduction())}} €</td>
                     </tr>
                     <tr>
-                      <td>Frais de port :</td>
+                      <td>{{ $t('cart.summary.shipping') }} :</td>
                       <td v-if="total.ttc[0]">{{ total.shipping.toFixed(2) }} €</td>
                       <td v-else>0 €</td>
                     </tr>
                     </tbody>
                     <tr>
-                      <th>Total :</th>
+                      <th>{{ $t('g.total') }} :</th>
                       <th>{{ (total.getTotalFinal()) }} €</th>
                     </tr>
                   </table>
                 </div>
                 <!-- end table-responsive -->
-                <p class="text-center font-italic">Gain des points : {{ total.getTotalPoints() }} points</p>
+                <p class="text-center font-italic">{{ $t('cart.summary.points.text') }} : {{ total.getTotalPoints() }} {{ $t('cart.summary.points.word') }}</p>
               </div>
             </div>
           </div>
@@ -237,14 +235,14 @@ export default {
             tag="a"
             to="/lc-shop"
         >
-          <i class="mdi mdi-arrow-left mr-1"></i> Retour vers la boutique
+          <i class="mdi mdi-arrow-left mr-1"></i> {{ $t('g.back-shop') }}
         </router-link>
       </div>
       <!-- end col -->
       <div class="col-sm-6">
         <div class="text-sm-right">
-          <b-button v-if="total.ttc.length > 0" variant="success" @click="$router.push({path: '/checkout'})"><i class="mdi mdi-truck-fast mr-1"></i> Passer la commande</b-button>
-          <b-button v-else variant="success" disabled><i class="mdi mdi-truck-fast mr-1"></i> Passer la commande</b-button>
+          <b-button v-if="total.ttc.length > 0" variant="success" @click="$router.push({path: '/checkout'})"><i class="mdi mdi-truck-fast mr-1"></i> {{ $t('g.go-checkout') }}</b-button>
+          <b-button v-else variant="success" disabled><i class="mdi mdi-truck-fast mr-1"></i> {{ $t('g.go-checkout') }}</b-button>
         </div>
       </div>
       <!-- end col -->

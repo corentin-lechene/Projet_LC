@@ -14,8 +14,6 @@ export default {
   components: {Layout, PageHeader, VueSlideBar},
   data() {
     return {
-      title: "Produits",
-
       productsData: {},
       products: {},
       categoryGoods: {},
@@ -165,13 +163,13 @@ export default {
 
 <template>
   <Layout mode="horizontal">
-    <PageHeader :title="title"/>
+    <PageHeader :title="$t('shops.title.goods')"/>
 
     <div class="row">
       <div class="col-5 col-md-3">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title font-size-24">Filtrer les produits</h2>
+            <h2 class="card-title font-size-24">{{ $t('shops.filter.title.goods') }}</h2>
 
             <!-- Filtre prix -->
             <div class="mt-4 py-3">
@@ -183,26 +181,25 @@ export default {
                       style="height: 100%"
                   >
                     <template v-slot:button-content>
-                      Trié par ...
+                      {{ $t('shops.filter.sort-by.text') }} ...
                       <i class="mdi mdi-chevron-down"></i>
                     </template>
-                    <b-dropdown-item :value="0">Pertinence</b-dropdown-item>
-                    <b-dropdown-item :value="1" @click="setFilterBy('sort', '<')">Prix croissant</b-dropdown-item>
-                    <b-dropdown-item :value="2" @click="setFilterBy('sort', '>')">Prix décroissant</b-dropdown-item>
+                    <b-dropdown-item :value="0">{{ $t('shops.filter.sort-by.relevance') }}</b-dropdown-item>
+                    <b-dropdown-item :value="1" @click="setFilterBy('sort', '<')">{{ $t('shops.filter.sort-by.asc') }}</b-dropdown-item>
+                    <b-dropdown-item :value="2" @click="setFilterBy('sort', '>')">{{ $t('shops.filter.sort-by.desc') }}t</b-dropdown-item>
                   </b-dropdown>
                 </div>
                 <div class="col-md-12 col-xxl-7"> <!--ici-->
                   <b-button v-if="filterBy.name.length >= 2"
                             class="btn-block bg-danger"
-                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer les filtres
+                            style="width: 100%;height: 100%" @click="resetFilter()">{{ $t('shops.filter.reset.filters') }}
                   </b-button>
                   <b-button v-else-if="filterBy.name.length === 1"
                             class="btn-block bg-danger"
-                            style="width: 100%;height: 100%" @click="resetFilter()">Supprimer le filtre
+                            style="width: 100%;height: 100%" @click="resetFilter()">{{ $t('shops.filter.reset.filter') }}
                   </b-button>
                   <b-button v-else class="btn-block" disabled style="width: 100%;height: 100%" @click="resetFilter()">
-                    Aucun filtre
-                    ajouté
+                    {{ $t('shops.filter.reset.none') }}
                   </b-button>
                 </div>
               </div>
@@ -212,7 +209,7 @@ export default {
             <hr>
 
             <div class="mt-4 pt-3 pb-1">
-              <h5 class="font-size-14">Nos catégories : </h5>
+              <h5 class="font-size-14">{{ $t('shops.filter.categories') }} : </h5>
               <div v-if="loading.categories">
                 <b-skeleton v-for="i in 4" :key="i"/>
               </div>
@@ -229,7 +226,7 @@ export default {
 
             <!-- Slider du prix -->
             <div class="mt-4 py-3">
-              <h5 class="font-size-14 pb-2">Prix : </h5>
+              <h5 class="font-size-14 pb-2">{{ $t('g.price') }} : </h5>
               <b-skeleton v-if="loading.products"/>
               <vue-slide-bar v-if="!loading.products" v-model="dataFilterBy.price" :max="sliderPriceMax" :min="sliderPriceMin" class="pt-4"
                              @input="setFilterBy('price', dataFilterBy.price)"/>
@@ -239,7 +236,7 @@ export default {
             <hr>
 
             <!-- Note des users -->
-            <div class="mt-4 pt-3">
+<!--            <div class="mt-4 pt-3">
               <h5 class="font-size-14 mb-3">Note :</h5>
               <div>
                 <b-form-checkbox v-for="i in 5" :key="i"
@@ -252,7 +249,7 @@ export default {
                   <i class="bx bx-star text-warning"></i> & plus
                 </b-form-checkbox>
               </div>
-            </div>
+            </div>-->
             <!-- fin Note des users -->
           </div>
         </div>
