@@ -53,7 +53,7 @@ export default {
           this.total.final = 0;
         }
       },
-      CUSTOMER_ID: 39, //TODO
+      CUSTOMER_ID: 39, //TODO enlever ce customer_id
     }
   },
   methods: {
@@ -114,7 +114,7 @@ export default {
 
 <template>
   <Layout>
-    <PageHeader :title="$t('cart.title')"/>
+    <PageHeader :title="$t('cart.title') || 'Panier'"/>
 
     <div class="row">
       <div class="col-xl-8">

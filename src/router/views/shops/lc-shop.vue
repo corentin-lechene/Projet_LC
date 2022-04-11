@@ -163,7 +163,7 @@ export default {
 
 <template>
   <Layout mode="horizontal">
-    <PageHeader :title="$t('shops.title.goods')"/>
+    <PageHeader :title="$t('shops.title.goods') || 'Boutique des biens'"/>
 
     <div class="row">
       <div class="col-5 col-md-3">
