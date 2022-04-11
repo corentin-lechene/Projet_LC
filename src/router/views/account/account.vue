@@ -1,6 +1,4 @@
 <script>
-import Layout from '../../layouts/main'
-import PageHeader from '@/components/page-header'
 
 import SidebarMenu from "@/components/sidebar-menu";
 
@@ -17,7 +15,7 @@ export default {
   page: {
     title: "Admin",
   },
-  components: {Sellers, Layout, PageHeader, SidebarMenu, Admin, Staff, Company, Customer},
+  components: {Sellers, SidebarMenu, Admin, Staff, Company, Customer},
   data() {
     return {
       title: 'Admin',
@@ -33,8 +31,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
-    <PageHeader :title="title"/>
+  <div>
     <SidebarMenu :menu-items="role[user_role]"></SidebarMenu>
 
     <b-button @click="user_role = 'admin'">Admin</b-button>
@@ -60,6 +57,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-
-  </Layout>
+  </div>
 </template>

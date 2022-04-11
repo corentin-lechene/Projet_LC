@@ -55,8 +55,14 @@ export default {
             if (this.values[key].size > 1024 * 1024) {
               this.error = "Image size not accepted";
             } else if (this.values[key][0] !== null) {
-              const fileCompressed = await base64Encode(this.values[key]);
-              console.log(fileCompressed);
+              const file = await base64Encode(this.values[key]);
+              let fileCompressed = [];
+              let min = 0, max = 512;
+              for (let j = 0; j < file.length / 512; j++) {
+                fileCompressed.push(file.slice(min, max))
+                min += 512;
+                max += 512;
+              }
               this.values[key] = fileCompressed;
             }
           }

@@ -20,14 +20,14 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
-            {key: 'actions', label: 'Actions'}],
+            {key: 'actions', label: 'Actions'}
+          ],
           modals: {register: 'customers', info: 'UserDetail', update: 'update', delete: 'delete'}
         },
       }
 
     };
   }
-
 }
 </script>
 

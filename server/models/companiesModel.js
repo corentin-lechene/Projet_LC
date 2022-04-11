@@ -93,7 +93,7 @@ export const updateCompaniesById = (data, id, result) => {
 
 // Delete Companies to Database
 export const deleteCompaniesById = (id, result) => {
-    db.query("DELETE FROM companies WHERE companie_id = ?", [id], (err, results) => {
+    db.query("DELETE FROM companies WHERE company_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

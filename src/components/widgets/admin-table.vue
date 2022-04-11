@@ -134,6 +134,7 @@ export default {
     deleteTable(route, id) {
       let promise = sendDeleteTable(route, id);
       promise.then((res) => {
+        console.log(res);
         if (!validRequest(res)) {
           console.log("del : ", res);
         }
@@ -249,7 +250,7 @@ export default {
     </b-modal>
 
     <!--  Modals delete  /-->
-    <b-modal v-if="id !== null" id="delete" ref="delete" title="Détail" title-class="font-18" size="xs" hide-footer centered @hidden="getInformations(options.route, options.id)">
+    <b-modal v-if="id !== null" id="delete" ref="delete" title="Détail" title-class="font-18" size="xs" hide-footer centered @hidden="getInformations(options.route, options.byId)">
       <div class="card">
         <div class="card-body">
           <h5>Êtes-vous sûr de vouloir supprimer?</h5>
