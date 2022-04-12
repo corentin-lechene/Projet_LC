@@ -9,8 +9,8 @@ import {deleteServices, showServices, showServicesById, updateServices, createSe
 
 
 
-servicesRouter.get('/services', showServices);
 servicesRouter.get('/services-sellers/:id', showServicesBySellerId);
+servicesRouter.get('/services', showServices);
 servicesRouter.get('/services/:id', showServicesById);
 servicesRouter.post('/services', createServices);
 servicesRouter.put('/services/:id', updateServices);

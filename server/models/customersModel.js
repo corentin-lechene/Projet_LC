@@ -1,7 +1,6 @@
 // import connection
-import db/*, {generatePassword}*/ from "../config/database.js";
-//import {generateToken} from "../my-functions.js";
-import nodemailer from "nodemailer";
+import db, {encodeToken, generatePassword} from "../config/database.js";
+import {sendEmail} from "../mails/mails.js";
 
 // Get All Customers
 export const getCustomers = (result) => {
@@ -37,50 +36,58 @@ export const getCustomersById = (id, result) => {
 
 // Insert Customers to Database
 export const insertCustomers = (data, result) => {
-    const password = "msteopseas";
-    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'customers')", [data.firstname, data.lastname, data.mail, password], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else if (results.insertId) {
-            const user_id = results.insertId;
-            db.query("INSERT INTO customers(company_id, user_id) VALUES(?, ?)", [data.company_id, user_id], (err) => {
+    for (const dataKey in data) {
+        if(data[dataKey] === "" || data[dataKey] === null)
+            result({valid: false, result: "row empty"});
+    }
+    db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
+        if(err) {
+            result(err);
+        } else if(resultsEmail[0]) {
+            result({valid: false, result: "Email already used"});
+        } else {
+            const password = generatePassword();
+            db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'customers')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
                 if (err) {
                     result({error: true, reason: err});
-                } else {
-                    const code = "";//generateToken({user_id: user_id, role: data.role});
-                    db.query("INSERT INTO cards(code, points) VALUES(?, ?)", [code, 0], (err) => {
+                } else if (resultsUsers.insertId) {
+                    const user_id = resultsUsers.insertId;
+                    const token = encodeToken({user_id: user_id, role: data.role});
+                    db.query("UPDATE users set token = ? WHERE user_id = ?", [token, user_id], (err) => {
                         if (err) {
                             result({error: true, reason: err});
                         } else {
-
-                            let transporter = nodemailer.createTransport({
-                                service: `${process.env.VUE_APP_MAIL_SERVICE}`,
-                                auth: {
-                                    user: `${process.env.VUE_APP_MAIL_USER}`,
-                                    pass: `${process.env.VUE_APP_MAIL_PWD}`
+                            db.query("INSERT INTO cards(code, points) VALUES(?, ?)", [token, 0], (err, resultsCards) => {
+                                if (err) {
+                                    result({error: true, reason: err});
+                                } else if (resultsCards.insertId) {
+                                    const card_id = resultsCards.insertId;
+                                    db.query("INSERT INTO customers(card_id, company_id, user_id) VALUES(?, ?, ?)", [card_id, data.companies, user_id], (err, results) => {
+                                        if (err) {
+                                            result({error: true, reason: err});
+                                        } else if (results.insertId) {
+                                            const templateRegister = `
+                                        <h3>Bonjour ${data.firstname},</h3>
+                                        <p>Un compte a été créé par votre entreprise.</p>
+                                        <p>Pour vous connecter, voici vos identifiants.</p>
+                                        <p>Email : ${data.mail}</p>    
+                                        <p>Email : ${password.pwd_visible}</p> 
+                                        <p>Vous pouvez vous connecter <a href="http://localhost:8081/login">ici</a></p>
+                                        <p>Cordialement</p>
+                                        <p><u>LoyaltyCard</u></p>
+                                    `; //FIXME changer l'adresse du lien
+                                            sendEmail(data.mail, "Inscription sur LoyaltyCard", templateRegister);
+                                            result({valid: true, result: "OK"});
+                                        } else {
+                                            result({valid: false, result: results});
+                                        }
+                                    })
                                 }
-                            });
-
-                            let mailOptions = {
-                                from: `${process.env.VUE_APP_MAIL_USER}`,
-                                to: data.mail,
-                                subject: "Inscription à LoyalyCard",
-                                text: `Bonjour ${data.firstname},\nUn compte a été créé par votre entreprise.\nVos identifiants: \nemail: ${data.mail}\nmot de passe: ${password}.`,
-                            };
-
-                            transporter.sendMail(mailOptions, (err, info) => {
-                                if(err) {
-                                    console.error(err);
-                                } else {
-                                    console.log("email sent : ", info.response);
-                                }
-                            });
-
-                            result({valid: true, result: "tout est ok !"});
+                            })
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
     });
 }

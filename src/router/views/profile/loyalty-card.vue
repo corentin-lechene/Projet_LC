@@ -1,6 +1,5 @@
 <script>
 import Layout from "../../layouts/main";
-import {OffersData} from "@/data/data-offers";
 
 /**
  * Dashboard Component
@@ -14,7 +13,7 @@ export default {
   },
   data() {
     return {
-      OffersData,
+
     };
   },
 };

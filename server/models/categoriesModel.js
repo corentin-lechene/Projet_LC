@@ -5,7 +5,7 @@ import db from "../config/database.js";
 // Get All Categories
 export const getCategories = (result) => {
     db.query("SELECT * FROM categories", (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results});
@@ -15,8 +15,8 @@ export const getCategories = (result) => {
 
 // Get Single Categories
 export const getCategoriesById = (id, result) => {
-    db.query("SELECT * FROM categories WHERE categorie_id = ?", [id], (err, results) => {
-        if(err) {
+    db.query("SELECT * FROM categories WHERE category_id = ?", [id], (err, results) => {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});
@@ -26,19 +26,31 @@ export const getCategoriesById = (id, result) => {
 
 // Insert Categories to Database
 export const insertCategories = (data, result) => {
-    db.query("INSERT INTO categories SET ?", [data], (err, results) => {
+    data.title = data.nameCategory;
+    delete data.nameCategory;
+
+
+    db.query("SELECT category_id FROM categories WHERE title = ?", [data.nameWareHouse], (err, resultsName) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (results.affectedRows !== 0) {
-            result({valid: true, result: "Colonne ajoutée"});
+        } else if (resultsName[0]) {
+            result({valid: false, result: "Category already created"});
+        } else {
+            db.query("INSERT INTO categories SET ?", [data], (err) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: "Colonne ajoutée"});
+                }
+            })
         }
-    });
+    })
 }
 
 // Update Categories to Database
 export const updateCategoriesById = (data, id, result) => {
-    db.query("UPDATE categories SET name = ? /* TODO */, categorie_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if(err) {
+    db.query("UPDATE categories SET name = ? /* TODO */, category_id = ?", [data.name /* TODO */, id], (err, results) => {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});

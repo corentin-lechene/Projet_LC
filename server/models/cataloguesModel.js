@@ -1,5 +1,6 @@
 // import connection
-import db from "../config/database.js";
+import db, {getValueImage} from "../config/database.js";
+import fs from "fs-extra";
 
 
 // Get All Catalogues
@@ -26,10 +27,15 @@ export const getCataloguesById = (id, result) => {
 
 // Insert Catalogues to Database
 export const insertCatalogues = (data, result) => {
-    db.query("INSERT INTO catalogues SET ?", [data], (err, results) => {
+    const image = getValueImage(data.file);
+    const image_name = "img-"+ data.startDate +"-"+ data.endDate +"."+ image.ext;
+    const path = "../src/assets/images/catalogues/"+ image_name;
+
+    db.query("INSERT INTO catalogues(name, start_date, end_date, image) value(?, ?, ?, ?)", [data.nameCatalogue, data.startDate, data.endDate, image_name], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.affectedRows !== 0) {
+            fs.outputFile(path, image.bin);
             result({valid: true, result: "Colonne ajoutée"});
         }
     });

@@ -5,7 +5,7 @@ import db from "../config/database.js";
 // Get All Warehouses
 export const getWarehouses = (result) => {
     db.query("SELECT * FROM warehouses", (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results});
@@ -16,7 +16,7 @@ export const getWarehouses = (result) => {
 // Get Single Warehouses
 export const getWarehousesById = (id, result) => {
     db.query("SELECT * FROM warehouses WHERE warehouse_id = ?", [id], (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});
@@ -26,19 +26,27 @@ export const getWarehousesById = (id, result) => {
 
 // Insert Warehouses to Database
 export const insertWarehouses = (data, result) => {
-    db.query("INSERT INTO warehouses SET ?", [data], (err, results) => {
+    db.query("SELECT warehouse_id FROM warehouses WHERE name_warehouse = ?", [data.nameWareHouse], (err, resultsName) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (results.affectedRows !== 0) {
-            result({valid: true, result: "Colonne ajoutée"});
+        } else if(resultsName[0]) {
+            result({valid: false, result: "Name already used"});
+        } else {
+            db.query("INSERT INTO warehouses(name_warehouse, address, phone) VALUE(?, ?, ?)", [data.nameWareHouse, data.address, data.phone], (err) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: "Colonne ajoutée"});
+                }
+            })
         }
-    });
+    })
 }
 
 // Update Warehouses to Database
 export const updateWarehousesById = (data, id, result) => {
     db.query("UPDATE warehouses SET name = ? /* TODO */, warehouse_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if(err) {
+        if (err) {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results[0]});

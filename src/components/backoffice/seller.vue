@@ -1,10 +1,11 @@
 <script>
 
+import Profile from "@/components/widgets/profile";
 import AdminTable from "@/components/widgets/admin-table";
 
 export default {
   name: "sellers",
-  components: {AdminTable},
+  components: {AdminTable, Profile},
   data() {
     return {
 
@@ -18,7 +19,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'goods', info: 'info', update: 'update', delete: 'delete'}
         },
         services: {
           hash: '#services',
@@ -29,7 +30,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'services', info: 'info', update: 'update', delete: 'delete'}
         },
       }
     };
@@ -40,6 +41,7 @@ export default {
 
 <template>
   <div>
+    <Profile v-if="$route.hash === '#profile'"/>
     <span v-for="(role, i) in roles" :key="i">
       <AdminTable v-if="$route.hash === role.hash" :options="role.options" :fields="role.fields" :modals="role.modals"/>
     </span>

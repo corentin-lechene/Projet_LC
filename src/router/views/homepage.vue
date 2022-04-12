@@ -4,26 +4,68 @@ import Layout from "../layouts/main";
 import PageHeader from "@/components/page-header";
 
 
-import {OffersData} from "@/data/data-offers";
-import {productData} from "@/data/data-products";
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {preventingErrorSQL, validRequest} from "@/components/my-functions";
 
 /**
  * Dashboard Component
  */
 export default {
-  page: {
-    title: "Accueil",
-  },
   components: {
     Layout,
     PageHeader,
   },
   data() {
     return {
-      title: "Accueil",
-      OffersData,
-      productData,
+      products: {},
+      services: {},
+      catalogues: {},
+      loading: {
+        products: true,
+        services: true,
+        slider: true,
+      },
     };
+  },
+  methods: {
+    getGoods() {
+      let promise = sendGetDataTable('goods');
+      promise.then((res) => {
+        if(!preventingErrorSQL(res)) {
+          if (!validRequest(res)) {
+            this.products = res.result.slice(0, 3);
+            setTimeout(() => {
+              this.loading.products = false;
+            }, 750);
+          }
+        }
+      })
+    },
+    getServices() {
+      let promise = sendGetDataTable('services');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.services = res.result.slice(0, 3);
+          setTimeout(() => {
+            this.loading.services = false;
+          }, 750);
+        }
+      })
+    },
+    getCatalogues() {
+      let promise = sendGetDataTable('catalogues');
+      promise.then((res) => {
+        if (!validRequest(res)) {
+          this.catalogues = res.result;
+          setTimeout(() => {this.loading.slider = false}, 750);
+        }
+      })
+    },
+  },
+  mounted() {
+    this.getGoods();
+    this.getServices();
+    this.getCatalogues();
   },
   created() {
     if (this.$route.params.notification) {
@@ -34,22 +76,19 @@ export default {
         autoHideDelay: 5000
       })
     }
-
-
   }
 };
 </script>
 
 <template>
   <Layout>
-    <PageHeader :title="title"/>
+    <PageHeader :title="$t('homepage.title') || 'Accueil'"/>
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-body">
             <b-carousel controls>
-              <b-carousel-slide :img-src="require('@/assets/images/slidersoldes.png')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/slidersoldes2.png')"></b-carousel-slide>
+              <b-carousel-slide v-for="catalogue in catalogues" :key="catalogue.id" :img-src="require(`@/assets/images/catalogues/${catalogue.image}`)" />
             </b-carousel>
           </div>
         </div>
@@ -61,26 +100,29 @@ export default {
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="my-3">Nos nouveautés</h4>
+            <h4 class="my-3">{{ $t('homepage.news') }}</h4>
             <b-card-group deck>
               <b-card
-                  v-for="data in productData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+                  v-for="product in products" :key="product.good_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
-                  <div v-if="data.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+                  <div v-if="product.reduction" class="avatar-sm product-ribbon">
+                    <span v-if="!loading.products" class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/product-detail?id=${data.id}`">
-                    <img :src="`${data.img}`" alt class="img-fluid mx-auto d-block"/>
+                  <router-link tag="a" :to="`/product-detail?id=${product.good_id}`">
+                    <b-skeleton-img v-if="loading.products"/>
+                    <b-img :src="require(`@/assets/images/product/${product.image}`)" fluid alt="img" />
                   </router-link>
                 </div>
                 <div class="row"></div>
+                <b-skeleton v-if="loading.products" />
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ data.name }}</h5>
+                  <h5 v-if="!loading.products" class="card-title text-center">{{ product.name }}</h5>
                 </b-card-title>
 
-                <p
+                <b-skeleton v-if="loading.products" />
+                <p v-if="!loading.products"
                     class="card-text h5 text-center">
-                  {{ data.price }}€</p>
+                  {{ product.price }}€</p>
               </b-card>
             </b-card-group>
           </div>
@@ -93,29 +135,33 @@ export default {
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="my-3">Meilleurs offres partenaires</h4>
+            <h4 class="my-3">{{ $t('homepage.offers-partners') }}</h4>
             <b-card-group deck>
               <b-card
-                  v-for="data in OffersData.slice(0,3)" :key="data.id" class="col-xl-4 col-sm-6">
+                  v-for="service in services" :key="service.service_id" class="col-xl-4 col-sm-6">
                 <div class="product-img position-relative">
-                  <div v-if="data.discount" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary">-{{ data.discount }}%</span>
+                  <div v-if="service.reduction" class="avatar-sm product-ribbon">
+                    <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
-                  <router-link tag="a" :to="`/service-detail?id=${data.id}`">
+                  <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
                     <div style="height: 190px !important;">
-                      <img :src="`${data.img}`" style="width: 100%; height: 100%;" alt
+                      <b-skeleton-img v-if="loading.services"/>
+                      <img v-if="!loading.services" :src="`${service.image}`" style="width: 100%; height: 100%;" alt
                            class="img-fluid mx-auto d-block"/>
                     </div>
                   </router-link>
                 </div>
                 <div class="row" style="height: 10px"></div>
                 <b-card-title>
-                  <h5 class="card-title text-center">{{ data.name }}</h5>
+                  <b-skeleton v-if="loading.services" />
+                  <h5 v-if="!loading.services" class="card-title text-center">{{ service.name }}</h5>
                 </b-card-title>
 
-                <p
+                <b-skeleton v-if="loading.services" />
+                <b-skeleton v-if="loading.services" />
+                <p v-if="!loading.services"
                     class="card-text h5 text-center">
-                  {{ data.price }}</p>
+                  {{ service.price }}</p>
               </b-card>
             </b-card-group>
           </div>
@@ -133,10 +179,10 @@ export default {
           <div class="row">
             <div class="col-10">
               <div class="row" style="height: 10px"></div>
-              <h2 style="text-align: center">NOS MEILLEURS PARTENAIRES</h2>
+              <h2 style="text-align: center">{{ $t('homepage.partners') }}</h2>
             </div>
             <div class="col-2" style="padding-top: 8px;">
-              <b-button pill variant="light">Voir +</b-button>
+              <b-button pill variant="light">{{ $t('g.see-more') }}</b-button>
             </div>
           </div>
           <div class="row" style="height: 20px"></div>
