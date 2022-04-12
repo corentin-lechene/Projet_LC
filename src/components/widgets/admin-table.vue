@@ -94,7 +94,7 @@ export default {
       let promise = sendGetDataTable(route, id);
       promise.then((res) => {
         if (!validRequest(res)) {
-          this.data = createValue(res.result, this.layer);
+          this.data = res.result.length > 0 ? createValue(res.result, this.layer) : [];
           this.totalRows = this.data.length;
           setTimeout(() => {this.loading = false;}, 500);
         }
@@ -109,13 +109,6 @@ export default {
         temp.push(src[i].key);
       }
       return temp
-    },
-    getItemsByRoute(route, val) {
-      if (val === '*')
-        return ['customers', 'companies', 'sellers', 'staffs'];
-      else if (val === '-')
-        return ['customers', 'companies', 'sellers'];
-      return (typeof val === 'object') ? val : [val];
     },
     currentProperties() {
       switch (this.modals.info) {
@@ -134,7 +127,6 @@ export default {
     deleteTable(route, id) {
       let promise = sendDeleteTable(route, id);
       promise.then((res) => {
-        console.log(res);
         if (!validRequest(res)) {
           console.log("del : ", res);
         }
@@ -153,7 +145,7 @@ export default {
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">TITLE</h4>
+          <h4 class="card-title">Compte</h4>
           <div class="row mt-4 mb-2">
             <div class="col-sm-12 col-md-2 pr-0">
               <div id="tickets-table_length" class="dataTables_length">
@@ -188,17 +180,19 @@ export default {
             <!-- End Add -->
           </div>
           <!-- Table -->
-          <div class="table-responsive mb-0">
+          <div class="table-responsive mb-0" style="min-height: 500px">
             <b-skeleton-table v-if="loading" :columns="fields.length" :rows="10"/>
+
             <b-table
-                v-if="data && !loading"
-                :fields="fields" :items="data"
+                v-if="!loading"
+                :fields="fields" :items="data" show-empty
                 responsive="xl" thead-class="text-center"
                 :per-page="perPage" :current-page="currentPage"
                 :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
                 :filter="filter" :filter-included-fields="filterOn"
                 @filtered="onFiltered"
             >
+              <template #empty="scope"><div class="text-center font-weight-bold font-size-17">Aucune donnée enregistrée</div></template>
               <template #cell(actions)="row">
                 <div class="text-center" @mouseover="getId(row.item)">
                   <b-button

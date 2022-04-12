@@ -63,7 +63,9 @@ export default {
                 min += 512;
                 max += 512;
               }
+              const name = this.values[key].name; //get file name
               this.values[key] = fileCompressed;
+              this.values[key].unshift(name); //first index
             }
           }
         }

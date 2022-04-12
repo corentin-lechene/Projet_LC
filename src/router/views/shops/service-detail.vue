@@ -3,7 +3,7 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {sendGetDataTable, sendInsertTable} from "@/components/requests-bdd";
+import {sendGetDataTable, sendGetUserByToken, sendInsertTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
 
 
@@ -13,6 +13,8 @@ export default {
   components: {Layout, PageHeader},
   data() {
     return {
+      user: null,
+
       title: "Detail du service",
 
       serviceDetail: -1,
@@ -21,13 +23,12 @@ export default {
         serviceDetail: true,
         services: true,
       },
-      CUSTOMER_ID: 39,
     }
   },
   methods: {
     addToCart() {
       let promise = sendInsertTable('carts_services', {
-        customer_id: this.CUSTOMER_ID,
+        customer_id: this.user.customer_id,
         quantity: 1,
         service_id: this.serviceDetail.service_id
       });
@@ -79,6 +80,14 @@ export default {
   mounted() {
     this.getServiceById();
     this.getServices();
+  },
+  async created() {
+    this.user = await sendGetUserByToken();
+    if(!validRequest(this.user)) {
+      this.user = this.user.result;
+    } else {
+      this.user = null;
+    }
   }
 }
 </script>
@@ -164,10 +173,10 @@ export default {
                   </div>
                   <div class="text-left">
                     <button class="btn btn-primary waves-effect waves-light my-2 mr-2" type="button"
-                            @click="addToCart()" :disabled="loading.serviceDetail">
+                            @click="addToCart()" :disabled="loading.serviceDetail || user === null">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
-                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button" :disabled="loading.serviceDetail">
+                    <button class="btn btn-success waves-effect my-2 mx-2 waves-light" type="button" :disabled="loading.serviceDetail || user === null">
                       <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
                     </button>
                   </div>

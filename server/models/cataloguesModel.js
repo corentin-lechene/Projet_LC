@@ -28,15 +28,21 @@ export const getCataloguesById = (id, result) => {
 // Insert Catalogues to Database
 export const insertCatalogues = (data, result) => {
     const image = getValueImage(data.file);
-    const image_name = "img-"+ data.startDate +"-"+ data.endDate +"."+ image.ext;
-    const path = "../src/assets/images/catalogues/"+ image_name;
 
-    db.query("INSERT INTO catalogues(name, start_date, end_date, image) value(?, ?, ?, ?)", [data.nameCatalogue, data.startDate, data.endDate, image_name], (err, results) => {
+    db.query("INSERT INTO catalogues(name, start_date, end_date) value(?, ?, ?)", [data.nameCatalogue, data.startDate, data.endDate], (err, resultsInsert) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (results.affectedRows !== 0) {
-            fs.outputFile(path, image.bin);
-            result({valid: true, result: "Colonne ajoutée"});
+        } else {
+            const image_name = "img-"+ resultsInsert.insertId +"-"+ data.startDate +"-"+ data.endDate +"."+ image.ext;
+            const path = "../src/assets/images/catalogues/"+ image_name;
+            db.query("UPDATE catalogues SET image = ? WHERE catalogue_id = ?", [image_name, resultsInsert.insertId], (err) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    fs.outputFile(path, image.bin);
+                    result({valid: true, result: "Colonne ajoutée"});
+                }
+            });
         }
     });
 }

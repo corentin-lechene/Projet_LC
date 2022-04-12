@@ -146,8 +146,8 @@ export default {
                   <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
                     <div style="height: 190px !important;">
                       <b-skeleton-img v-if="loading.services"/>
-                      <img v-if="!loading.services" :src="`${service.image}`" style="width: 100%; height: 100%;" alt
-                           class="img-fluid mx-auto d-block"/>
+                      <b-img v-if="!loading.services" :src="require(`@/assets/images/product/${service.image}`)" fluid alt="img" />
+
                     </div>
                   </router-link>
                 </div>
@@ -161,7 +161,7 @@ export default {
                 <b-skeleton v-if="loading.services" />
                 <p v-if="!loading.services"
                     class="card-text h5 text-center">
-                  {{ service.price }}</p>
+                  {{ service.price }} €</p>
               </b-card>
             </b-card-group>
           </div>
@@ -208,19 +208,15 @@ export default {
         <div class="col-4">
           <b-card
               overlay
-              img-src="#"
+              :img-src="require('@/assets/images/support.svg')"
               img-alt="Card Image"
               text-variant="white"
           >
             <b-card-title>
-              <h5 class="card-title text-white">Card title</h5>
+              <h5 class="card-title text-white">{{ $t('homepage.support') }}</h5>
             </b-card-title>
             <b-card-text>
-              <p>This is a wider card with supporting text below as a natural lead-in to additional content. This
-                content is a little bit longer.</p>
-              <p>
-                <small class="text-white">Last updated 3 mins ago</small>
-              </p>
+              <p class="font-weight-bold">Besoin d'aide ?</p>
             </b-card-text>
           </b-card>
         </div>

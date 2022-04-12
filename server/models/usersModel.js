@@ -70,14 +70,14 @@ export const getUsersByLogIn = (email, password, result) => {
 
 // Tokeen du user
 export const getUserByToken = (token, result) => {
-    db.query("SELECT user_id FROM users WHERE token = ?", [token], (err, resultsToken) => {
+    db.query("SELECT user_id, role FROM users WHERE token = ?", [token], (err, resultsToken) => {
         if(err) {
             result({error: true, reason: err});
         } else if (!resultsToken[0]) {
             result({valid: false, reason: "token invalid"});
         } else {
             const data = decodeToken(token);
-            const role = preserve(data.role);
+            const role = preserve(resultsToken[0].role);
             db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
                 if (err) {
                     result({error: true, reason: err});

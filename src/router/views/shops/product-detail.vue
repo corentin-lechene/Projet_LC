@@ -3,7 +3,7 @@
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {sendGetDataTable, sendInsertTable} from "@/components/requests-bdd";
+import {sendGetDataTable, sendGetUserByToken, sendInsertTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
 
 
@@ -13,6 +13,8 @@ export default {
   components: {Layout, PageHeader},
   data() {
     return {
+      user: null,
+
       title: "Detail du produit",
       loading: {
         productDetail: true,
@@ -21,20 +23,18 @@ export default {
 
       productDetail: -1,
       products: {},
-      CUSTOMER_ID: 39, //TODO
-
     }
   },
   methods: {
     addToCart() {
-      console.log('id: ', this.productDetail.good_id);
       let promise = sendInsertTable('carts_goods', {
-        customer_id: this.CUSTOMER_ID,
+        customer_id: this.user.customer_id,
         quantity: 1,
         good_id: this.productDetail.good_id
       });
 
       promise.then((res) => {
+        console.log(res);
         if (!validRequest(res)) {
           this.makeToast();
         }
@@ -82,6 +82,14 @@ export default {
   mounted() {
     this.getGoodsById();
     this.getGoods();
+  },
+  async created() {
+    this.user = await sendGetUserByToken();
+    if(!validRequest(this.user)) {
+      this.user = this.user.result;
+    } else {
+      this.user = null;
+    }
   }
 }
 </script>
@@ -172,11 +180,11 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <button :disabled="loading.products" class="btn btn-primary waves-effect waves-light my-2 mr-2"
+                    <button :disabled="loading.products || user === null" class="btn btn-primary waves-effect waves-light my-2 mr-2"
                             type="button" @click="addToCart()">
                       <i class="bx bx-cart me-2"></i> Ajouter au panier
                     </button>
-                    <button :disabled="loading.products" class="btn btn-success waves-effect my-2 mx-2 waves-light"
+                    <button :disabled="loading.products || user === null" class="btn btn-success waves-effect my-2 mx-2 waves-light"
                             type="button">
                       <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
                     </button>

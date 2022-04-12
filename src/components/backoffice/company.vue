@@ -2,6 +2,7 @@
 
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
+import {sendGetUserByToken} from "@/components/requests-bdd";
 
 export default {
   name: "company",
@@ -27,6 +28,10 @@ export default {
       }
 
     };
+  },
+  async created() {
+    const user = await sendGetUserByToken();
+    this.user_role = user.result.role; //TODO si pas de user redirection + msg
   }
 }
 </script>
