@@ -93,7 +93,7 @@ export const insertSellers = (data, result) => {
 
 // Delete Sellers to Database
     export const deleteSellersById = (id, result) => {
-        db.query("DELETE FROM sellers WHERE staff_id = ?", [id], (err, results) => {
+        db.query("DELETE FROM sellers WHERE user_id = ?", [id], (err, results) => {
             if (err) {
                 result({error: true, reason: err});
             } else {

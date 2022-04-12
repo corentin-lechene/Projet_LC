@@ -18,8 +18,8 @@ export default {
       user: null,
       userToken: null,
 
-      email: "corentin.lechene@orange.fr",
-      password: "Test1234!",
+      email: "c.lechene+customers@icloud.com",
+      password: "2aHXiTlbcC*Z",
 
       submitted: false,
       formError: null,

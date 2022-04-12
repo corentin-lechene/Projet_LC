@@ -2,6 +2,7 @@
 
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
+import {sendGetUserByToken} from "@/components/requests-bdd";
 
 export default {
   name: "company",
@@ -20,14 +21,18 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
-            {key: 'actions', label: 'Actions'}],
+            {key: 'actions', label: 'Actions'}
+          ],
           modals: {register: 'customers', info: 'CompanyDetail', update: 'update', delete: 'delete'}
         },
       }
 
     };
+  },
+  async created() {
+    const user = await sendGetUserByToken();
+    this.user_role = user.result.role; //TODO si pas de user redirection + msg
   }
-
 }
 </script>
 

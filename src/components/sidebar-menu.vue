@@ -6,7 +6,8 @@
   >
     <div
         class="logo-details"
-        style="margin: 6px 14px 0 14px;"
+        style="margin: 6px 14px 0 14px; cursor: pointer"
+        @click="$router.push('/')"
     >
       <img
           v-if="menuLogo"
@@ -285,7 +286,7 @@ body {
   flex-direction: column;
   position: fixed;
   left: 0;
-  top: 70px;
+  top: 0px;
   height: 100%;
   min-height: min-content;
   /* overflow-y: auto; */

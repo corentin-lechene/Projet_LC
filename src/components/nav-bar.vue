@@ -215,7 +215,6 @@ export default {
         <b-dropdown variant="white" right toggle-class="header-item">
           <template v-slot:button-content>
             <img class :src="flag" alt="Header Language" height="16" />
-            {{text}}
           </template>
           <b-dropdown-item
               class="notify-item"

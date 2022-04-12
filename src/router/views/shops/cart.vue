@@ -1,10 +1,9 @@
-u
 <script>
 
 import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
-import {sendDeleteTable, sendGetDataTable, sendUpdateTable} from "@/components/requests-bdd";
+import {sendDeleteTable, sendGetDataTable, sendGetUserByToken, sendUpdateTable} from "@/components/requests-bdd";
 import {validRequest, displayLongStr, getTotalReductionOf, getReductionOf} from "@/components/my-functions";
 
 
@@ -13,6 +12,8 @@ export default {
   components: {Layout, PageHeader},
   data() {
     return {
+      user: null,
+
       carts: {},
       total: {
         ttc: [],
@@ -53,7 +54,6 @@ export default {
           this.total.final = 0;
         }
       },
-      CUSTOMER_ID: 39, //TODO enlever ce customer_id
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
     getTotalReductionOf,
 
     getCart() {
-      let promise = sendGetDataTable('carts-customer', this.CUSTOMER_ID);
+      let promise = sendGetDataTable('carts-customer', this.user.customer_id);
       promise.then((res) => {
         if (!validRequest(res)) {
           this.total.reset();
@@ -106,8 +106,15 @@ export default {
       });
     },
   },
-  created() {
-    this.getCart();
+  async created() {
+    this.user = await sendGetUserByToken();
+    if(!validRequest(this.user)) {
+      this.user = this.user.result;
+      this.getCart();
+    } else {
+      this.user = null;
+      this.carts = [];
+    }
   }
 }
 </script>
@@ -154,7 +161,8 @@ export default {
                     <p>{{ displayLongStr(product.description, 30) }}</p>
                   </td>
                   <td>{{ product.price }} €</td>
-                  <td>{{product.reduction}} %</td>
+                  <td v-if="product.reduction">{{product.reduction}} %</td>
+                  <td v-else>0 %</td>
                   <td style="width: 150px">
                     <b-form-spinbutton v-model="product.cart_quantity"
                                        :min="0" vertical

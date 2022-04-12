@@ -60,7 +60,7 @@ export const updateCategoriesById = (data, id, result) => {
 
 // Delete Categories to Database
 export const deleteCategoriesById = (id, result) => {
-    db.query("DELETE FROM categories WHERE categorie_id = ?", [id], (err, results) => {
+    db.query("DELETE FROM categories WHERE category_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.affectedRows !== 0) {
