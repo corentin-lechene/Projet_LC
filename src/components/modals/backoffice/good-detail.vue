@@ -38,11 +38,23 @@ export default {
     <div class="col-12">
       <div class="card">
         <div class="card-body">
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col-4">
           <h4 style="font-size: large; padding-left: 5%;" class="card-title">Informations Produit</h4>
+          </div>
+            <div class="col-7">
+              <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                              class="rounded-circle img-thumbnail" alt="profile-image">
+                <!--<b-img :src="require(`@/assets/images/users/${good.image}`)" fluid
+                       class="rounded-circle img-thumbnail" alt="avatar"/>-->
+              </div>
+            </div>
+          </div>
           <div class="row" style="height: 25px; width: 100%;"></div>
           <div class="row">
-            <div class="col-2"></div>
-            <div class="col-10">
+            <div class="col-1"></div>
+            <div class="col-11">
               <div class="row" style="width: 100%;">
                 <div class="col-6">Nom produit
                   <div class="row" style="height: 5px; width: 100%;"></div>

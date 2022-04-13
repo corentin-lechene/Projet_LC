@@ -26,17 +26,13 @@ export const getCategoriesById = (id, result) => {
 
 // Insert Categories to Database
 export const insertCategories = (data, result) => {
-    data.title = data.nameCategory;
-    delete data.nameCategory;
-
-
     db.query("SELECT category_id FROM categories WHERE title = ?", [data.nameWareHouse], (err, resultsName) => {
         if (err) {
             result({error: true, reason: err});
         } else if (resultsName[0]) {
             result({valid: false, result: "Category already created"});
         } else {
-            db.query("INSERT INTO categories SET ?", [data], (err) => {
+            db.query("INSERT INTO categories(title, type) values(?, ?)", [data.nameCategory, data.typeProducts], (err) => {
                 if (err) {
                     result({error: true, reason: err});
                 } else {

@@ -9,6 +9,9 @@ import ServiceDetail from "@/components/modals/backoffice/service-detail";
 import Register from "@/components/modals/backoffice/register";
 import CompanyDetail from "@/components/modals/backoffice/companydetail";
 import SellerDetail from "@/components/modals/backoffice/sellerdetail";
+import CategoryDetail from "@/components/modals/backoffice/category-detail";
+import WarehouseDetail from "@/components/modals/backoffice/warehouse-detail";
+
 
 export default {
   props: {
@@ -44,6 +47,8 @@ export default {
     Register,
     CompanyDetail,
     SellerDetail,
+    CategoryDetail,
+    WarehouseDetail,
   },
   data() {
     return {
@@ -126,6 +131,10 @@ export default {
           return {company_id: this.id};
         case 'SellerDetail':
           return {seller_id: this.id};
+        case 'CategoryDetail':
+          return {category_id: this.id};
+        case 'WarehouseDetail':
+          return {warehouse_id: this.id};
         // case '';
         // return ;
         default:

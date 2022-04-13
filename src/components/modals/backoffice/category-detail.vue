@@ -2,12 +2,12 @@
 
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
-import UserDetail from "@/components/modals/backoffice/user-detail";
+import GoodDetail from "@/components/modals/backoffice/good-detail";
 
 export default {
-  components: {UserDetail},
+  components: {GoodDetail},
   props: {
-    company_id: {
+    category_id: {
       type: Number,
       default: null
     },
@@ -16,7 +16,7 @@ export default {
       default() {
         return {register: false, info: false, update: false, delete: false};
       }
-    },
+    }
   },
   data() {
     return {
@@ -26,42 +26,48 @@ export default {
     };
   },
   methods: {
-    getCustomersByCompanyId(table, id) {
+
+    getId(item) {
+      this.id = item[this.options.name_id];
+    },
+
+    getGoodsOrServicesByCategoryId(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
+        console.log(res);
         if (!validRequest(res)) {
           this.data = res.result;
         }
 
       })
-    }
+    },
   },
   mounted() {
-    this.getCustomersByCompanyId('customers-companies', this.company_id);
+    this.getGoodsOrServicesByCategoryId('good-service-category', this.category_id);
   },
-  };
+};
 </script>
 
 <template>
   <div class="row">
-    <div v-if="data.length === 0">Aucun Customer trouvé </div>
-    <div v-for="customer in data" :key="customer.id" class="col-sm-4 col-md-4 col-xl-4">
+    <div v-if="data.length === 0">Aucun Produit trouvé </div>
+    <div v-for="good in data" :key="good.id" class="col-sm-4 col-md-4 col-xl-4">
       <div class="card">
         <div class="card-body">
           <div class="text-center card-box">
             <div class="member-card pt-2 pb-2">
               <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
                                                               class="rounded-circle img-thumbnail" alt="profile-image">
-                <!--<b-img :src="require(`@/assets/images/users/${customer.image}`)" fluid
+                <!--<b-img :src="require(`@/assets/images/users/${good.image}`)" fluid
                        class="rounded-circle img-thumbnail" alt="avatar"/>-->
               </div>
               <div class="">
-                <h4> {{ customer.firstname }} | {{ customer.lastname }}</h4>
-                <p><span>{{ customer.mail }}</span></p>
+                <h4> {{ good.price}} € | {{ good.reduction }} %</h4>
+                <p><span>{{ good.name }}</span></p>
               </div>
               <div class="text-center">
                 <b-button
-                    v-b-modal="'user-detail'" @click="id = customer.user_id"
+                    v-b-modal="'good-detail'" @click="id = good.good_id"
                     variant="danger" size="sm" class="mx-1"><i class="bx bx-trash"></i></b-button>
               </div>
             </div>
@@ -70,10 +76,10 @@ export default {
       </div>
     </div>
     <!--  Modals info  /-->
-    <b-modal v-if="id !== null" id="user-detail" title="Detail" title-class="font-18" size="xl" hide-footer centered>
+    <b-modal v-if="id !== null" id="good-detail" title="Detail" title-class="font-18" size="xl" hide-footer centered>
       <div class="card">
         <div class="card-body">
-          <UserDetail :user_id="id"/>
+         <GoodDetail :good_id="id"/>
         </div>
       </div>
     </b-modal>

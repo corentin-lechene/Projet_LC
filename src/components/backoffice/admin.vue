@@ -79,7 +79,7 @@ export default {
             {key: 'address', label: 'Address', sortable: true},
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'warehouses', info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'warehouses', info: 'WarehouseDetail', update: 'update', delete: 'delete'}
         },
         categories: {
           hash: '#categories',
@@ -88,7 +88,7 @@ export default {
             {key: 'category_id', label: 'ID', sortable: true},
             {key: 'title', label: 'Title', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'categories', info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'categories', info: 'CategoryDetail', update: 'update', delete: 'delete'}
         },
         catalogues: {
           hash: '#catalogues',
