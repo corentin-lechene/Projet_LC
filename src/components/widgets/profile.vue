@@ -1,34 +1,30 @@
 <script>
 
-import {sendGetDataTable} from "@/components/requests-bdd";
-import {validRequest} from "@/components/my-functions";
+import {sendGetUserByToken} from "@/components/requests-bdd";
 
 export default {
   data() {
     return {
-      valuesForm:{},
+      user: null,
     };
   },
   methods: {
-
-    getUsers(table, id) {
-      let promise = sendGetDataTable(table, id);
-      promise.then((res) => {
-        if (!validRequest(res))
-        {this.valuesForm = res.result;}
-
-      })
-    }
   },
   mounted() {
-    this.getUsers('users', 1);
+  },
+  async created() {
+    const user = await sendGetUserByToken();
+    if(user !== undefined)
+      this.user = user.result;
+    //else
+      //await this.$router.push('/'); //FIXME si pas de token redirection
   },
 };
 </script>
 
 <template>
   <div class="row">
-    <div class="col-12">
+    <div v-if="user !== null" class="col-12">
       <div class="card">
         <div class="card-body">
           <h4 style="font-size: large; padding-left: 5%;" class="card-title">Vos informations</h4>
@@ -47,11 +43,11 @@ export default {
               <div class="row" style="width: 100%;">
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.lastname"></b-form-input>
+                                v-model="user.lastname"></b-form-input>
                 </div>
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.firstname"></b-form-input>
+                                v-model="user.firstname"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>
@@ -66,11 +62,11 @@ export default {
               <div class="row" style="width: 100%;">
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.phone"></b-form-input>
+                                v-model="user.phone"></b-form-input>
                 </div>
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.mail"></b-form-input>
+                                v-model="user.mail"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>
@@ -85,11 +81,11 @@ export default {
               <div class="row" style="width: 100%;">
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.address"></b-form-input>
+                                v-model="user.address"></b-form-input>
                 </div>
                 <div class="col-6">
                   <b-form-input id="input-default" style="width: 80%; text-align: center;" readonly
-                                v-model="valuesForm.postal_code"></b-form-input>
+                                v-model="user.postal_code"></b-form-input>
                 </div>
               </div>
               <div class="row" style="height: 35px; width: 100%;"></div>

@@ -30,7 +30,10 @@ export default {
   },
   async created() {
     const user = await sendGetUserByToken();
-    this.user_role = user.result.role; //TODO si pas de user redirection + msg
+    if(user !== undefined)
+      this.user_role = user.result.role; //TODO si pas de user redirection + msg
+    // else
+    //   this.$router.push('/404');
   }
 }
 </script>

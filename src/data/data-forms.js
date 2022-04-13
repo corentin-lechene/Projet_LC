@@ -96,8 +96,9 @@ const typeProducts = {
     type: "select",
     options: [
         {value: null, text: "Saisir le type de produit", disabled: true},
-        {value: 'goods', text: "Biens"},
+        {value: 'biens', text: "Biens"},
         {value: 'services', text: "Services"},
+        {value: 'biens et services', text: "Biens et Services"},
     ]
 };
 
@@ -110,10 +111,11 @@ const forms = {
     goods: {nameGood, description, price, file, sellers, categories},
     services: {nameService, description, price, file, sellers, categories},
 
-    categories: {nameCategory},
+    categories: {nameCategory, typeProducts},
     catalogues: {nameCatalogue, startDate, endDate, file},
 
     warehouses: {nameWareHouse, address, phone},
+    warehouses_stocks: {} //tous les warehouses, tous les goods, nombre stock, mettre en ligne
 }
 
 export default forms;

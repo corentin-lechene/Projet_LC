@@ -172,7 +172,7 @@ export default {
           </template>
           <!-- item-->
           <b-dropdown-item>
-            <router-link tag="span" to="/profile">
+            <router-link tag="span" to="/admin#profile">
               <i class="bx bx-user font-size-16 align-middle mr-1"></i>
               {{ $t('nav-bar.profile.text') }}
             </router-link>

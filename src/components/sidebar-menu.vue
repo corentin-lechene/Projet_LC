@@ -7,13 +7,13 @@
     <div
         class="logo-details"
         style="margin: 6px 14px 0 14px; cursor: pointer"
-        @click="$router.push('/')"
     >
       <img
           v-if="menuLogo"
           :src="menuLogo"
           alt="menu-logo"
           class="menu-logo icon"
+          @click="$router.push('/')"
       >
       <div class="logo_name">
         {{ menuTitle }}

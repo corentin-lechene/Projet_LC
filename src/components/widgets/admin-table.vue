@@ -1,6 +1,6 @@
 <script>
 
-import {sendDeleteTable, sendGetDataTable} from "@/components/requests-bdd";
+import {sendDeleteTable, sendGetDataTable, sendGetUserByToken} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
 import UserDetail from "@/components/modals/backoffice/user-detail";
@@ -47,6 +47,8 @@ export default {
   },
   data() {
     return {
+      user: null,
+
       data: [],
 
       id: null,
@@ -141,8 +143,13 @@ export default {
       })
     }
   },
-  created() {
+  async created() {
     this.getInformations(this.options.route, this.options.byId);
+    const user = await sendGetUserByToken();
+    if(user !== undefined)
+      this.user = user.result;
+    // else
+    //   await this.$router.push('/'); //FIXME si pas de token redirection
   }
 
 }
