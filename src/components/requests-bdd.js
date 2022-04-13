@@ -7,6 +7,7 @@ function getUrl(table, id = false) {
 
 export function sendGetDataTable(table, id = false) {
     let url = getUrl(table, id);
+    console.log("kfo",url)
     return fetch(url)
         .then((response) => {
             if (response.ok) {

@@ -1,5 +1,14 @@
 // Import function from Goods Model
-import { getGoods, getGoodsById, insertGoods, updateGoodsById, deleteGoodsById, getGoodsBySellerId } from "../models/goodsModel.js";
+import {
+    getGoods,
+    getGoodsById,
+    insertGoods,
+    updateGoodsById,
+    deleteGoodsById,
+    getGoodsBySellerId,
+    getGoodsOrServicesByCategoryId,
+    getGoodsByWarehouseId
+} from "../models/goodsModel.js";
 
 // Get All Goods
 export const showGoods = (req, res) => {
@@ -26,6 +35,27 @@ export const showGoodsById = (req, res) => {
 // Get Goods by seller
 export const showGoodsBySellerId = (req, res) => {
     getGoodsBySellerId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+// Get Goods or Services by category
+export const showGoodsOrServicesByCategoryId = (req, res) => {
+    getGoodsOrServicesByCategoryId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+// Get Goods by warehouse id
+export const showGoodsByWarehouseId = (req, res) => {
+    getGoodsByWarehouseId(req.params.id, (err, results) => {
         if (err){
             res.send(err);
         }else{
