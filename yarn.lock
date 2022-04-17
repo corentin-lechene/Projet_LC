@@ -2760,6 +2760,13 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001312:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001313.tgz"
   integrity sha512-rI1UN0koZUiKINjysQDuRi2VeSCce3bYJNmDcj3PIKREiAmjakugBul1QSkg/fPrlULYl6oWfGg3PbgOSY9X4Q==
 
+canvas@^1.6.5:
+  version "1.6.13"
+  resolved "https://registry.yarnpkg.com/canvas/-/canvas-1.6.13.tgz#8cb4e9abbea9e615a377890ffac50277a1167c73"
+  integrity sha512-XAfzfEOHZ3JIPjEV+WSI6PpISgUta3dgmndWbsajotz+0TQOX/jDpp2kawjRERatOGv9sMMzk5auB3GKEKA6hg==
+  dependencies:
+    nan "^2.10.0"
+
 canvg@^1.0:
   version "1.5.3"
   resolved "https://registry.npmjs.org/canvg/-/canvg-1.5.3.tgz"
@@ -6578,7 +6585,7 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nan@^2.12.1:
+nan@^2.10.0, nan@^2.12.1:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
@@ -6889,6 +6896,11 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   integrity sha1-WDsap3WWHUsROsF9nFC6753Xa9E=
   dependencies:
     wrappy "1"
+
+onesignal-vue@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/onesignal-vue/-/onesignal-vue-1.0.1.tgz#b136547aa9e512b76b6b055c1acb30b9804c2e9d"
+  integrity sha512-oF1S3OlP8v4sMO2tD0oeFAaE8agbYVxgS47794ILaDhC5gUw6AanrjCjL4Yumk0SNDSOgF5217WtLxCaSKwhOw==
 
 onetime@^2.0.0:
   version "2.0.1"
@@ -7770,6 +7782,18 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.npmjs.org/q/-/q-1.5.1.tgz"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qrcode.vue@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/qrcode.vue/-/qrcode.vue-3.3.3.tgz#00262244311a0ee1956fb7a0e238197ff7e14cfa"
+  integrity sha512-OsD4tQjIbxg/K6D5ZkWjBdYI9eg9K2i8qeYILdEAX5mdAydSAxV7xKmmZSP/hA12olLqEMZ9ryqDQrwa9jEMgw==
+
+qrious@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/qrious/-/qrious-2.3.0.tgz#ca7ce68a82099a67a90e4979f4b1cdf51ef32475"
+  integrity sha1-ynzmioIJmmepDkl59LHN9R7zJHU=
+  optionalDependencies:
+    canvas "^1.6.5"
 
 qs@6.9.7:
   version "6.9.7"
@@ -9456,6 +9480,13 @@ v-mask@^2.2.1:
   version "2.3.0"
   resolved "https://registry.npmjs.org/v-mask/-/v-mask-2.3.0.tgz"
   integrity sha512-ap7pTtCTvj25CqX4VYXqudCBd0+XvYyhiiLbzWQQR7AMQosJ2+DPu0a94P9stk0EGmGcmYxJaPkFkfjD8hquWQ==
+
+v-qrcode@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/v-qrcode/-/v-qrcode-1.0.3.tgz#687b536012bd1f8c37efaf6933a8c5265a78f2bc"
+  integrity sha1-aHtTYBK9H4w3769pM6jFJlp48rw=
+  dependencies:
+    qrious "^2.2.0"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"

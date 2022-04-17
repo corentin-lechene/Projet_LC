@@ -65,7 +65,7 @@ export default {
             <div class="card-body">
               <h4 style="text-align: center;font-size: large;" class="card-title">Ma carte de fidélité</h4>
               <div class>
-                <img src="@/assets/images/carte.png" class="img-fluid" alt="Responsive image" style="height: 350px; width: 500px;"/>
+                  <img src="@/assets/images/carte.png" class="img-fluid" alt="Responsive image" style="height: 350px; width: 500px;"/>
             </div>
           </div>
         </div>

@@ -1,20 +1,31 @@
 <script>
 import Layout from '../../layouts/main'
 import PageHeader from '@/components/page-header'
-import Transaction from '@/components/widgets/transaction'
+import Orders from '@/components/widgets/orders'
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
+import Qrcode from 'v-qrcode/src/index'
 
 /**
  * Products-order component
  */
 export default {
+  props: {
+    user_id: {
+      type: Number,
+      default: null
+    }
+  },
   page: {
     title: "Profile",
   },
-  components: { Layout, PageHeader, Transaction },
+  components: { Layout, PageHeader, Orders, Qrcode },
   data() {
     return {
+      qrCls: 'qrcode',
+      size: 100,
+      background: 'white',
+      token: null,
       title: 'Profile',
       valuesForm:{},
       items: [
@@ -27,7 +38,7 @@ export default {
           active: true,
         },
       ],
-      transactions: [
+      orders: [
         {
           id: '#SK2540',
           name: 'Neal Matthews',
@@ -124,7 +135,12 @@ export default {
     }
   },
   mounted() {
-    this.getUsers('users', 1);
+    this.getUsers('users', this.user_id);
+  },
+  created() {
+    if (localStorage.user_token) {
+      this.token = localStorage.getItem('user_token');
+    }
   },
 }
 </script>
@@ -248,7 +264,7 @@ export default {
                       <!-- end col-->
                     </div>
                     <!-- Table data -->
-                    <Transaction :transactions="transactions" />
+                    <Orders :orders="orders" />
                     <ul class="pagination pagination-rounded justify-content-end mb-2">
                       <li class="page-item disabled">
                         <a class="page-link" href="javascript: void(0);" aria-label="Previous">
@@ -305,6 +321,7 @@ export default {
                   <div class="col-1"></div>
                   <div class="col-2" style="font-size: medium">Changer la langue</div>
                 </div>
+                <qrcode :background="background" :size="size" :cls="qrCls" :value="token"></qrcode>
               </b-tab>
             </b-tabs>
           </div>

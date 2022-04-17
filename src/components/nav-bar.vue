@@ -1,10 +1,24 @@
 <script>
 
 import i18n from "@/i18n";
+import Qrcode from 'v-qrcode/src/index'
+import {sendGetDataTable} from "@/components/requests-bdd";
+import {validRequest} from "@/components/my-functions";
 
 export default {
+  props: {
+    user_id: {
+      type: Number,
+      default: null
+    }
+  },
   data() {
     return {
+      user: {},
+      id:null,
+      qrCls: 'qrcode',
+      size: 100,
+      background: '#F3ECEC',
       token: null,
       languages: [
         {
@@ -29,7 +43,20 @@ export default {
       value: null,
     }
   },
+  components: {
+    Qrcode,
+  },
   methods: {
+    getUsers() {
+      let promise = sendGetDataTable('users', this.user_id);
+      promise.then((res) => {
+        console.log(res);
+        console.log("la");
+        if (!validRequest(res)) {
+          this.user = res.result;
+        }
+      })
+    },
     setLanguage(locale, country, flag) {
       this.lan = locale;
       this.text = country;
@@ -38,6 +65,7 @@ export default {
     },
   },
   mounted() {
+    this.getUsers();
     this.value = this.languages.find((x) => x.language === i18n.locale);
     this.text = this.value.title;
     this.flag = this.value.flag;
@@ -46,7 +74,7 @@ export default {
     if (localStorage.user_token) {
       this.token = localStorage.getItem('user_token');
     }
-  }
+  },
 };
 </script>
 
@@ -125,31 +153,52 @@ export default {
           </form>
         </b-dropdown>
 
-        <!-- Picto LC card -->
 
-        <!-- <div class="d-flex" style="margin-right: 15px">
-          <router-link tag="a" to="/loyalty-card">
-          <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;" />
-          </router-link>
-        </div>-->
-
+        <div>
+        <span v-if="token">
         <div class="d-flex" style="margin-right: 10px">
           <b-button v-b-modal.modal-standard style="background-color: white; border-color: white;">
             <div>
               <img alt class="avatar-sm" src="@/assets/images/pictocarte.png"/>
             </div>
           </b-button>
-          <div class="contenant">
-            <b-modal id="modal-standard" :title="$t('nav-bar.cart.loyalty-card')" title-class="font-18">
+          <div>
+          <b-modal id="modal-standard" :title="$t('nav-bar.cart.loyalty-card')" title-class="font-18">
+          <div style="position:relative; height:250px">
+            <div style="position:absolute;z-index:1">
               <img
                   alt="200x200"
                   data-holder-rendered="true"
-                  src="@/assets/images/cartevide.png"
+                  src="@/assets/images/cartevidee.png"
                   width="460"
               />
+              </div>
+            <div style="position:absolute;top:50%; left: 40%; z-index:2;">
+              <qrcode :background="background" :size="size" :cls="qrCls" :value="token"></qrcode>
+              <div class="row">
+                <div class="card">
+                  <h5 class="text-truncate">{{ user.firstname }}</h5>
+                  <h5 class="text-truncate">{{ user.lastname }}</h5>
+                </div>
+              </div>
+              </div>
+
+          </div>
             </b-modal>
           </div>
         </div>
+              </span>
+          <span v-else>
+          <div class="d-flex" style="margin-right: 15px">
+          <router-link tag="a" to="/loyalty-card">
+          <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;"/>
+          </router-link>
+        </div>
+        </span>
+        </div>
+
+
+
 
         <!-- Picto cart -->
         <div class="d-flex" style="margin-right: 15px">
@@ -177,7 +226,7 @@ export default {
               {{ $t('nav-bar.profile.text') }}
             </router-link>
           </b-dropdown-item>
-          <b-dropdown-item href="/profile">
+          <b-dropdown-item href="/admin#orders">
             <i class="bx bx-wallet font-size-16 align-middle mr-1"></i>
             {{ $t('nav-bar.profile.orders') }}
           </b-dropdown-item>
@@ -238,6 +287,9 @@ export default {
 .contenant {
   position: relative;
   text-align: center;
-  color: red;
+}
+.texte-hover {
+  position: absolute;
+  z-index:2;
 }
 </style>
