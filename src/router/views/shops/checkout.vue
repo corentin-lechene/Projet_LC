@@ -174,11 +174,11 @@ export default {
       this.checkoutValid = 1;
 
       if (this.user.firstname !== "" && this.user.firstname !== null &&
-          this.user.lastname !== "" && this.user.lastname !== null /*&&
+          this.user.lastname !== "" && this.user.lastname !== null &&
           this.user.mail !== "" && this.user.mail !== null &&
           this.user.address !== "" && this.user.address !== null &&
           this.user.phone !== "" && this.user.phone !== null &&
-          this.user.country !== "" && this.user.country !== null*/) {
+          this.user.country !== "" && this.user.country !== null) {
         //4242 4242 4242 4242 valid
         //4000 0000 0000 0002 invalid
         token['user_token'] = this.user.token;

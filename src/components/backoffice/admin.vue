@@ -75,7 +75,7 @@ export default {
           options: {route: 'warehouses', name_id: 'warehouse_id'},
           fields: [
             {key: 'warehouse_id', label: 'ID', sortable: true},
-            {key: 'number', label: 'Number', sortable: true},
+            {key: 'name_warehouse', label: 'Name', sortable: true},
             {key: 'address', label: 'Address', sortable: true},
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'actions', label: 'Actions'}],
