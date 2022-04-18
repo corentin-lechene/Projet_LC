@@ -63,6 +63,7 @@ export default {
     getCart() {
       let promise = sendGetDataTable('carts-customer', this.user.customer_id);
       promise.then((res) => {
+        console.log(res);
         if (!validRequest(res)) {
           this.total.reset();
           this.carts = res.result;
@@ -169,7 +170,7 @@ export default {
                                        @change="updateCart(product.cart_name, product.cart_product_id, index)"/>
                   </td>
                   <td>
-                    {{ (getTotalReductionOf(product.reduction, product.price) * product.cart_quantity).toFixed(2) }} €
+                    {{ product.total.toFixed(2) }} €
                   </td>
                   <td>
                     <a class="action-icon text-danger" href="javascript:void(0);">
@@ -207,7 +208,7 @@ export default {
                     <tbody>
                     <tr>
                       <td>{{ $t('cart.summary.total-ttc') }} : </td>
-                      <td>{{ (total.getTotalTTC()) }} €</td>
+                      <td>{{ total.getTotalTTC() }} €</td>
                     </tr>
                     <tr>
                       <td>{{ $t('g.discount') }} : </td>

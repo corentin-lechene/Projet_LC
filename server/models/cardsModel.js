@@ -35,12 +35,12 @@ export const insertCards = (data, result) => {
 }
 
 // Update Cards to Database
-export const updateCardsById = (data, id, result) => {
-    db.query("UPDATE cards SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
+export const updateCardsById = (data, card_id, result) => {
+    db.query("update cards set points = (points + ?) where card_id = ?", [data.points, card_id], (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results[0]});
+            result({valid: true, result: results});
         }
     });
 }

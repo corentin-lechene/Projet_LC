@@ -83,13 +83,6 @@ export default [
     component: () => import('./views/shops/checkout')
   },
   {
-    path: '/checkout-succeed',
-    name: 'Checkout succeed',
-    meta: {
-    },
-    component: () => import('./views/shops/checkout-succeed')
-  },
-  {
     path: '/admin',
     name: 'Back-Office',
     meta: {

@@ -33,6 +33,7 @@ export default {
         service_id: this.serviceDetail.service_id
       });
       promise.then((res) => {
+        console.log(res);
         if(!validRequest(res)) {
           this.makeToast();
         }
@@ -69,7 +70,7 @@ export default {
       let promise = sendGetDataTable('services');
       promise.then((res) => {
         if (!validRequest(res)) {
-          this.services = res.result;
+          this.services = res.result.slice(0, 3);
           setTimeout(() => {
             this.loading.services = false;
           }, 500);

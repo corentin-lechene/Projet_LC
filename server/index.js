@@ -22,6 +22,7 @@ import Categories_servicesRoutes from "./routes/categories_servicesRoutes.js";
 import Carts_goodsRoutes from "./routes/carts_goodsRoutes.js";
 import Carts_servicesRoutes from "./routes/carts_servicesRoutes.js";
 import CartsRoutes from "./routes/cartsRoutes.js";
+import CardsRoutes from "./routes/cardsRoutes.js";
 
 // init express
 const app = express();
@@ -33,23 +34,23 @@ app.use(express.json());
 app.use(cors());
 
 
-
 // use router
-app.use(CategoriesRoutes); // Categories
-app.use(WarehousesRoutes); //Warehouse
-app.use(CataloguesRoutes); // Catalogues
-app.use(GoodsRoutes);   //Goods
-app.use(ServicesRoutes);   //Services
-app.use(StaffsRouter);  //Staffs
-app.use(UsersRouter);   //Users
-app.use(SellersRouter); //Sellers
-app.use(CustomersRouter);   //Customers
-app.use(CompaniesRouter);   //Companies
-app.use(Categories_goodsRoutes);   //categories_goods
-app.use(Categories_servicesRoutes);   //categories_services
-app.use(Carts_goodsRoutes);     //carts_goods
-app.use(Carts_servicesRoutes);     //carts_services
-app.use(CartsRoutes);   //carts
+app.use(CategoriesRoutes);          // Categories
+app.use(WarehousesRoutes);          // Warehouse
+app.use(CataloguesRoutes);          // Catalogues
+app.use(GoodsRoutes);               // Goods
+app.use(ServicesRoutes);            // Services
+app.use(StaffsRouter);              // Staffs
+app.use(UsersRouter);               // Users
+app.use(SellersRouter);             // Sellers
+app.use(CustomersRouter);           // Customers
+app.use(CompaniesRouter);           // Companies
+app.use(Categories_goodsRoutes);    // categories_goods
+app.use(Categories_servicesRoutes); // categories_services
+app.use(Carts_goodsRoutes);         // carts_goods
+app.use(Carts_servicesRoutes);      // carts_services
+app.use(CartsRoutes);               // carts
+app.use(CardsRoutes);               // cards
 
 
 app.listen(9000, () => console.log('Server running at http://localhost:9000'));

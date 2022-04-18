@@ -26,7 +26,7 @@ export const getCarts_servicesById = (id, result) => {
 
 // Insert Carts_services to Database
 export const insertCarts_services = (data, result) => {
-    db.query("SELECT cart_id from carts WHERE customer_id = ?", [data.customer_id], (err, resultsCarts) => {
+    db.query("SELECT cart_id from carts WHERE customer_id = ? AND status = 0", [data.customer_id], (err, resultsCarts) => {
         if (err) {
             result({error: true, reason: err});
         } else if (resultsCarts[0] !== undefined) {

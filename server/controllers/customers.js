@@ -1,5 +1,5 @@
 // Import function from Customers Model
-import { getCustomers, getCustomersById, insertCustomers, updateCustomersById, deleteCustomersById, getCustomersByCompanyId } from "../models/customersModel.js";
+import { getCustomers, getCustomersById, insertCustomers, updateCustomersById, deleteCustomersById, getCustomersByCompanyId, createPayment } from "../models/customersModel.js";
 
 // Get All Customers
 export const showCustomers = (req, res) => {
@@ -32,6 +32,21 @@ export const showCustomersByCompanyId = (req, res) => {
             res.json(results);
         }
     });
+}
+
+export const createCheckout = (req, res) => {
+    const data = req.body;
+    const token = req.body.user_token;
+    const pointsUse = req.body.points_use;
+    delete data.user_token;
+    delete data.points_use;
+    createPayment(data, token, pointsUse, (err, results) => {
+        if(err) {
+            res.send(err)
+        } else {
+            res.json(results);
+        }
+    })
 }
       
 // Create New Customers
