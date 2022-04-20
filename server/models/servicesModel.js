@@ -5,7 +5,7 @@ import fs from "fs-extra";
 
 // Get All Services
 export const getServices = (result) => {
-    db.query("SELECT se.service_id, name, image, description, price, reduction, company, category_service_id FROM services se INNER JOIN sellers s on se.seller_id = s.seller_id INNER JOIN categories_services cs on se.service_id = cs.service_id", (err, results) => {
+    db.query("select * from services inner join sellers s on services.seller_id = s.seller_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -16,11 +16,17 @@ export const getServices = (result) => {
 
 // Get Single Services
 export const getServicesById = (id, result) => {
-    db.query("SELECT * FROM services INNER JOIN sellers s on services.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE service_id = ?", [id], (err, results) => {
+    db.query("select * from services inner join categories_services cs on services.service_id = cs.service_id inner join categories c on cs.category_id = c.category_id inner join sellers s on services.seller_id = s.seller_id inner join users u on s.user_id = u.user_id where services.service_id = ?", [id], (err, resultsService) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
+        } else if (resultsService[0] !== "undefined") {
+            db.query("select * from services inner join sellers s on services.seller_id = s.seller_id where services.service_id = ?", [id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results});
+                }
+            });
         }
     });
 }

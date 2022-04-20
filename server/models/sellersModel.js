@@ -28,9 +28,9 @@ export const getSellersById = (id, result) => {
 // Insert Sellers to Database
 export const insertSellers = (data, result) => {
     db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
-        if(err) {
+        if (err) {
             result(err);
-        } else if(resultsEmail[0]) {
+        } else if (resultsEmail[0]) {
             result({valid: false, result: "Email already used"});
         } else {
             db.query("SELECT seller_id FROM sellers WHERE company = ?", [data.nameCompany], (err, resultCompany) => {
@@ -81,23 +81,41 @@ export const insertSellers = (data, result) => {
 }
 
 // Update Sellers to Database
-    export const updateSellersById = (data, id, result) => {
-        db.query("UPDATE sellers SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
-            if (err) {
-                result({error: true, reason: err});
-            } else {
-                result({valid: true, result: results});
-            }
-        });
+export const updateSellersById = (data, id, result) => {
+    const sel = {
+        status: data.status,
+        company: data.nameCompany,
     }
+    data.country = data.countries;
+    delete data.countries;
+    delete data.nameCompany;
+    delete data.status;
+
+
+
+    db.query("UPDATE users SET ? WHERE user_id = ?", [data, id], (err) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            db.query("UPDATE sellers SET ? WHERE user_id = ?", [sel, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results});
+                }
+            });
+        }
+    });
+
+}
 
 // Delete Sellers to Database
-    export const deleteSellersById = (id, result) => {
-        db.query("DELETE FROM sellers WHERE user_id = ?", [id], (err, results) => {
-            if (err) {
-                result({error: true, reason: err});
-            } else {
-                result({valid: true, result: results});
-            }
-        });
-    }
+export const deleteSellersById = (id, result) => {
+    db.query("DELETE FROM sellers WHERE user_id = ?", [id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}

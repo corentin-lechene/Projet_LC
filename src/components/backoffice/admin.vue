@@ -20,7 +20,7 @@ export default {
             {key: 'lastname', label: 'Lastname', sortable: true},
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'companies', info: 'CompanyDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'companies', info: 'CompanyDetail', update: 'companies', delete: 'delete'}
         },
         goods: {
           hash: '#goods',
@@ -31,7 +31,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'goods', info: 'GoodDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'goods', info: 'GoodDetail', update: 'goods', delete: 'delete'}
         },
         services: {
           hash: '#services',
@@ -42,7 +42,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'services', info: 'ServiceDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'services', info: 'ServiceDetail', update: 'services', delete: 'delete'}
         },
         users: {
           hash: '#users',
@@ -54,7 +54,7 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'role', label: 'Role', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'all_users', info: 'UserDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'all_users', info: 'UserDetail', update: 'all_users', delete: 'delete'}
         },
         sellers: {
           hash: '#sellers',
@@ -68,7 +68,7 @@ export default {
             {key: 'mail', label: 'Email', sortable: true},
             {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'sellers', info: 'SellerDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'sellers', info: 'SellerDetail', update: 'sellers', delete: 'delete'}
         },
         warehouses: {
           hash: '#warehouses',
@@ -79,7 +79,7 @@ export default {
             {key: 'address', label: 'Address', sortable: true},
             {key: 'phone', label: 'Phone', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'warehouses', info: 'WarehouseDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'warehouses', info: 'WarehouseDetail', update: 'warehouses', delete: 'delete'}
         },
         categories: {
           hash: '#categories',
@@ -88,7 +88,7 @@ export default {
             {key: 'category_id', label: 'ID', sortable: true},
             {key: 'title', label: 'Title', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'categories', info: 'CategoryDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'categories', info: 'CategoryDetail', update: 'categories', delete: 'delete'}
         },
         catalogues: {
           hash: '#catalogues',
@@ -99,7 +99,7 @@ export default {
             {key: 'start_date', label: 'Start Date', sortable: true},
             {key: 'end_date', label: 'End Date', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'catalogues', info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'catalogues', info: 'info', update: 'catalogues', delete: 'delete'}
         },
       }
 

@@ -18,8 +18,8 @@ export default {
       user: null,
       userToken: null,
 
-      email: "c.lechene+customers@icloud.com",
-      password: "2aHXiTlbcC*Z",
+      email: "c.lechene+admin@icloud.com",
+      password: "2anuJFmlVH*Z",
 
       submitted: false,
       formError: null,

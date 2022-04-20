@@ -36,11 +36,31 @@ export const getUsersForStaffs = (result) => {
 
 // Get Single Users
 export const getUsersById = (id, result) => {
-    db.query("SELECT * FROM users INNER JOIN customers c on users.user_id = c.user_id INNER JOIN cards c2 on c.card_id = c2.card_id INNER JOIN companies c3 on c.company_id = c3.company_id WHERE users.user_id = ?", [id], (err, results) => {
-        if (err) {
+    db.query("SELECT user_id, role FROM users WHERE user_id = ?", [id], (err, resultId) => {
+        if(err) {
             result({error: true, reason: err});
+        } else if (!resultId[0]) {
+            result({valid: false, reason: "token invalid"});
         } else {
-            result({valid: true, result: results[0]});
+            const role = preserve(resultId[0].role);
+            if(resultId[0].role !== 'admin') {
+                db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [resultId[0].user_id], (err, results) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else {
+                        result({valid: true, result: results[0]});
+                    }
+                })
+            } else if(resultId[0].role === 'admin') {
+                db.query("SELECT * FROM users WHERE user_id = ?", [resultId[0].user_id], (err, results) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else {
+                        result({valid: true, result: results[0]});
+                    }
+                })
+            }
+
         }
     });
 }
@@ -78,13 +98,24 @@ export const getUserByToken = (token, result) => {
         } else {
             const data = decodeToken(token);
             const role = preserve(resultsToken[0].role);
-            db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
-                if (err) {
-                    result({error: true, reason: err});
-                } else {
-                    result({valid: true, result: results[0]});
-                }
-            })
+            if(resultsToken[0].role !== 'admin') {
+                db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else {
+                        result({valid: true, result: results[0]});
+                    }
+                })
+            } else if(resultsToken[0].role === 'admin') {
+                db.query("SELECT * FROM users WHERE user_id = ?", [data.user_id], (err, results) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else {
+                        result({valid: true, result: results[0]});
+                    }
+                })
+            }
+
         }
     });
 }

@@ -11,6 +11,7 @@ import CompanyDetail from "@/components/modals/backoffice/companydetail";
 import SellerDetail from "@/components/modals/backoffice/sellerdetail";
 import CategoryDetail from "@/components/modals/backoffice/category-detail";
 import WarehouseDetail from "@/components/modals/backoffice/warehouse-detail";
+import Update from "@/components/modals/backoffice/update";
 
 
 export default {
@@ -41,6 +42,7 @@ export default {
     }
   },
   components: {
+    Update,
     UserDetail,
     GoodDetail,
     ServiceDetail,
@@ -77,6 +79,7 @@ export default {
       registerItems: {
         all_users: ['customers', 'companies', 'sellers', 'staffs'],
         users: ['customers', 'companies', 'sellers'],
+        warehouses: ['warehouses', 'warehouses_stocks'],
       },
 
       loading: true,
@@ -88,7 +91,7 @@ export default {
      */
     rows() {
       return this.data.length;
-    },
+    }
   },
   mounted() {
     // Set the initial number of items
@@ -223,7 +226,7 @@ export default {
                       v-if="modals.info" v-b-modal="'info'" @click="getId(row.item)"
                       variant="info" size="sm" class="mx-1"><i class="bx bx-info-circle"></i></b-button>
                   <b-button
-                      v-if="modals.update" v-b-modal="'update'"
+                      v-if="modals.update" v-b-modal="'update'" @click="route = modals.update"
                       variant="success" size="sm" class="mx-1"><i class="bx bx-pencil"></i></b-button>
                   <b-button
                       v-if="modals.delete" v-b-modal="'delete'"
@@ -237,7 +240,7 @@ export default {
               <div class="dataTables_paginate paging_simple_numbers float-right">
                 <ul class="pagination pagination-rounded mb-0">
                   <!-- pagination -->
-                  <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage"></b-pagination>
+                  <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" />
                 </ul>
               </div>
             </div>
@@ -247,8 +250,8 @@ export default {
     </div>
 
     <!--  Modals register  /-->
-      <b-modal id="register" title="Détail" title-class="font-18" size="lg" hide-footer centered @hidden="getInformations(options.route, options.byId)">
-      <Register :route="route"/>
+    <b-modal id="register" title="Détail" title-class="font-18" size="lg" hide-footer centered @hidden="getInformations(options.route, options.byId)">
+      <Register :route="route || options.route"/>
     </b-modal>
 
     <!--  Modals info  /-->
@@ -263,8 +266,8 @@ export default {
     </b-modal>
 
     <!--  Modals update  /-->
-    <b-modal v-if="id !== null" id="update" title="Détail" title-class="font-18" size="xl" hide-footer centered>
-      update {{id}}
+    <b-modal v-if="id !== null" id="update" title="Détail" title-class="font-18" size="xl" hide-footer centered @hidden="getInformations(options.route, options.byId)">
+      <Update :route="route" :id="id"/>
     </b-modal>
 
     <!--  Modals delete  /-->

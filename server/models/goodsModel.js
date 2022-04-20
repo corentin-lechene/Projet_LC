@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("SELECT * FROM goods INNER JOIN categories_goods cg on goods.good_id = cg.good_id", (err, results) => {
+    db.query("select * from goods inner join sellers s on goods.seller_id = s.seller_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -15,11 +15,17 @@ export const getGoods = (result) => {
 
 // Get Single Goods
 export const getGoodsById = (id, result) => {
-    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE good_id = ?", [id], (err, results) => {
+    db.query("select * from goods inner join categories_goods cg on goods.good_id = cg.good_id inner join categories c on cg.category_id = c.category_id inner join sellers s on goods.seller_id = s.seller_id inner join users u on s.user_id = u.user_id where goods.good_id = ?", [id], (err, resultsGoods) => {
         if (err) {
             result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
+        } else if (resultsGoods[0] !== "undefined") {
+            db.query("select * from goods inner join sellers s on goods.seller_id = s.seller_id where goods.good_id = ?", [id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         }
     });
 }

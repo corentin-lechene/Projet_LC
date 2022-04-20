@@ -15,19 +15,20 @@ async function createSelect(route, attribute, placeHolder) {
 }
 
 
-const firstname = {label: "Prénom", placeHolder: "Saisir le prénom", type: "text"};
-const lastname = {label: "Nom", placeHolder: "Saisir le nom", type: "text"};
-const mail = {label: "Email", placeHolder: "Saisir l'email", type: "email"};
 const address = {label: 'Adresse', placeHolder: "Saisir l'adresse", type: 'textarea', rows: 2, max_rows: 4};
 const phone = {label: "Téléphone", placeHolder: "Saisir le numéro de téléphone", type: "tel"};
+const city = {label: "Ville", placeHolder: "Saisir la ville", type: "text"};
+const postal_code = {label: "Code postal", placeHolder: "Saisir le code postal", type: "text"};
 
 const description = {label: 'Description', placeHolder: "Saisir la description", type: 'textarea', rows: 3, max_rows: 6};
 const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"};
 const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
+const reduction = {label: 'Réduction', placeHolder: "Saisir la réduction", type: 'number'};
 const quantity = {label: 'Quantité', placeHolder: "Saisir la quantité", type: 'number'};
 const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
 const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
 const endDate = {label: 'Date', placeHolder: "Saisir la date de fin", type: 'date'};
+const birthdate = {label: 'Date', placeHolder: "Saisir la date de naissance", type: 'date'};
 
 const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};
 const nameGood = {label: 'Nom du produit', placeHolder: "Saisir le nom du produit", type: 'text'};
@@ -63,15 +64,6 @@ const companies = {
         forms[route].companies.options = await createSelect('companies', ['company_id', 'company'], companies.placeHolder)
     }
 };
-const sellers = {
-    label: "Nom du vendeur",
-    placeHolder: "Choisir le vendeur",
-    type: "select",
-    options: [],
-    onCreate: async (route) => {
-        forms[route].sellers.options = await createSelect('sellers', ['seller_id', 'company'], sellers.placeHolder)
-    }
-};
 const warehouses = {
     label: "Entrepot",
     placeHolder: "Choisir l'entrepot",
@@ -82,6 +74,15 @@ const warehouses = {
     }
 };
 
+const sellers = {
+    label: "Nom du vendeur",
+    placeHolder: "Choisir le vendeur",
+    type: "select",
+    options: [],
+    onCreate: async (route) => {
+        forms[route].sellers.options = await createSelect('sellers', ['seller_id', 'company'], sellers.placeHolder)
+    }
+};
 const categories = {
     label: "Catégorie du produit",
     placeHolder: "Choisir la catégorie",
@@ -114,14 +115,41 @@ const typeProducts = {
     ]
 };
 
-const forms = {
-    customers: {firstname, lastname, mail, companies},
-    sellers: {firstname, lastname, mail, status, nameCompany},
-    companies: {firstname, lastname, mail, nameCompany},
-    staffs: {firstname, lastname, mail, job},
+const countries = {
+    label: "Pays", 
+    placeHolder: "Saisir le pays", 
+    type: "select", 
+    options: [
+        {value: null, text: "Saisir le pays", disabled: true},
+        {value: 'france', text: "France"},
+        {value: 'spain', text: "Espagne"},
+    ]
+};
 
-    goods: {nameGood, description, price, file, sellers, categories},
-    services: {nameService, description, price, file, sellers, categories},
+const role = {
+    label: "Role",
+    placeHolder: "Saisir le role",
+    type: "select",
+    options: [
+        {value: null, text: "Saisir le role", disabled: true},
+        {value: 'admin', text: "Admin"},
+        {value: 'staffs', text: "Staff"},
+        {value: 'customers', text: "Client de l'entreprise"},
+        {value: 'companies', text: "Client Entreprise"},
+        {value: 'sellers', text: "Vendeur"},
+    ]
+};
+
+
+const forms = {
+    customers: {companies, phone, birthdate, address, countries, city, postal_code, role},
+    sellers: {phone, birthdate, address, countries, city, postal_code, role, status, nameCompany},
+    companies: {nameCompany, phone, birthdate, address, countries, city, postal_code, role},
+    staffs: {phone, birthdate, address, countries, city, postal_code, role, job},
+    admin: {phone, birthdate, address, countries, city, postal_code, role},
+
+    goods: {nameGood, description, price, reduction, file, categories},
+    services: {nameService, description, price, reduction, quantity, file, categories},
 
     categories: {nameCategory, typeProducts},
     catalogues: {nameCatalogue, startDate, endDate, file},

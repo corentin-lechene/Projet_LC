@@ -82,11 +82,25 @@ export const insertCompanies = (data, result) => {
 
 // Update Companies to Database
 export const updateCompaniesById = (data, id, result) => {
-    db.query("UPDATE companies SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
+    const comp = {
+        company: data.company
+    };
+
+    data.country = data.countries;
+    delete data.countries;
+    delete data.nameCompany;
+
+    db.query("UPDATE users SET ? WHERE user_id = ?", [data, id], (err) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results});
+            db.query("UPDATE companies SET ? WHERE user_id = ?", [comp, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results});
+                }
+            });
         }
     });
 }
