@@ -7,7 +7,6 @@ function getUrl(table, id = false) {
 
 export function sendGetDataTable(table, id = false) {
     let url = getUrl(table, id);
-    console.log("kfo",url)
     return fetch(url)
         .then((response) => {
             if (response.ok) {
@@ -20,7 +19,7 @@ export function sendGetDataTable(table, id = false) {
 
 export function sendInsertTable(table, body) {
     let url = getUrl(table);
-    let headers = {
+    const headers = {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
@@ -41,7 +40,7 @@ export function sendDeleteTable(table, id) {
 
 export function sendUpdateTable(table, id, body) {
     let url = getUrl(table, id);
-    let headers = {
+    const headers = {
         method: 'put',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
@@ -57,7 +56,7 @@ export function sendGetUserByToken() {
     let token = localStorage.getItem('user_token');
     if (token) {
         let url = getUrl('token');
-        let headers = {
+        const headers = {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({token: token})
@@ -73,7 +72,7 @@ export function sendGetUserByToken() {
 
 export function sendGetUserByLogin(body) {
     let url = getUrl('login');
-    let headers = {
+    const headers = {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)

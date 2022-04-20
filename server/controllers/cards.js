@@ -38,8 +38,8 @@ export const createCards = (req, res) => {
 // Update Cards
 export const updateCards = (req, res) => {
     const data  = req.body;
-    const id    = req.params.id;
-    updateCardsById(data, id, (err, results) => {
+    const card_id    = req.params.id;
+    updateCardsById(data, card_id, (err, results) => {
         if (err){
             res.send(err);
         } else {
