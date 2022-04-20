@@ -34,6 +34,18 @@ export const getGoodsBySellerId = (id, result) => {
         }
     });
 }
+
+// Get Goods and services by cart
+export const getGoodsOrServicesByCartId = (id, result) => {
+    db.query("SELECT * FROM carts_good INNER JOIN carts c on carts_good.cart_id = c.cart_id WHERE customer_id = ?;\n", [id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
 // Get Goods by warehouse
 export const getGoodsByWarehouseId = (id, result) => {
     db.query("SELECT * FROM goods inner join warehouses_stocks cg on goods.good_id = cg.good_id WHERE warehouse_id = ?;\n", [id], (err, results) => {

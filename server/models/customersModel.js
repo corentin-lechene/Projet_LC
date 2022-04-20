@@ -68,7 +68,9 @@ export const insertCustomers = (data, result) => {
                                         } else if (results.insertId) {
                                             const templateRegister = `
                                         <h3>Bonjour ${data.firstname},</h3>
-                                        <p>Un compte a été créé par votre entreprise.</p>
+                                        <p>Un compte a été cr
+                                        
+                                        éé par votre entreprise.</p>
                                         <p>Pour vous connecter, voici vos identifiants.</p>
                                         <p>Email : ${data.mail}</p>    
                                         <p>Email : ${password.pwd_visible}</p> 

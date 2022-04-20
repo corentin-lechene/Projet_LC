@@ -7,7 +7,8 @@ import {
     deleteGoodsById,
     getGoodsBySellerId,
     getGoodsOrServicesByCategoryId,
-    getGoodsByWarehouseId
+    getGoodsByWarehouseId,
+    getGoodsOrServicesByCartId
 } from "../models/goodsModel.js";
 
 // Get All Goods
@@ -45,6 +46,17 @@ export const showGoodsBySellerId = (req, res) => {
 // Get Goods or Services by category
 export const showGoodsOrServicesByCategoryId = (req, res) => {
     getGoodsOrServicesByCategoryId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+// Get Goods or Services by cart id
+export const showGoodsOrServicesByCartId = (req, res) => {
+    getGoodsOrServicesByCartId(req.params.id, (err, results) => {
         if (err){
             res.send(err);
         }else{

@@ -1,5 +1,13 @@
 // Import function from Carts Model
-import { getCarts, getCartsById, insertCarts, updateCartsById, deleteCartsById, getCartsByCustomerId } from "../models/cartsModel.js";
+import {
+    getCarts,
+    getCartsById,
+    insertCarts,
+    updateCartsById,
+    deleteCartsById,
+    getCartsByCustomerId,
+    getCartsPayedByCustomerId
+} from "../models/cartsModel.js";
 
 // Get All Carts
 export const showCarts = (req, res) => {
@@ -32,6 +40,16 @@ export const showCartsByCustomerId = (req, res) => {
         }
     });
 }
+export const showCartsPayedByCustomerId = (req, res) => {
+    getCartsPayedByCustomerId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
+
       
 // Create New Carts
 export const createCarts = (req, res) => {

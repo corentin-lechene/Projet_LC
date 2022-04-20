@@ -30,6 +30,8 @@ export const getCartsByCustomerId = (customer_id, result) => {
     db.query("select carts.cart_id,\n" +
         "       carts.customer_id,\n" +
         "       carts.status,\n" +
+        "       carts.created_at,\n" +
+        "       carts.updated_at,\n" +
         "       'services'         as cart_name,\n" +
         "       cs.cart_service_id as cart_product_id,\n" +
         "       cs.cart_quantity,\n" +
@@ -48,6 +50,8 @@ export const getCartsByCustomerId = (customer_id, result) => {
         "select carts.cart_id,\n" +
         "       carts.customer_id,\n" +
         "       carts.status,\n" +
+        "       carts.created_at,\n" +
+        "       carts.updated_at,\n" +
         "       'goods'         as cart_name,\n" +
         "       cg.cart_good_id as cart_product_id,\n" +
         "       cg.cart_quantity,\n" +
@@ -71,6 +75,17 @@ export const getCartsByCustomerId = (customer_id, result) => {
         }
     });
 }
+
+// Get Carts Payed (History)
+    export const getCartsPayedByCustomerId = (customer_id, result) => {
+        db.query("SELECT * FROM carts WHERE status = 1 AND customer_id = ?;\n", [customer_id, customer_id], (err, results) => {
+            if (err) {
+                result({error: true, reason: err});
+            } else {
+                result({valid: true, result: results});
+            }
+        });
+    }
 
 // Insert Carts to Database
 export const insertCarts = (data, result) => {
