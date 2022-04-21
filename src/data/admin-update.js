@@ -25,6 +25,7 @@ const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"}
 const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
 const reduction = {label: 'Réduction', placeHolder: "Saisir la réduction", type: 'number'};
 const quantity = {label: 'Quantité', placeHolder: "Saisir la quantité", type: 'number'};
+const stock = {label: 'Stock', placeHolder: "Saisir la quantité disponible", type: 'number'};
 const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
 const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
 const endDate = {label: 'Date', placeHolder: "Saisir la date de fin", type: 'date'};
@@ -148,7 +149,7 @@ const forms = {
     staffs: {phone, birthdate, address, countries, city, postal_code, role, job},
     admin: {phone, birthdate, address, countries, city, postal_code, role},
 
-    goods: {nameGood, description, price, reduction, file, categories},
+    goods: {nameGood, description, price, reduction, stock, file, categories},
     services: {nameService, description, price, reduction, quantity, file, categories},
 
     categories: {nameCategory, typeProducts},

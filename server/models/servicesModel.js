@@ -85,7 +85,7 @@ export const insertServices = (data, result) => {
 
 // Update Services to Database
 export const updateServicesById = (data, id, result) => {
-    db.query("UPDATE services SET name = ?, price = ?, reduction = ? WHERE service_id = ?", [data.name, data.price, data.reduction, id], (err, results) => {
+    db.query("UPDATE services SET name = ?, price = ?, reduction = ?, quantity = ? WHERE service_id = ?", [data.nameService, data.price, data.reduction, data.quantity, id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

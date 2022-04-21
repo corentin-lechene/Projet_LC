@@ -37,11 +37,17 @@ export const insertWarehouses_stocks = (data, result) => {
 
 // Update Warehouses_stocks to Database
 export const updateWarehouses_stocksById = (data, id, result) => {
-    db.query("UPDATE warehouses_stocks SET name = ? /* TODO */, warehouses_stock_id = ?", [data.name /* TODO */, id], (err, results) => {
+    db.query("select * from warehouses_stocks where good_id = ? limit 1", [id], (err, resultsWarehousesStocks) => {
         if(err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results[0]});
+            db.query("UPDATE warehouses_stocks SET stock = stock - ? where good_id = ? and warehouse_stock_id = ?", [data.quantity, id, resultsWarehousesStocks[0].warehouse_stock_id], (err, results) => {
+                if(err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         }
     });
 }

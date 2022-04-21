@@ -144,7 +144,7 @@ export default {
                     <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
                   <router-link tag="a" :to="`/service-detail?id=${service.service_id}`">
-                    <div style="height: 190px !important;">
+                    <div>
                       <b-skeleton-img v-if="loading.services"/>
                       <b-img v-if="!loading.services" :src="require(`@/assets/images/product/${service.image}`)" fluid alt="img" />
 

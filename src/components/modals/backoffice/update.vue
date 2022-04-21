@@ -2,7 +2,7 @@
 
 import forms from "@/data/admin-update";
 
-import {sendGetDataTable, sendUpdateTable} from "@/components/requests-bdd";
+import {sendGetDataTable, sendGetUserByToken, sendUpdateTable} from "@/components/requests-bdd";
 
 const base64Encode = data =>
     new Promise((resolve, reject) => {
@@ -35,23 +35,21 @@ export default {
   methods: {
     async updateTable() {
       for (const key in this.values) {
-        if (key === 'file') {
-          if (this.values[key].name !== undefined) {
-            if (this.values[key].size > 1024 * 1024) {
-              this.error = "Image size not accepted";
-            } else if (this.values[key][0] !== null) {
-              const file = await base64Encode(this.values[key]);
-              let fileCompressed = [];
-              let min = 0, max = 512;
-              for (let j = 0; j < file.length / 512; j++) {
-                fileCompressed.push(file.slice(min, max))
-                min += 512;
-                max += 512;
-              }
-              const name = this.values[key].name; //get file name
-              this.values[key] = fileCompressed;
-              this.values[key].unshift(name); //first index
+        if (key === 'file' && this.values[key] !== null && this.values[key].name !== undefined) {
+          if (this.values[key].size > 1024 * 1024) {
+            this.error = "Image size not accepted";
+          } else if (this.values[key][0] !== null) {
+            const file = await base64Encode(this.values[key]);
+            let fileCompressed = [];
+            let min = 0, max = 512;
+            for (let j = 0; j < file.length / 512; j++) {
+              fileCompressed.push(file.slice(min, max))
+              min += 512;
+              max += 512;
             }
+            const name = this.values[key].name; //get file name
+            this.values[key] = fileCompressed;
+            this.values[key].unshift(name); //first index
           }
         }
       }
@@ -63,7 +61,8 @@ export default {
     }
   },
   async created() {
-    console.log(this.route);
+    const user = await sendGetUserByToken();
+    console.log(user);
     let data;
     if (this.route === 'all_users') {
       data = (await sendGetDataTable('users', this.id)).result;
@@ -74,6 +73,9 @@ export default {
       this.currentForms = forms[this.route];
     }
 
+    if(user.result.role !== 'admin' && user.result.role !== 'staff') {
+      delete this.currentForms.stock;
+    }
     console.log('id: ', this.id); //TODO enlever cette ligne
     console.log('curr_form: ', this.currentForms); //TODO enlever cette ligne
     console.log('values: ', this.values); //TODO enlever cette ligne
@@ -121,7 +123,7 @@ export default {
         </b-col>
         <b-col cols="7">
           <b-row align-h="center" class="mx-3">
-            <h1 class="mb-3 pt-3">Registration</h1>
+            <h1 class="mb-3 pt-3">Update</h1>
 
             <b-form-row>
               <b-form-group v-for="(form, index) in currentForms" :key="index" class="col-12">

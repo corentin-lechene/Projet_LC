@@ -180,14 +180,13 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <button :disabled="loading.products || user === null" class="btn btn-primary waves-effect waves-light my-2 mr-2"
-                            type="button" @click="addToCart()">
-                      <i class="bx bx-cart me-2"></i> Ajouter au panier
-                    </button>
-                    <button :disabled="loading.products || user === null" class="btn btn-success waves-effect my-2 mx-2 waves-light"
-                            type="button">
-                      <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
-                    </button>
+                    <b-button v-if="productDetail.totalStock <= 0" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
+                    <b-button v-else-if="loading.products || user === null" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
+                    <b-button v-else variant="info" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-cart me-2"></i> Ajouter au panier</b-button>
+
+                    <b-button v-if="productDetail.totalStock <= 0" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
+                    <b-button v-else-if="loading.products || user === null" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
+                    <b-button v-else variant="success" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant</b-button>
                   </div>
                 </div>
               </div>

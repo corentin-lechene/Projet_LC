@@ -108,6 +108,16 @@ export const createPayment = async (data, token, pointsUse, result) => {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({customer_id: user.result.customer_id})
             });
+
+            for (let i = 0; i < cart.result.length; i++) {
+                if(cart.result[i].cart_name === 'goods') {
+                    await fetch('http://localhost:9000/warehouses_stocks/'+ cart.result[i].product_id, {
+                        method: 'put',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({quantity: cart.result[i].cart_quantity})
+                    });
+                }
+            }
             sendEmail(user.result.mail, "Merci pour votre achat", "<h1>Votre achat blabla</h1><p>Votre facture ci-jointe ou dans votre espace mes commandes.</p><p>A bientot chez LoyaltyCard</p>")
         }
 
