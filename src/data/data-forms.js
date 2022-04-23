@@ -24,6 +24,7 @@ const phone = {label: "Téléphone", placeHolder: "Saisir le numéro de téléph
 const description = {label: 'Description', placeHolder: "Saisir la description", type: 'textarea', rows: 3, max_rows: 6};
 const job = {label: "Fonction", placeHolder: "Saisir la fonction", type: "text"};
 const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
+const revenue = {label: 'Revenue', placeHolder: "Saisir le montant du revenue", type: 'number'};
 const quantity = {label: 'Quantité', placeHolder: "Saisir la quantité", type: 'number'};
 const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
 const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
@@ -117,7 +118,7 @@ const typeProducts = {
 const forms = {
     customers: {firstname, lastname, mail, companies},
     sellers: {firstname, lastname, mail, status, nameCompany},
-    companies: {firstname, lastname, mail, nameCompany},
+    companies: {firstname, lastname, mail, nameCompany, revenue},
     staffs: {firstname, lastname, mail, job},
 
     goods: {nameGood, description, price, file, sellers, categories},

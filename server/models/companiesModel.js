@@ -27,34 +27,50 @@ export const getCompaniesById = (id, result) => {
 
 // Insert Companies to Database
 export const insertCompanies = (data, result) => {
-    db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
-        if(err) {
-            result(err);
-        } else if(resultsEmail[0]) {
-            result({valid: false, result: "Email already used"});
-        } else {
-            db.query("SELECT company_id FROM companies WHERE company = ?", [data.nameCompany], (err, resultCompany) => {
-                if(err) {
-                    result({error: true, reason: err});
-                } else if(resultCompany[0]) {
-                    result({valid: false, result: "Company already created"});
-                } else {
-                    const password = generatePassword();
-                    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'companies')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
-                        if (err) {
-                            result({error: true, reason: err});
-                        } else if (resultsUsers.insertId) {
-                            const user_id = resultsUsers.insertId;
-                            const token = encodeToken({user_id: user_id, role: data.role});
-                            db.query("UPDATE users set token = ? WHERE user_id = ?", [token, user_id], (err) => {
-                                if(err) {
-                                    result({error: true, reason: err});
-                                } else {
-                                    db.query("INSERT INTO companies(company, user_id) VALUES(?, ?)", [data.nameCompany, user_id], (err, results) => {
-                                        if (err) {
-                                            result({error: true, reason: err});
-                                        } else if(results.insertId) {
-                                            const templateRegister = `
+    if (data.revenue < 0) {
+        result({valid: false, result: "revenue cant be negative"})
+    } else {
+        db.query("SELECT user_id FROM users WHERE mail = ?", [data.mail], (err, resultsEmail) => {
+            if (err) {
+                result(err);
+            } else if (resultsEmail[0]) {
+                result({valid: false, result: "Email already used"});
+            } else {
+                db.query("SELECT company_id FROM companies WHERE company = ?", [data.nameCompany], (err, resultCompany) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else if (resultCompany[0]) {
+                        result({valid: false, result: "Company already created"});
+                    } else {
+                        const password = generatePassword();
+                        db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'companies')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
+                            if (err) {
+                                result({error: true, reason: err});
+                            } else if (resultsUsers.insertId) {
+                                const user_id = resultsUsers.insertId;
+                                const token = encodeToken({user_id: user_id, role: data.role});
+                                db.query("UPDATE users set token = ? WHERE user_id = ?", [token, user_id], (err) => {
+                                    if (err) {
+                                        result({error: true, reason: err});
+                                    } else {
+                                        let contribution;
+                                        if (data.revenue < 200000) {
+                                            contribution = 0;
+                                        } else if (data.revenue < 800000) {
+                                            contribution = (0.8 * data.revenue) / 100;
+                                        } else if (data.revenue < 1500000) {
+                                            contribution = (0.6 * data.revenue) / 100;
+                                        } else if (data.revenue < 3000000) {
+                                            contribution = (0.4 * data.revenue) / 100;
+                                        } else {
+                                            contribution = (0.3 * data.revenue) / 100;
+                                        }
+
+                                        db.query("INSERT INTO companies(company, user_id, revenue, contribution) VALUES(?, ?, ?, ?)", [data.nameCompany, user_id, data.revenue, contribution], (err, results) => {
+                                            if (err) {
+                                                result({error: true, reason: err});
+                                            } else if (results.insertId) {
+                                                const templateRegister = `
                                                 <h3>Bonjour ${data.firstname},</h3>
                                                 <p>Notre administration a créé un compte avec votre email.</p>
                                                 <p>Pour vous connecter, voici vos identifiants.</p>
@@ -64,20 +80,21 @@ export const insertCompanies = (data, result) => {
                                                 <p>Cordialement</p>
                                                 <p><u>LoyaltyCard</u></p>
                                             `; //FIXME changer l'adresse du lien
-                                            sendEmail(data.mail, "Inscription sur LoyaltyCard", templateRegister);
-                                            result({valid: true, result: "OK"});
-                                        } else {
-                                            result({valid: false, result: results});
-                                        }
-                                    })
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    })
+                                                sendEmail(data.mail, "Inscription sur LoyaltyCard", templateRegister);
+                                                result({valid: true, result: "OK"});
+                                            } else {
+                                                result({valid: false, result: results});
+                                            }
+                                        })
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        })
+    }
 }
 
 // Update Companies to Database

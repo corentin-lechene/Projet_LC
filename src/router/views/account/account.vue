@@ -53,7 +53,12 @@ export default {
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <h1 class="text-center">Role : {{user_role}}</h1>
+              <h1 v-if="user_role === 'admin'" class="text-center">Espace Admin</h1>
+              <h1 v-else-if="user_role === 'staffs'" class="text-center">Espace Staff</h1>
+              <h1 v-else-if="user_role === 'customers'" class="text-center">Espace client</h1>
+              <h1 v-else-if="user_role === 'companies'" class="text-center">Espace entreprise</h1>
+              <h1 v-else-if="user_role === 'sellers'" class="text-center">Espace vendeur</h1>
+
               <Admin    v-if="user_role === 'admin'" />
               <Staff    v-else-if="user_role === 'staffs'" />
               <Company  v-else-if="user_role === 'companies'"/>

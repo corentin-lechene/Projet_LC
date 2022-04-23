@@ -88,9 +88,10 @@ export const createPayment = async (data, token, pointsUse, result) => {
             card: {token: data.id}
         });
 
-        const t = (finalTotal - pointsUse * 0.2).toFixed(2).replace('.', '');
+        const t = (finalTotal - pointsUse * 0.2).toFixed(2);
+        const totalStripe = t.replace('.', '');
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: t,
+            amount: totalStripe,
             currency: 'eur',
             customer: customer.id,
             payment_method: paymentMethod.id,

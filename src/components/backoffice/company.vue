@@ -9,7 +9,7 @@ export default {
   components: {AdminTable, Profile},
   data() {
     return {
-
+      company: {},
       roles:{
         customers: {
           hash: '#customers',
@@ -30,8 +30,9 @@ export default {
     };
   },
   async created() {
-    const user = await sendGetUserByToken();
-    this.user_role = user.result.role; //TODO si pas de user redirection + msg
+    const company = await sendGetUserByToken();
+    this.user_role = company.result.role; //TODO si pas de user redirection + msg
+    this.company = company.result;
   }
 }
 </script>
@@ -43,6 +44,10 @@ export default {
     <span v-for="(role, i) in roles" :key="i">
       <AdminTable v-if="$route.hash === role.hash" :options="role.options" :fields="role.fields" :modals="role.modals"/>
     </span>
+    <div v-if="$route.hash === '#settings'">
+      <h4>Votre revenue de cette année : {{ company.revenue }} €</h4>
+      <h4>La cotisation entreprise : {{ company.contribution }} €</h4>
+    </div>
   </div>
 </template>
 
