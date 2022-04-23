@@ -259,7 +259,7 @@ export default {
 
     <!--  Modals register  /-->
     <b-modal id="register" title="Détail" title-class="font-18" size="lg" hide-footer centered @hidden="getInformations(options.route, options.byId)">
-      <Register :route="route || options.route"/>
+      <Register :route="route || options.route" :by-id="options.byId"/>
     </b-modal>
 
     <!--  Modals info  /-->

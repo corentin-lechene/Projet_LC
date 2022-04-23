@@ -1,8 +1,8 @@
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {createValue} from "@/components/my-functions";
 
-async function createSelect(route, attribute, placeHolder) {
-    const res = await sendGetDataTable(route);
+async function createSelect(route, id, attribute, placeHolder) {
+    const res = id === -1 ? await sendGetDataTable(route) : await sendGetDataTable(route, id);
     let b = createValue(res.result, attribute);
     for (let i = 0; i < b.length; i++) {
         b[i].value = b[i][attribute[0]];
@@ -42,8 +42,8 @@ const goods = {
     placeHolder: "Choisir les biens",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].goods.options = await createSelect('goods', ['good_id', 'name'], goods.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].goods.options = await createSelect('goods', id, ['good_id', 'name'], goods.placeHolder)
     }
 };
 const services = {
@@ -51,8 +51,8 @@ const services = {
     placeHolder: "Choisir les services",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].services.options = await createSelect('services', ['service_id', 'name'], services.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].services.options = await createSelect('services', id, ['service_id', 'name'], services.placeHolder)
     }
 };
 const companies = {
@@ -60,8 +60,8 @@ const companies = {
     placeHolder: "Choisir l'entreprise",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].companies.options = await createSelect('companies', ['company_id', 'company'], companies.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].companies.options = await createSelect('companies', id, ['company_id', 'company'], companies.placeHolder)
     }
 };
 const sellers = {
@@ -69,8 +69,8 @@ const sellers = {
     placeHolder: "Choisir le vendeur",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].sellers.options = await createSelect('sellers', ['seller_id', 'company'], sellers.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].sellers.options = await createSelect('sellers', id, ['seller_id', 'company'], sellers.placeHolder)
     }
 };
 const warehouses = {
@@ -78,8 +78,8 @@ const warehouses = {
     placeHolder: "Choisir l'entrepot",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].warehouses.options = await createSelect('warehouses', ['warehouse_id', 'name_warehouse'], warehouses.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].warehouses.options = await createSelect('warehouses', id, ['warehouse_id', 'name_warehouse'], warehouses.placeHolder)
     }
 };
 
@@ -88,8 +88,8 @@ const categories = {
     placeHolder: "Choisir la catégorie",
     type: "select",
     options: [],
-    onCreate: async (route) => {
-        forms[route].categories.options = await createSelect('categories', ['category_id', 'title'], categories.placeHolder)
+    onCreate: async (route, id) => {
+        forms[route].categories.options = await createSelect('categories', id, ['category_id', 'title'], categories.placeHolder)
     }
 };
 
