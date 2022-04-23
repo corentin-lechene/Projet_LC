@@ -15,7 +15,8 @@ import {
     deleteUsers,
     showUsersForStaffs,
     showUsersByCompanyId,
-    onlineUsers
+    onlineUsers,
+    sendForgotPassword
 } from "../controllers/users.js";
 
 
@@ -23,6 +24,7 @@ usersRouter.get('/users-staffs', showUsersForStaffs);
 usersRouter.get('/users', showUsers);
 usersRouter.get('/users-company/:id', showUsersByCompanyId);
 usersRouter.get('/users/:id', showUsersById);
+usersRouter.get('/forgotpassword/:email', sendForgotPassword);
 
 usersRouter.post('/token', tokenUsers);
 

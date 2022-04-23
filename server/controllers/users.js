@@ -9,7 +9,8 @@ import {
     deleteUsersById,
     getUsersByCompanyId,
     getUsersForStaffs,
-    updateOnlineUsers
+    updateOnlineUsers,
+    forgotPassword
 } from "../models/usersModel.js";
 
 // Get All Users
@@ -127,3 +128,13 @@ export const deleteUsers = (req, res) => {
     });
 }
 
+export const sendForgotPassword = (req, res) => {
+    const email = req.params.email;
+    forgotPassword(email, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}

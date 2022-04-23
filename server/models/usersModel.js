@@ -1,6 +1,7 @@
 // import connection
-import db, {preserve, encodeToken, decodeToken} from "../config/database.js";
+import db, {preserve, encodeToken, decodeToken, generatePassword} from "../config/database.js";
 import {sha512} from "js-sha512";
+import {sendEmail} from "../mails/mails.js";
 
 // Get All Users
 export const getUsers = (result) => {
@@ -169,6 +170,35 @@ export const deleteUsersById = (id, result) => {
             result({valid: true, result: "Colonne supprimée"});
         } else {
             result({valid: false, reason: "Colonne non supprimée ou inexistante"});
+        }
+    });
+}
+
+export const forgotPassword = (email, result) => {
+    db.query("select user_id, mail, firstname from users where mail = ?", [email], (err, result1) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else if (result1[0] !== undefined) {
+            const data = result1[0];
+            const password = generatePassword();
+            const templateRegister = `
+                <h3>Bonjour ${data.firstname},</h3>
+                <p>Vous avez oublié votre mot de passe.</p>
+                <p>Pour vous connecter, voici vos identifiants.</p>
+                <p>Email : ${data.mail}</p>    
+                <p>Mot de passe : ${password.pwd_visible}</p> 
+                <p>Vous pouvez vous connecter <a href="http://localhost:8081/login">ici</a></p>
+                <p>Cordialement</p>
+                <p><u>LoyaltyCard</u></p>
+            `; //FIXME changer l'adresse du lien
+            db.query("update users set password = ? where user_id = ?", [password.pwd_hash, data.user_id], (err) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    sendEmail(data.mail, "Mot de passe oublié", templateRegister);
+                    result({valid: true, result: "OK"});
+                }
+            });
         }
     });
 }
