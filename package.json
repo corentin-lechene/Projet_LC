@@ -37,6 +37,7 @@
     "jsonwebtoken": "github:auth0/node-jsonwebtoken",
     "leaflet": "^1.6.0",
     "metismenujs": "^1.2.1",
+    "onesignal-vue": "^1.0.1",
     "sass": "^1.24.2",
     "sass-loader": "^8.0.0",
     "simplebar-vue": "^1.5.1",

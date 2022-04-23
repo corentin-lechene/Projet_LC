@@ -3,7 +3,6 @@
 import Layout from "../layouts/main";
 import PageHeader from "@/components/page-header";
 
-
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {preventingErrorSQL, validRequest} from "@/components/my-functions";
 
@@ -29,7 +28,7 @@ export default {
   },
   methods: {
     getGoods() {
-      let promise = sendGetDataTable('goods');
+      let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
         if(!preventingErrorSQL(res)) {
           if (!validRequest(res)) {
@@ -66,6 +65,7 @@ export default {
     this.getGoods();
     this.getServices();
     this.getCatalogues();
+
   },
   created() {
     if (this.$route.params.notification) {
@@ -76,7 +76,7 @@ export default {
         autoHideDelay: 5000
       })
     }
-  }
+  },
 };
 </script>
 

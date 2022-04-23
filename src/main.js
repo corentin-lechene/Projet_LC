@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import OneSignalVue from 'onesignal-vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import Vuelidate from 'vuelidate'
@@ -31,6 +32,8 @@ const VueScrollTo = require('vue-scrollto')
 Vue.use(VueScrollTo)
 Vue.config.productionTip = false
 
+// Vue.use(OneSignalVue);
+
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate)
 Vue.use(VueMask)
@@ -49,5 +52,10 @@ Vue.component('apexchart', VueApexCharts)
 new Vue({
   router,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
+  // async beforeMount() {
+  //   await this.$OneSignal.init({
+  //     appId: "afab0e56-f9ca-4069-beab-af3d90d7ca9f"
+  //   });
+  // },
 }).$mount('#app')
