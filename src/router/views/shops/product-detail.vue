@@ -27,18 +27,26 @@ export default {
   },
   methods: {
     addToCart() {
-      let promise = sendInsertTable('carts_goods', {
-        customer_id: this.user.customer_id,
-        quantity: 1,
-        good_id: this.productDetail.good_id
-      });
+      if(this.user.role === "customers") {
+        let promise = sendInsertTable('carts_goods', {
+          customer_id: this.user.customer_id,
+          quantity: 1,
+          good_id: this.productDetail.good_id
+        });
 
-      promise.then((res) => {
-        console.log(res);
-        if (!validRequest(res)) {
-          this.makeToast();
-        }
-      });
+        promise.then((res) => {
+          console.log(res);
+          if (!validRequest(res)) {
+            this.makeToast();
+          }
+        });
+      } else {
+        this.$bvToast.toast('Erreur, Vous devez être connecté', {
+          variant: 'warning',
+          noCloseButton: true,
+          autoHideDelay: 5000
+        })
+      }
     },
     makeToast() {
       this.$bvToast.toast('Produit ajouté avec succès', {
@@ -68,7 +76,7 @@ export default {
       })
     },
     getGoods() {
-      let promise = sendGetDataTable('goods');
+      let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
         if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result.slice(0, 3);

@@ -20,6 +20,7 @@ export default {
             {key: 'firstname', label: 'Firstname', sortable: true},
             {key: 'lastname', label: 'Lastname', sortable: true},
             {key: 'mail', label: 'Email', sortable: true},
+            {key: 'revenue', label: 'Revenue', sortable: true},
             {key: 'actions', label: 'Actions'}],
           modals: {register: 'companies', info: 'CompanyDetail', update: 'companies', delete: 'delete'}
         },
@@ -42,6 +43,7 @@ export default {
             {key: 'service_id', label: 'ID', sortable: true},
             {key: 'name', label: 'Name', sortable: true},
             {key: 'price', label: 'Price', sortable: true},
+            {key: 'quantity', label: 'Quantity', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
           modals: {register: 'services', info: 'ServiceDetail', update: 'services', delete: 'delete'}

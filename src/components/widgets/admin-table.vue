@@ -114,7 +114,9 @@ export default {
         if (!validRequest(res)) {
           this.data = res.result.length > 0 ? createValue(res.result, this.layer) : [];
           this.totalRows = this.data.length;
-          setTimeout(() => {this.loading = false;}, 500);
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
         }
       })
     },
@@ -144,8 +146,8 @@ export default {
           return {category_id: this.id};
         case 'WarehouseDetail':
           return {warehouse_id: this.id};
-        // case '';
-        // return ;
+          // case '';
+          // return ;
         default:
           break;
       }
@@ -162,7 +164,7 @@ export default {
   async created() {
     this.getInformations(this.options.route, this.options.byId);
     const user = await sendGetUserByToken();
-    if(user !== undefined)
+    if (user !== undefined)
       this.user = user.result;
     // else
     //   await this.$router.push('/'); //FIXME si pas de token redirection
@@ -182,7 +184,7 @@ export default {
               <div id="tickets-table_length" class="dataTables_length">
                 <label class="d-inline-flex align-items-center">
                   Show
-                  <b-form-select v-model="perPage" :options="pageOptions" />
+                  <b-form-select v-model="perPage" :options="pageOptions"/>
                 </label>
               </div>
             </div>
@@ -191,22 +193,25 @@ export default {
               <div id="tickets-table_filter" class="dataTables_filter text-md-right d-block">
                 <b-form-input
                     v-model="filter"
-                    type="search"
-                    placeholder="Search..."
                     class="form-control ml-2"
+                    placeholder="Search..."
+                    type="search"
                 ></b-form-input>
               </div>
             </div>
             <!-- End search -->
             <!-- Add -->
             <div class="col-sm-12 col-md-2">
-              <b-dropdown v-if="modals.register && typeof registerItems[modals.register] === 'object'" block right text="Add" variant="success">
+              <b-dropdown v-if="modals.register && typeof registerItems[modals.register] === 'object'" block right
+                          text="Add" variant="success">
                 <b-dropdown-item v-for="(item, i) in registerItems[modals.register]" :key="i"
                                  v-b-modal="'register'"
                                  class="dropdown-item" @click="route = item">{{ item }}
                 </b-dropdown-item>
               </b-dropdown>
-              <b-button v-else-if="modals.register" v-b-modal="'register'" variant="success" block  @click="route = modals.register">Add</b-button>
+              <b-button v-else-if="modals.register" v-b-modal="'register'" block variant="success"
+                        @click="route = modals.register">Add
+              </b-button>
             </div>
             <!-- End Add -->
           </div>
@@ -216,30 +221,42 @@ export default {
 
             <b-table
                 v-if="!loading"
-                :fields="fields" :items="data" show-empty
-                responsive="xl" thead-class="text-center"
-                :per-page="perPage" :current-page="currentPage"
-                :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
-                :filter="filter" :filter-included-fields="filterOn"
+                :current-page="currentPage" :fields="fields" :filter="filter"
+                :filter-included-fields="filterOn" :items="data"
+                :per-page="perPage" :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc" responsive="xl"
+                show-empty thead-class="text-center"
                 @filtered="onFiltered"
             >
-              <template #empty="scope"><div class="text-center font-weight-bold font-size-17">Aucune donnée enregistrée</div></template>
-              <template #cell(online)="row">
-                <span style="display: none">{{row.item.online = !!row.item.online}}</span>
-                <b-form-checkbox class="text-center" v-model="row.item.online" @change="setOnline(options.route, row.item[options.name_id])" switch />
+              <!-- if empty -->
+              <template #empty="scope">
+                <div class="text-center font-weight-bold font-size-17">Aucune donnée enregistrée</div>
               </template>
+
+              <!-- button online -->
+              <template #cell(online)="row">
+                <span style="display: none">{{ row.item.online = !!row.item.online }}</span>
+                <b-form-checkbox v-model="row.item.online" class="text-center"
+                                 switch @change="setOnline(options.route, row.item[options.name_id])"/>
+              </template>
+
+              <!-- row price -->
+              <template #cell(price)="row">
+                <div>{{row.item.price}} €</div>
+              </template>
+
+              <!-- buttons actions -->
               <template #cell(actions)="row">
-                <div class="text-center" @mouseover="getId(row.item)">
-                  <b-button
-                      v-if="modals.info" v-b-modal="'info'" @click="getId(row.item)"
-                      variant="info" size="sm" class="mx-1"><i class="bx bx-info-circle"></i></b-button>
-                  <b-button
-                      v-if="modals.update" v-b-modal="'update'" @click="route = modals.update"
-                      variant="success" size="sm" class="mx-1"><i class="bx bx-pencil"></i></b-button>
-                  <b-button
-                      v-if="modals.delete" v-b-modal="'delete'"
-                      variant="danger" size="sm" class="mx-1"><i class="bx bx-trash"></i></b-button>
+                <div class="text-center">
+                  <b-dropdown class="text-center" variant="info" text="..." right>
+                    <b-dropdown-item v-b-modal="'info'" @click="getId(row.item)"><i class="bx bx-info-circle font-size-18" style="vertical-align: text-bottom"/> &nbsp;Information
+                    </b-dropdown-item>
+                    <b-dropdown-item v-b-modal="'update'" @click="route = modals.update"><i class="bx bx-pencil font-size-18" style="vertical-align: text-bottom"/> &nbsp;Modifier
+                    </b-dropdown-item>
+                    <b-dropdown-item v-b-modal="'delete'"><i class="bx bx-trash font-size-18" style="vertical-align: text-bottom"/> &nbsp;Supprimer</b-dropdown-item>
+                  </b-dropdown>
                 </div>
+
               </template>
             </b-table>
           </div>
@@ -248,7 +265,7 @@ export default {
               <div class="dataTables_paginate paging_simple_numbers float-right">
                 <ul class="pagination pagination-rounded mb-0">
                   <!-- pagination -->
-                  <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" />
+                  <b-pagination v-model="currentPage" :per-page="perPage" :total-rows="rows"/>
                 </ul>
               </div>
             </div>
@@ -258,12 +275,13 @@ export default {
     </div>
 
     <!--  Modals register  /-->
-    <b-modal id="register" title="Détail" title-class="font-18" size="lg" hide-footer centered @hidden="getInformations(options.route, options.byId)">
-      <Register :route="route || options.route" :by-id="options.byId"/>
+    <b-modal id="register" centered hide-footer size="lg" title="Détail" title-class="font-18"
+             @hidden="getInformations(options.route, options.byId)">
+      <Register :by-id="options.byId" :route="route || options.route"/>
     </b-modal>
 
     <!--  Modals info  /-->
-    <b-modal v-if="id !== null" id="info" title="Détail" title-class="font-18" size="xl" hide-footer centered>
+    <b-modal v-if="id !== null" id="info" centered hide-footer size="xl" title="Détail" title-class="font-18">
       <div class="card">
         <div class="card-body">
           <keep-alive>
@@ -274,17 +292,20 @@ export default {
     </b-modal>
 
     <!--  Modals update  /-->
-    <b-modal v-if="id !== null" id="update" title="Détail" title-class="font-18" size="xl" hide-footer centered @hidden="getInformations(options.route, options.byId)">
-      <Update :route="route" :id="id"/>
+    <b-modal v-if="id !== null" id="update" centered hide-footer size="xl" title="Détail" title-class="font-18"
+             @hidden="getInformations(options.route, options.byId)">
+      <Update :id="id" :route="route"/>
     </b-modal>
 
     <!--  Modals delete  /-->
-    <b-modal v-if="id !== null" id="delete" ref="delete" title="Détail" title-class="font-18" size="xs" hide-footer centered @hidden="getInformations(options.route, options.byId)">
+    <b-modal v-if="id !== null" id="delete" ref="delete" centered hide-footer size="xs" title="Détail"
+             title-class="font-18" @hidden="getInformations(options.route, options.byId)">
       <div class="card">
         <div class="card-body">
           <h5>Êtes-vous sûr de vouloir supprimer?</h5>
           <div class="row" style="height: 10px;"></div>
-          <b-button variant="outline-success" @click="deleteTable(options.route, id); $refs['delete'].hide()" >Oui</b-button>
+          <b-button variant="outline-success" @click="deleteTable(options.route, id); $refs['delete'].hide()">Oui
+          </b-button>
           <b-button style="margin-left: 10%;" variant="outline-danger" @click="$refs['delete'].hide()">Non</b-button>
         </div>
       </div>

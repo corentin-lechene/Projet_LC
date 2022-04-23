@@ -86,12 +86,6 @@ export default {
                   </form>-->
         </div>
       </div>
-      <!-- Boutton Admin -->
-      <div class="button-items">
-        <router-link class="text-dark" tag="a" to="/admin#profile">
-          <b-button variant="primary">Admin</b-button>
-        </router-link>
-      </div>
 
       <!-- Dropdown profile-->
       <div class="d-flex" style="margin-right: 11%">
