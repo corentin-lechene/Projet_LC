@@ -1,5 +1,16 @@
 // Import function from Users Model
-import { getUsers, getUsersById, getUsersByLogIn, getUserByToken, insertUsers, updateUsersById, deleteUsersById, getUsersByCompanyId, getUsersForStaffs } from "../models/usersModel.js";
+import {
+    getUsers,
+    getUsersById,
+    getUsersByLogIn,
+    getUserByToken,
+    insertUsers,
+    updateUsersById,
+    deleteUsersById,
+    getUsersByCompanyId,
+    getUsersForStaffs,
+    updateOnlineUsers
+} from "../models/usersModel.js";
 
 // Get All Users
 export const showUsers = (req, res) => {
@@ -88,6 +99,17 @@ export const updateUsers = (req, res) => {
         if (err){
             res.send(err);
         } else {
+            res.json(results);
+        }
+    });
+}
+
+export const onlineUsers = (req, res) => {
+    const id = req.params.id;
+    updateOnlineUsers(id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
             res.json(results);
         }
     });

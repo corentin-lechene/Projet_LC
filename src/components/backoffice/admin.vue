@@ -27,6 +27,7 @@ export default {
           hash: '#goods',
           options: {route: `goods`, name_id: 'good_id'},
           fields: [
+            {key: 'online', label: 'Online', sortable: true},
             {key: 'good_id', label: 'ID', sortable: true},
             {key: 'name', label: 'Name', sortable: true},
             {key: 'price', label: 'Price', sortable: true},
@@ -49,6 +50,7 @@ export default {
           hash: '#users',
           options: {route: `users`, name_id: 'user_id'},
           fields: [
+            {key: 'online', label: 'Online', sortable: true},
             {key: 'user_id', label: 'ID', sortable: true},
             {key: 'firstname', label: 'Firstname', sortable: true},
             {key: 'lastname', label: 'Lastname', sortable: true},

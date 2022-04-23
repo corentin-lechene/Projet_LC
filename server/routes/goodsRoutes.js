@@ -13,15 +13,18 @@ import {
     deleteGoods,
     showGoodsBySellerId,
     showGoodsOrServicesByCategoryId,
-    showGoodsByWarehouseId
+    showGoodsByWarehouseId,
+    onlineGoods, showGoodsOnline
 } from "../controllers/goods.js";
 
-goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
 goodsRouter.get('/good-service-category/:id', showGoodsOrServicesByCategoryId);
-goodsRouter.get('/goods', showGoods);
+goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
 goodsRouter.get('/goods-sellers/:id', showGoodsBySellerId);
+goodsRouter.get('/goods-online', showGoodsOnline);
+goodsRouter.get('/goods', showGoods);
 goodsRouter.get('/goods/:id', showGoodsById);
 goodsRouter.post('/goods', createGoods);
+goodsRouter.put('/goods-online/:id', onlineGoods);
 goodsRouter.put('/goods/:id', updateGoods);
 goodsRouter.delete('/goods/:id', deleteGoods);
 

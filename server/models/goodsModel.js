@@ -13,6 +13,16 @@ export const getGoods = (result) => {
     });
 }
 
+export const getGoodsOnline = (result) => {
+    db.query("select * from goods left join sellers s on goods.seller_id = s.seller_id where online = true", (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
 // Get Single Goods
 export const getGoodsById = (id, result) => {
     db.query("select goods.good_id, name, description, price, image, reduction,\n" +
@@ -154,6 +164,16 @@ export const updateGoodsById = (data, id, result) => {
             }
         });
     }
+}
+
+export const updateOnlineGoods = (id, result) => {
+    db.query("update goods set online = !online where good_id = ?", [id], (err, result1) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: result1});
+        }
+    });
 }
 
 // Delete Goods to Database

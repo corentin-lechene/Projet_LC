@@ -1,6 +1,6 @@
 <script>
 
-import {sendDeleteTable, sendGetDataTable, sendGetUserByToken} from "@/components/requests-bdd";
+import {sendDeleteTable, sendGetDataTable, sendGetUserByToken, sendSetOnline} from "@/components/requests-bdd";
 import {createValue, validRequest} from "@/components/my-functions";
 
 import UserDetail from "@/components/modals/backoffice/user-detail";
@@ -72,6 +72,7 @@ export default {
       filterOn: [],
       sortBy: "age",
       sortDesc: false,
+      online: false,
 
       module: null,
       currentTab: 'Form',
@@ -98,6 +99,9 @@ export default {
     this.layer = this.createLayer(this.fields);
   },
   methods: {
+    async setOnline(route, id) {
+      await sendSetOnline(route, id);
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
@@ -220,6 +224,10 @@ export default {
                 @filtered="onFiltered"
             >
               <template #empty="scope"><div class="text-center font-weight-bold font-size-17">Aucune donnée enregistrée</div></template>
+              <template #cell(online)="row">
+                <span style="display: none">{{row.item.online = !!row.item.online}}</span>
+                <b-form-checkbox class="text-center" v-model="row.item.online" @change="setOnline(options.route, row.item[options.name_id])" switch />
+              </template>
               <template #cell(actions)="row">
                 <div class="text-center" @mouseover="getId(row.item)">
                   <b-button

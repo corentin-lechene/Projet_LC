@@ -82,3 +82,12 @@ export function sendGetUserByLogin(body) {
         .then((json) => { return json; })
         .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }
+
+export function sendSetOnline(route, id) {
+    const url = getUrl(route +"-online", id);
+    const headers = {
+        method: 'put'
+    }
+    return fetch(url, headers).then(response => response.json()).then((json) => { return json; })
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
+}

@@ -7,12 +7,22 @@ import {
     deleteGoodsById,
     getGoodsBySellerId,
     getGoodsOrServicesByCategoryId,
-    getGoodsByWarehouseId
+    getGoodsByWarehouseId, updateOnlineGoods, getGoodsOnline
 } from "../models/goodsModel.js";
 
 // Get All Goods
 export const showGoods = (req, res) => {
     getGoods((err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+export const showGoodsOnline = (req, res) => {
+    getGoodsOnline((err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -81,6 +91,18 @@ export const updateGoods = (req, res) => {
     const data  = req.body;
     const id    = req.params.id;
     updateGoodsById(data, id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+// Set online Goods
+export const onlineGoods = (req, res) => {
+    const id = req.params.id;
+    updateOnlineGoods(id, (err, results) => {
         if (err){
             res.send(err);
         }else{

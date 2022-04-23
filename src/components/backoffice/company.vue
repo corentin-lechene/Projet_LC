@@ -13,8 +13,9 @@ export default {
       roles:{
         customers: {
           hash: '#customers',
-          options: {route: `customers-companies`, name_id: 'user_id', byId: 1},
+          options: {route: `customers-companies`, name_id: 'user_id', byId: null},
           fields: [
+            {key: 'online', label: 'Online', sortable: true},
             {key: 'customer_id', label: 'ID', sortable: true},
             {key: 'firstname', label: 'Firstname', sortable: true},
             {key: 'lastname', label: 'Lastname', sortable: true},
@@ -33,6 +34,7 @@ export default {
     const company = await sendGetUserByToken();
     this.user_role = company.result.role; //TODO si pas de user redirection + msg
     this.company = company.result;
+    this.roles.customers.options.byId = this.company.company_id;
   }
 }
 </script>

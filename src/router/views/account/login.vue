@@ -56,7 +56,7 @@ export default {
               params: {notification: {message: "Connexion réussite", variant: "success"}}
             });
         } else {
-          this.authError = "wrong";
+          this.authError = res.result || "wrong";
           this.submitted = false;
         }
       })
@@ -104,7 +104,7 @@ export default {
             <div class="row">
               <div class="col-7">
                 <div class="text-primary p-4">
-                  <h5 class="text-primary">Vous nous avez manquez</h5>
+                  <h5 class="text-primary">Connexion LoyaltyCard</h5>
                   <p>Veuillez vous connecter pour continuer.</p>
                 </div>
               </div>
@@ -124,6 +124,7 @@ export default {
             <b-alert v-if="formError === 'empty'" variant="danger" class="mt-3" dismissible show>L'email ou le mot de passe est vide</b-alert>
             <b-alert v-else-if="formError === 'invalid'" variant="danger" class="mt-3" dismissible show>L'email ou le mot de passe est invalide</b-alert>
             <b-alert v-else-if="authError === 'wrong'" variant="danger" class="mt-3" dismissible show>L'email ou le mot de passe est incorrecte</b-alert>
+            <b-alert v-else-if="authError !== null" variant="danger" class="mt-3" dismissible show>{{ authError }}</b-alert>
 
             <!-- <div>Erreur de connexion, veuillez réesayer<div> -->
             <b-form class="p-2" @submit.prevent="tryToLogIn()">
@@ -147,10 +148,10 @@ export default {
                 ></b-form-input>
                 <div class="invalid-feedback">Le mot de passe est requis</div>
               </b-form-group>
-              <div class="custom-control custom-checkbox">
-                <input id="customControlInline" type="checkbox" class="custom-control-input" />
-                <label class="custom-control-label" for="customControlInline">Rester connecter</label>
-              </div>
+<!--              <div class="custom-control custom-checkbox">-->
+<!--                <input id="customControlInline" type="checkbox" class="custom-control-input" />-->
+<!--                <label class="custom-control-label" for="customControlInline">Rester connecter</label>-->
+<!--              </div>-->
               <div class="mt-3">
                 <b-button class="btn-block" type="submit" variant="primary">
                   <span v-if="!submitted">Se connecter</span>

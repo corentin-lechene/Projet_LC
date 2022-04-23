@@ -67,30 +67,38 @@ export const getUsersById = (id, result) => {
 
 // Login User
 export const getUsersByLogIn = (email, password, result) => {
-    db.query("SELECT * FROM users WHERE mail = ? AND password = ?", [email, sha512(password)], (err, resultsLogin) => {
+    db.query("SELECT user_id, role FROM users WHERE mail = ? AND password = ?", [email, sha512(password)], (err, resultsLogin) => {
         if (err) {
             result({error: true, reason: err});
+        } else if (resultsLogin[0] !== undefined) {
+            db.query("SELECT * FROM users WHERE user_id = ? and online = 1", [resultsLogin[0].user_id], (err, resultOnline) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else if (resultOnline[0] !== undefined) {
+                    let data = resultOnline[0];
+                    let token = encodeToken(data);
+                    db.query("UPDATE users SET token = ? WHERE user_id = ?", [token, data.user_id], (err) => {
+                        if (err) {
+                            result({error: true, reason: err});
+                        } else {
+                            result({valid: true, result: resultOnline[0]});
+                        }
+                    });
+                } else {
+                    result({valid: false, result: "Your account has not been activated"});
+                }
+            });
         } else {
-            if (resultsLogin[0] !== undefined) {
-                let data = resultsLogin[0];
-                let token = encodeToken(data);
-                db.query("UPDATE users SET token = ? WHERE user_id = ?", [token, data.user_id], (err) => {
-                    if (err) {
-                        result({error: true, reason: err});
-                    } else {
-                        result({valid: true, result: resultsLogin[0]});
-                    }
-                });
-            } else {
-                result({valid: false, result: "Connexion failed"});
-            }
+            result({valid: false, result: "Wrong email or password"});
+
         }
+
     });
 }
 
-// Tokeen du user
+// Token du user
 export const getUserByToken = (token, result) => {
-    db.query("SELECT user_id, role FROM users WHERE token = ?", [token], (err, resultsToken) => {
+    db.query("SELECT user_id, role FROM users WHERE token = ? and online = 1", [token], (err, resultsToken) => {
         if(err) {
             result({error: true, reason: err});
         } else if (!resultsToken[0]) {
@@ -138,6 +146,16 @@ export const updateUsersById = (data, id, result) => {
             result({error: true, reason: err});
         } else {
             result({valid: true, result: results});
+        }
+    });
+}
+
+export const updateOnlineUsers = (id, result) => {
+    db.query("update users set online = !online where user_id = ?", [id], (err, result1) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: result1});
         }
     });
 }
