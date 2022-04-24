@@ -66,8 +66,9 @@ export const createCarts = (req, res) => {
 // Update Carts
 export const updateCarts = (req, res) => {
     const customer_id  = req.body.customer_id;
+    const total  = req.body.total;
     const id    = req.params.id;
-    updateCartsById(customer_id, id, (err, results) => {
+    updateCartsById(customer_id, total, id, (err, results) => {
         if (err){
             res.send(err);
         } else {

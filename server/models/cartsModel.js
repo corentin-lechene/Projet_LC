@@ -109,9 +109,9 @@ export const insertCarts = (data, result) => {
 }
 
 // Update Carts to Database
-export const updateCartsById = (customer_id, id, result) => {
+export const updateCartsById = (customer_id, total, id, result) => {
     //Valider le panier
-    db.query("UPDATE carts SET status = 1 WHERE customer_id = ? AND cart_id = ?", [customer_id, id], (err, resultsCarts) => {
+    db.query("UPDATE carts SET status = 1, cart_total = ? WHERE customer_id = ? AND cart_id = ?", [customer_id, total, id], (err, resultsCarts) => {
         if (err) {
             result({error: true, reason: err});
         } else {

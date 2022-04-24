@@ -1,7 +1,7 @@
 /* Global */
 
 function getUrl(table, id = false) {
-    id = !id ? '' : '/'+ parseInt(id);
+    id = !id ? '' : '/'+ (id);
     return `${process.env.VUE_APP_API_ADDRESS}/${table}${id}`;
 }
 

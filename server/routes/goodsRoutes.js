@@ -17,11 +17,11 @@ import {
     showGoodsOrServicesByCartId
 } from "../controllers/goods.js";
 
-goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
 goodsRouter.get('/good-service-category/:id', showGoodsOrServicesByCategoryId);
-goodsRouter.get('/goods-cart/:id', showGoodsOrServicesByCartId);
-goodsRouter.get('/goods', showGoods);
+goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
+goodsRouter.get('/goods-cart/:id&:cart_id', showGoodsOrServicesByCartId);
 goodsRouter.get('/goods-sellers/:id', showGoodsBySellerId);
+goodsRouter.get('/goods', showGoods);
 goodsRouter.get('/goods/:id', showGoodsById);
 goodsRouter.post('/goods', createGoods);
 goodsRouter.put('/goods/:id', updateGoods);

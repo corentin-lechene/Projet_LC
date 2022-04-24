@@ -88,9 +88,10 @@ export const createPayment = async (data, token, pointsUse, result) => {
             card: {token: data.id}
         });
 
-        const t = (finalTotal - pointsUse * 0.2).toFixed(2).replace('.', '');
+        const t = (finalTotal - pointsUse * 0.2).toFixed(2);
+        const totalStripe = t.replace('.', '');
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: t,
+            amount: totalStripe,
             currency: 'eur',
             customer: customer.id,
             payment_method: paymentMethod.id,
@@ -106,7 +107,7 @@ export const createPayment = async (data, token, pointsUse, result) => {
             await fetch('http://localhost:9000/carts/'+ cart.result[0].cart_id, {
                 method: 'put',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({customer_id: user.result.customer_id})
+                body: JSON.stringify({customer_id: user.result.customer_id, total: t})
             });
             sendEmail(user.result.mail, "Merci pour votre achat", "<h1>Votre achat blabla</h1><p>Votre facture ci-jointe ou dans votre espace mes commandes.</p><p>A bientot chez LoyaltyCard</p>")
         }

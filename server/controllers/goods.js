@@ -56,7 +56,7 @@ export const showGoodsOrServicesByCategoryId = (req, res) => {
 
 // Get Goods or Services by cart id
 export const showGoodsOrServicesByCartId = (req, res) => {
-    getGoodsOrServicesByCartId(req.params.id, (err, results) => {
+    getGoodsOrServicesByCartId(req.params.id, req.params.cart_id, (err, results) => {
         if (err){
             res.send(err);
         }else{

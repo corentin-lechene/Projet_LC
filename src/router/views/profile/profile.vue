@@ -19,7 +19,7 @@ export default {
   page: {
     title: "Profile",
   },
-  components: { Layout, PageHeader, Orders, Qrcode },
+  components: { Layout, PageHeader, Orders, Qrcode},
   data() {
     return {
       qrCls: 'qrcode',
@@ -38,93 +38,9 @@ export default {
           active: true,
         },
       ],
-      orders: [
-        {
-          id: '#SK2540',
-          name: 'Neal Matthews',
-          date: '07 Oct, 2019',
-          total: '$400',
-          status: 'Paid',
-          payment: ['fab fa-cc-mastercard', 'Mastercard'],
-          index: 1,
-        },
-        {
-          id: '#SK2541',
-          name: 'Jamal Burnett',
-          date: '07 Oct, 2019',
-          total: '$380',
-          status: 'Chargeback',
-          payment: ['fab fa-cc-visa', 'Visa'],
-          index: 2,
-        },
-        {
-          id: '#SK2542',
-          name: 'Juan Mitchell',
-          date: '06 Oct, 2019',
-          total: '$384',
-          status: 'Paid',
-          payment: ['fab fa-cc-paypal', 'Paypal'],
-          index: 3,
-        },
-        {
-          id: '#SK2543',
-          name: 'Barry Dick',
-          date: '05 Oct, 2019',
-          total: '$412',
-          status: 'Paid',
-          payment: ['fab fa-cc-mastercard', 'Mastercard'],
-          index: 4,
-        },
-        {
-          id: '#SK2544',
-          name: 'Ronald Taylor',
-          date: '04 Oct, 2019',
-          total: '$404',
-          status: 'Refund',
-          payment: ['fab fa-cc-visa', 'Visa'],
-          index: 5,
-        },
-        {
-          id: '#SK2545',
-          name: 'Jacob Hunter',
-          date: '04 Oct, 2019',
-          total: '$392',
-          status: 'Paid',
-          payment: ['fab fa-cc-paypal', 'Paypal'],
-          index: 6,
-        },
-        {
-          id: '#SK2546',
-          name: 'William Cruz',
-          date: '03 Oct, 2019',
-          total: '$374',
-          status: 'Paid',
-          payment: ['fas fa-money-bill-alt', 'COD'],
-          index: 7,
-        },
-        {
-          id: '#SK2547',
-          name: 'Dustin Moser',
-          date: '02 Oct, 2019',
-          total: '$350',
-          status: 'Paid',
-          payment: ['fab fa-cc-mastercard', 'Mastercard'],
-          index: 8,
-        },
-        {
-          id: '#SK2548',
-          name: 'Clark Benson',
-          date: '01 Oct, 2019',
-          total: '$345',
-          status: 'Refund',
-          payment: ['fab fa-cc-visa', 'Visa'],
-          index: 9,
-        },
-      ],
     }
   },
   methods: {
-
     getUsers(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
@@ -161,7 +77,6 @@ export default {
                   </span>
                   <span class="d-none d-sm-inline-block">Profil</span>
                 </template>
-
                 <div class="row">
                   <div class="col-12">
                     <div class="card">
@@ -228,14 +143,14 @@ export default {
                               </div>
                             </div>
                             <div class="row" style="height: 35px; width: 100%;"></div>
+                          </div>
+                        </div>
+                        <div style="float: right">
+                          <b-button variant="success" class="w-md">Modifier mon profil</b-button>
+                        </div>
                       </div>
+                      <!-- end col -->
                     </div>
-                    <div style="float: right">
-                      <b-button variant="success" class="w-md">Modifier mon profil</b-button>
-                    </div>
-                  </div>
-                  <!-- end col -->
-                </div>
                   </div>
                 </div>
 

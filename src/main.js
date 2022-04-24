@@ -9,6 +9,10 @@ import vco from "v-click-outside"
 import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
+import Vuex from 'vuex';
+import 'vuex-toast/dist/vuex-toast.css'
+import { createModule } from 'vuex-toast'
+
 
 import "@/design/index.scss";
 
@@ -24,6 +28,7 @@ Vue.component('tinymce', tinymce)
 const dotenv = require("dotenv")
 dotenv.config({ path: "../.env/"})
 
+Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(vco)
 Vue.use(Scrollspy);
@@ -45,9 +50,16 @@ Vue.use(VueGoogleMaps, {
 })
 Vue.component('apexchart', VueApexCharts)
 
+export default new Vuex.Store({
+  modules: {
+    toast: createModule({
+      dismissInterval: 8000
+    })
+  }
+})
 
 new Vue({
   router,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

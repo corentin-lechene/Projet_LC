@@ -36,15 +36,66 @@ export const getGoodsBySellerId = (id, result) => {
 }
 
 // Get Goods and services by cart
-export const getGoodsOrServicesByCartId = (id, result) => {
-    db.query("SELECT * FROM carts_good INNER JOIN carts c on carts_good.cart_id = c.cart_id WHERE customer_id = ?;\n", [id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
-        }
-    });
-}
+    export const getGoodsOrServicesByCartId = (id, cart_id, result) => {
+        db.query("select carts.cart_id,\n" +
+            "       carts.customer_id,\n" +
+            "       carts.status,\n" +
+            "       carts.created_at,\n" +
+            "       carts.updated_at,\n" +
+            "       'services'         as cart_name,\n" +
+            "       cs.cart_service_id as cart_product_id,\n" +
+            "       'services'                as cart_name,\n" +
+            "       cs.cart_service_id        as cart_product_id,\n" +
+            "       cs.cart_quantity,\n" +
+            "       s.service_id              as product_id,\n" +
+            "       s.name,\n" +
+            "       s.description,\n" +
+            "       s.price,\n" +
+            "       s.stripe_price,\n" +
+            "       s.reduction,\n" +
+            "       s.image,\n" +
+            "       SUM(cs.cart_quantity * (s.price - ((s.price * s.reduction) / 100))) as total\n" +
+            "from carts\n" +
+            "         RIGHT JOIN carts_service cs on carts.cart_id = cs.cart_id\n" +
+            "         LEFT JOIN services s on cs.service_id = s.service_id\n" +
+            "WHERE status = 0\n" +
+            "  AND customer_id = ?\n" +
+            "  AND carts.cart_id = ?\n" +
+            "GROUP BY carts.cart_id, carts.customer_id, carts.status, 'services', cs.cart_service_id, cs.cart_quantity, s.service_id, s.name, s.description, s.price, s.stripe_price, s.reduction, s.image\n" +
+            "UNION\n" +
+            "\n" +
+            "select carts.cart_id,\n" +
+            "       carts.customer_id,\n" +
+            "       carts.status,\n" +
+            "       carts.created_at,\n" +
+            "       carts.updated_at,\n" +
+            "       'goods'         as cart_name,\n" +
+            "       cg.cart_good_id as cart_product_id,\n" +
+            "       'goods'                         as cart_name,\n" +
+            "       cg.cart_good_id                 as cart_product_id,\n" +
+            "       cg.cart_quantity,\n" +
+            "       g.good_id                       as product_id,\n" +
+            "       g.name,\n" +
+            "       g.description,\n" +
+            "       g.price,\n" +
+            "       g.stripe_price,\n" +
+            "       g.reduction,\n" +
+            "       g.image,\n" +
+            "       SUM(cg.cart_quantity * (g.price - ((g.price * g.reduction) / 100))) as total\n" +
+            "from carts\n" +
+            "         RIGHT JOIN carts_good cg on carts.cart_id = cg.cart_id\n" +
+            "         LEFT JOIN goods g on cg.good_id = g.good_id\n" +
+            "WHERE status = 0\n" +
+            "  AND customer_id = ?\n" +
+            "  AND carts.cart_id = ?\n" +
+            "GROUP BY carts.cart_id, carts.customer_id, carts.status, 'goods', cg.cart_good_id, cg.cart_quantity, g.good_id, g.name, g.description, g.price, g.stripe_price, g.reduction, g.image", [customer_id, customer_id], (err, results) => {
+            if (err) {
+                result({error: true, reason: err});
+            } else {
+                result({valid: true, result: results});
+            }
+        });
+    }
 
 // Get Goods by warehouse
 export const getGoodsByWarehouseId = (id, result) => {
