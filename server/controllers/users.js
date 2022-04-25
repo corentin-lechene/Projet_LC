@@ -1,5 +1,17 @@
 // Import function from Users Model
-import { getUsers, getUsersById, getUsersByLogIn, getUserByToken, insertUsers, updateUsersById, deleteUsersById, getUsersByCompanyId, getUsersForStaffs } from "../models/usersModel.js";
+import {
+    getUsers,
+    getUsersById,
+    getUsersByLogIn,
+    getUserByToken,
+    insertUsers,
+    updateUsersById,
+    deleteUsersById,
+    getUsersByCompanyId,
+    getUsersForStaffs,
+    updateOnlineUsers,
+    forgotPassword
+} from "../models/usersModel.js";
 
 // Get All Users
 export const showUsers = (req, res) => {
@@ -93,6 +105,17 @@ export const updateUsers = (req, res) => {
     });
 }
 
+export const onlineUsers = (req, res) => {
+    const id = req.params.id;
+    updateOnlineUsers(id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
 // Delete Users
 export const deleteUsers = (req, res) => {
     const id = req.params.id;
@@ -105,3 +128,13 @@ export const deleteUsers = (req, res) => {
     });
 }
 
+export const sendForgotPassword = (req, res) => {
+    const email = req.params.email;
+    forgotPassword(email, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}

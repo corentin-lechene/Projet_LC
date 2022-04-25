@@ -19,7 +19,7 @@ export default {
             {key: 'price', label: 'Price', sortable: true},
             {key: 'company', label: 'Company', sortable: true},
             {key: 'actions', label: 'Actions'}],
-          modals: {register: 'goods', info: 'info', update: 'update', delete: 'delete'}
+          modals: {register: 'goods', info: 'info', update: 'goods', delete: 'delete'}
         },
         services: {
           hash: '#services',

@@ -21,10 +21,8 @@ export default {
     getUsers() {
       let promise = sendGetDataTable('users', this.user_id);
       promise.then((res) => {
-        console.log(res);
         if (!validRequest(res)) {
           this.user = res.result;
-          // this.loading = false;
         }
       })
     }

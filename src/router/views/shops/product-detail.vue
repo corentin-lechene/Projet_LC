@@ -27,18 +27,26 @@ export default {
   },
   methods: {
     addToCart() {
-      let promise = sendInsertTable('carts_goods', {
-        customer_id: this.user.customer_id,
-        quantity: 1,
-        good_id: this.productDetail.good_id
-      });
+      if(this.user.role === "customers") {
+        let promise = sendInsertTable('carts_goods', {
+          customer_id: this.user.customer_id,
+          quantity: 1,
+          good_id: this.productDetail.good_id
+        });
 
-      promise.then((res) => {
-        console.log(res);
-        if (!validRequest(res)) {
-          this.makeToast();
-        }
-      });
+        promise.then((res) => {
+          console.log(res);
+          if (!validRequest(res)) {
+            this.makeToast();
+          }
+        });
+      } else {
+        this.$bvToast.toast('Erreur, Vous devez être connecté', {
+          variant: 'warning',
+          noCloseButton: true,
+          autoHideDelay: 5000
+        })
+      }
     },
     makeToast() {
       this.$bvToast.toast('Produit ajouté avec succès', {
@@ -68,7 +76,7 @@ export default {
       })
     },
     getGoods() {
-      let promise = sendGetDataTable('goods');
+      let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
         if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result.slice(0, 3);
@@ -180,14 +188,13 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <button :disabled="loading.products || user === null" class="btn btn-primary waves-effect waves-light my-2 mr-2"
-                            type="button" @click="addToCart()">
-                      <i class="bx bx-cart me-2"></i> Ajouter au panier
-                    </button>
-                    <button :disabled="loading.products || user === null" class="btn btn-success waves-effect my-2 mx-2 waves-light"
-                            type="button">
-                      <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant
-                    </button>
+                    <b-button v-if="productDetail.totalStock <= 0" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
+                    <b-button v-else-if="loading.products || user === null" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
+                    <b-button v-else variant="info" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-cart me-2"></i> Ajouter au panier</b-button>
+
+                    <b-button v-if="productDetail.totalStock <= 0" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
+                    <b-button v-else-if="loading.products || user === null" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
+                    <b-button v-else variant="success" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant</b-button>
                   </div>
                 </div>
               </div>

@@ -19,6 +19,10 @@ export default {
     route: {
       type: String,
       default: ""
+    },
+    byId: {
+      type: Number,
+      default: -1
     }
   },
   data() {
@@ -91,7 +95,7 @@ export default {
     const temp = this.currentForms;
     for (const key in temp) {
       if (typeof temp[key].onCreate !== "undefined") {
-        temp[key].onCreate(this.route);
+        temp[key].onCreate(this.route, this.byId);
       }
     }
     //Init values

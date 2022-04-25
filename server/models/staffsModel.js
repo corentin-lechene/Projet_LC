@@ -72,11 +72,25 @@ export const insertStaffs = (data, result) => {
 
 // Update Staffs to Database
 export const updateStaffsById = (data, id, result) => {
-    db.query("UPDATE staffs SET name = ? /* TODO */, id = ?", [data.name /* TODO */, id], (err, results) => {
+    const staff = {
+        job: data.job
+    };
+
+    data.country = data.countries;
+    delete data.countries;
+    delete data.job;
+
+    db.query("UPDATE users SET ? WHERE user_id = ?", [data, id], (err) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results});
+            db.query("UPDATE staffs SET ? WHERE user_id = ?", [staff, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results});
+                }
+            });
         }
     });
 }
