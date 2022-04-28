@@ -109,10 +109,6 @@ export default {
     for (const valuesKey in this.currentForms) {
       this.values[valuesKey] = null;
     }
-
-    console.log("this.route: ", this.route);//TODO enlever cette ligne
-    console.log("this.currentForms: ", this.currentForms);//TODO enlever cette ligne
-    console.log("this.values: ", this.values);//TODO enlever cette ligne
   },
 }
 </script>

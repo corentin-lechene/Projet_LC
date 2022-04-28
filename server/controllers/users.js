@@ -5,7 +5,6 @@ import {
     getUsersByLogIn,
     getUserByToken,
     insertUsers,
-    updateUsersById,
     deleteUsersById,
     getUsersByCompanyId,
     getUsersForStaffs,
@@ -92,18 +91,6 @@ export const createUsers = (req, res) => {
     });
 }
 
-// Update Users
-export const updateUsers = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateUsersById(data, id, (err, results) => {
-        if (err){
-            res.send(err);
-        } else {
-            res.json(results);
-        }
-    });
-}
 
 export const onlineUsers = (req, res) => {
     const id = req.params.id;

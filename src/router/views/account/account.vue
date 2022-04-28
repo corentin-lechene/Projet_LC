@@ -22,7 +22,7 @@ export default {
       title: 'Admin',
       role: roles,
 
-      user_role: null, //TODO retirer cette ligne
+      user_role: null,
     }
   },
   mounted() {
@@ -31,7 +31,7 @@ export default {
   async created() {
     const user = await sendGetUserByToken();
     if(user !== undefined)
-      this.user_role = user.result.role; //TODO si pas de user redirection + msg
+      this.user_role = user.result.role;
     else
       await this.$router.push('/404');
   }

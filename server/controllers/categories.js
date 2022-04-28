@@ -1,5 +1,5 @@
 // Import function from Categories Model
-import { getCategories, getCategoriesById, insertCategories, updateCategoriesById, deleteCategoriesById } from "../models/categoriesModel.js";
+import { getCategories, getCategoriesById, insertCategories, deleteCategoriesById } from "../models/categoriesModel.js";
 
 // Get All Categories
 export const showCategories = (req, res) => {
@@ -35,18 +35,6 @@ export const createCategories = (req, res) => {
     });
 }
 
-// Update Categories
-export const updateCategories = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateCategoriesById(data, id, (err, results) => {
-        if (err){
-            res.send(err);
-        } else {
-            res.json(results);
-        }
-    });
-}
 
 // Delete Categories
 export const deleteCategories = (req, res) => {

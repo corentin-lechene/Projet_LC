@@ -43,17 +43,6 @@ export const insertCategories = (data, result) => {
     })
 }
 
-// Update Categories to Database
-export const updateCategoriesById = (data, id, result) => {
-    db.query("UPDATE categories SET name = ? /* TODO */, category_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
-        }
-    });
-}
-
 // Delete Categories to Database
 export const deleteCategoriesById = (id, result) => {
     db.query("DELETE FROM categories WHERE category_id = ?", [id], (err, results) => {

@@ -1,5 +1,5 @@
 // Import function from Categories_goods Model
-import { getCategories_goods, getCategories_goodsById, insertCategories_goods, updateCategories_goodsById, deleteCategories_goodsById } from "../models/categories_goodsModel.js";
+import { getCategories_goods, getCategories_goodsById, insertCategories_goods, deleteCategories_goodsById } from "../models/categories_goodsModel.js";
 
 // Get All Categories_goods
 export const showCategories_goods = (req, res) => {
@@ -35,18 +35,6 @@ export const createCategories_goods = (req, res) => {
     });
 }
 
-// Update Categories_goods
-export const updateCategories_goods = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateCategories_goodsById(data, id, (err, results) => {
-        if (err){
-            res.send(err);
-        } else {
-            res.json(results);
-        }
-    });
-}
 
 // Delete Categories_goods
 export const deleteCategories_goods = (req, res) => {

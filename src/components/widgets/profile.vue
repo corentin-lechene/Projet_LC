@@ -16,8 +16,8 @@ export default {
     const user = await sendGetUserByToken();
     if(user !== undefined)
       this.user = user.result;
-    //else
-      //await this.$router.push('/'); //FIXME si pas de token redirection
+    else
+      await this.$router.push('/');
   },
 };
 </script>

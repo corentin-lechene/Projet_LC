@@ -32,9 +32,13 @@ export default {
   },
   async created() {
     const company = await sendGetUserByToken();
-    this.user_role = company.result.role; //TODO si pas de user redirection + msg
-    this.company = company.result;
-    this.roles.customers.options.byId = this.company.company_id;
+    if(company.result.role === 'companies') {
+      this.user_role = company.result.role;
+      this.company = company.result;
+      this.roles.customers.options.byId = this.company.company_id;
+    } else {
+      await this.$router.push('/');
+    }
   }
 }
 </script>

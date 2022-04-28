@@ -1,5 +1,5 @@
 // Import function from Categories_services Model
-import { getCategories_services, getCategories_servicesById, insertCategories_services, updateCategories_servicesById, deleteCategories_servicesById } from "../models/categories_servicesModel.js";
+import { getCategories_services, getCategories_servicesById, insertCategories_services, deleteCategories_servicesById } from "../models/categories_servicesModel.js";
 
 // Get All Categories_services
 export const showCategories_services = (req, res) => {
@@ -35,18 +35,6 @@ export const createCategories_services = (req, res) => {
     });
 }
 
-// Update Categories_services
-export const updateCategories_services = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateCategories_servicesById(data, id, (err, results) => {
-        if (err){
-            res.send(err);
-        } else {
-            res.json(results);
-        }
-    });
-}
 
 // Delete Categories_services
 export const deleteCategories_services = (req, res) => {

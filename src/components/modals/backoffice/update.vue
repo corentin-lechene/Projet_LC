@@ -76,11 +76,6 @@ export default {
     if(user.result.role !== 'admin' && user.result.role !== 'staff') {
       delete this.currentForms.stock;
     }
-    console.log('id: ', this.id); //TODO enlever cette ligne
-    console.log('curr_form: ', this.currentForms); //TODO enlever cette ligne
-    console.log('values: ', this.values); //TODO enlever cette ligne
-    console.log('route: ', this.route); //TODO enlever cette ligne
-    console.log('data: ', this.data); //TODO enlever cette ligne
 
     const temp = this.currentForms;
     for (const key in temp) {

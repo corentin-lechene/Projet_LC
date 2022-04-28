@@ -140,17 +140,6 @@ export const insertUsers = (data, result) => {
     });
 }
 
-// Update Users to Database
-export const updateUsersById = (data, id, result) => {
-    db.query("UPDATE users SET name = ? /* TODO */, user_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results});
-        }
-    });
-}
-
 export const updateOnlineUsers = (id, result) => {
     db.query("update users set online = !online where user_id = ?", [id], (err, result1) => {
         if (err) {

@@ -43,17 +43,6 @@ export const insertWarehouses = (data, result) => {
     })
 }
 
-// Update Warehouses to Database
-export const updateWarehousesById = (data, id, result) => {
-    db.query("UPDATE warehouses SET name = ? /* TODO */, warehouse_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if (err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
-        }
-    });
-}
-
 // Delete Warehouses to Database
 export const deleteWarehousesById = (id, result) => {
     db.query("DELETE FROM warehouses WHERE warehouse_id = ?", [id], (err, results) => {

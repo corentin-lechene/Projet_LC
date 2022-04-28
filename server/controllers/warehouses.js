@@ -1,5 +1,5 @@
 // Import function from Warehouses Model
-import { getWarehouses, getWarehousesById, insertWarehouses, updateWarehousesById, deleteWarehousesById } from "../models/warehousesModel.js";
+import { getWarehouses, getWarehousesById, insertWarehouses, deleteWarehousesById } from "../models/warehousesModel.js";
 
 // Get All Warehouses
 export const showWarehouses = (req, res) => {
@@ -35,18 +35,6 @@ export const createWarehouses = (req, res) => {
     });
 }
 
-// Update Warehouses
-export const updateWarehouses = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateWarehousesById(data, id, (err, results) => {
-        if (err){
-            res.send(err);
-        } else {
-            res.json(results);
-        }
-    });
-}
 
 // Delete Warehouses
 export const deleteWarehouses = (req, res) => {
