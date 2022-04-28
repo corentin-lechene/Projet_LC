@@ -20,6 +20,7 @@ import {
 } from "../controllers/goods.js";
 
 goodsRouter.get('/good-service-category/:id', showGoodsOrServicesByCategoryId);
+goodsRouter.put('/goods-sellers-online/:id', onlineGoods);
 goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
 goodsRouter.get('/goods-cart/:id&:cart_id', showGoodsOrServicesByCartId);
 goodsRouter.get('/goods-sellers/:id', showGoodsBySellerId);

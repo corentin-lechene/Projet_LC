@@ -104,7 +104,7 @@ export const getGoodsBySellerId = (id, result) => {
             "WHERE status = 0\n" +
             "  AND customer_id = ?\n" +
             "  AND carts.cart_id = ?\n" +
-            "GROUP BY carts.cart_id, carts.customer_id, carts.status, 'goods', cg.cart_good_id, cg.cart_quantity, g.good_id, g.name, g.description, g.price, g.stripe_price, g.reduction, g.image", [customer_id, customer_id], (err, results) => {
+            "GROUP BY carts.cart_id, carts.customer_id, carts.status, 'goods', cg.cart_good_id, cg.cart_quantity, g.good_id, g.name, g.description, g.price, g.stripe_price, g.reduction, g.image", [id, id], (err, results) => {
             if (err) {
                 result({error: true, reason: err});
             } else {

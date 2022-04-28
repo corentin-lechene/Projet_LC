@@ -9,7 +9,6 @@ import {
     getGoodsOrServicesByCategoryId,
     getGoodsByWarehouseId,
     getGoodsOrServicesByCartId,
-    getGoodsByWarehouseId,
     updateOnlineGoods,
     getGoodsOnline
 } from "../models/goodsModel.js";

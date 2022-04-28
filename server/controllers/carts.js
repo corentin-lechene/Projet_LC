@@ -6,7 +6,7 @@ import {
     updateCartsById,
     deleteCartsById,
     getCartsByCustomerId,
-    getCartsPayedByCustomerId
+    getCartsPayedByCustomerId, getCartsDashboard
 } from "../models/cartsModel.js";
 
 // Get All Carts
@@ -50,7 +50,16 @@ export const showCartsPayedByCustomerId = (req, res) => {
     });
 }
 
-      
+export const showCartsDashboard = (req, res) => {
+    getCartsDashboard(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    })
+}
+
 // Create New Carts
 export const createCarts = (req, res) => {
     const data = req.body;

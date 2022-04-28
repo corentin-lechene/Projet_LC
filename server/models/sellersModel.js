@@ -16,7 +16,7 @@ export const getSellers = (result) => {
 
 // Get Single Sellers
 export const getSellersById = (id, result) => {
-    db.query("SELECT * FROM sellers INNER JOIN users u on sellers.user_id = ?", [id], (err, results) => {
+    db.query("SELECT * FROM sellers LEFT JOIN users u on sellers.user_id where seller_id = ?", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -40,7 +40,7 @@ export const insertSellers = (data, result) => {
                     result({valid: false, result: "Company already created"});
                 } else {
                     const password = generatePassword();
-                    db.query("INSERT INTO users(firstname, lastname, mail, password, role) VALUE(?, ?, ?, ?, 'sellers')", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
+                    db.query("INSERT INTO users(firstname, lastname, mail, password, role, created_at) VALUE(?, ?, ?, ?, 'sellers', now())", [data.firstname, data.lastname, data.mail, password.pwd_hash], (err, resultsUsers) => {
                         if (err) {
                             result({error: true, reason: err});
                         } else {

@@ -70,7 +70,7 @@ const sellers = {
     type: "select",
     options: [],
     onCreate: async (route, id) => {
-        forms[route].sellers.options = await createSelect('sellers', id, ['seller_id', 'company'], sellers.placeHolder)
+        sellers.options = await createSelect('sellers', id, ['seller_id', 'company'], sellers.placeHolder)
     }
 };
 const warehouses = {

@@ -114,6 +114,7 @@ export default {
         if (!validRequest(res)) {
           this.data = res.result.length > 0 ? createValue(res.result, this.layer) : [];
           this.totalRows = this.data.length;
+          console.log("this.data: ", this.data);
           setTimeout(() => {
             this.loading = false;
           }, 500);
@@ -248,7 +249,7 @@ export default {
               <!-- buttons actions -->
               <template #cell(actions)="row">
                 <div class="text-center">
-                  <b-dropdown class="text-center" variant="info" text="..." right>
+                  <b-dropdown class="text-center" variant="info" text="..." right @click="getId(row.item)">
                     <b-dropdown-item v-b-modal="'info'" @click="getId(row.item)"><i class="bx bx-info-circle font-size-18" style="vertical-align: text-bottom"/> &nbsp;Information
                     </b-dropdown-item>
                     <b-dropdown-item v-b-modal="'update'" @click="route = modals.update"><i class="bx bx-pencil font-size-18" style="vertical-align: text-bottom"/> &nbsp;Modifier
