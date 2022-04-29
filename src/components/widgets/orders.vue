@@ -92,7 +92,7 @@ export default {
       </tr>
       </tbody>
     </table>
-    <b-modal id="order-detail" title="Order Details" centered>
+    <b-modal id="order-detail" title="Order Details" size="xl" centered>
       <div class="row">
         <div v-if="orders.length === 0">Aucun Good trouvé</div>
         <div v-for="(good,i) in orders" :key="i" class="col-sm-4 col-md-4 col-xl-4">
@@ -100,19 +100,16 @@ export default {
             <div class="card-body">
               <div class="text-center card-box">
                 <div class="member-card pt-2 pb-2">
-                  <div class="thumb-lg member-thumb mx-auto"><img
-                      src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                      class="rounded-circle img-thumbnail" alt="profile-image">
-                    <!--<b-img :src="require(`@/assets/images/users/${good.image}`)" fluid
-                           class="rounded-circle img-thumbnail" alt="avatar"/>-->
+                  <div class="thumb-lg member-thumb mx-auto">
+                    <b-img :src="require(`@/assets/images/product/${good.image}`)" fluid
+                           class="rounded-circle img-thumbnail" alt="avatar"/>
                   </div>
                   <div class="">
-                    <h4> {{ good.cart_quantity }}</h4>
-                    <p><span>{{ good.good_id }}</span></p>
-                  </div>
-                  <div class="text-center">
-                    <b-button class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Voir plus
-                    </b-button>
+                    <h4>  Nom: {{ good.name }}</h4>
+                    <h4> Prix: {{ good.price }}€</h4>
+                    <h4> Quantité : {{ good.cart_quantity }}</h4>
+                    <h4> Reduction: {{ good.reduction }}%</h4>
+
                   </div>
                 </div>
               </div>

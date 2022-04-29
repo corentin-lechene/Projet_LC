@@ -56,7 +56,9 @@ export default {
             <b-card-text class="h3">
             Le programme de fidélité qui récompense vos achats en magasin et en ligne.
           </b-card-text>
+            <router-link class="text-dark" tag="a" to="/login">
           <b-button pill variant="success">Se connecter</b-button>
+            </router-link>
           </div>
         </b-card>
       </div>
@@ -65,7 +67,7 @@ export default {
             <div class="card-body">
               <h4 style="text-align: center;font-size: large;" class="card-title">Ma carte de fidélité</h4>
               <div class>
-                  <img src="@/assets/images/carte.png" class="img-fluid" alt="Responsive image" style="height: 350px; width: 500px;"/>
+                  <img src="@/assets/images/carteloyalty.png" class="img-fluid" alt="Responsive image" style="height: 350px; width: 500px;"/>
             </div>
           </div>
         </div>

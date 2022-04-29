@@ -22,7 +22,6 @@ export default {
     return {
       data: {},
       id: null,
-      log : console.log,
     };
   },
   methods: {
@@ -62,7 +61,7 @@ export default {
               <div class="text-center">
                 <b-button
                     v-b-modal="'user-detail'" @click="id = customer.user_id"
-                    variant="danger" size="sm" class="mx-1"><i class="bx bx-trash"></i></b-button>
+                    variant="info" size="sm" class="mx-1">Voir plus</b-button>
               </div>
             </div>
           </div>

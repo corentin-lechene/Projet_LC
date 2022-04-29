@@ -55,10 +55,9 @@ export default {
         <div class="card-body">
           <div class="text-center card-box">
             <div class="member-card pt-2 pb-2">
-              <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                              class="rounded-circle img-thumbnail" alt="profile-image">
-                <!--<b-img :src="require(`@/assets/images/users/${good.image}`)" fluid
-                       class="rounded-circle img-thumbnail" alt="avatar"/>-->
+              <div class="thumb-lg member-thumb mx-auto">
+                <b-img :src="require(`@/assets/images/product/${good.image}`)" fluid
+                       class="rounded-circle img-thumbnail" alt="avatar"/>
               </div>
               <div class="">
                 <h4> {{ good.price}} € | {{ good.reduction }} %</h4>
@@ -67,7 +66,7 @@ export default {
               <div class="text-center">
                 <b-button
                     v-b-modal="'good-detail'" @click="id = good.good_id"
-                    variant="danger" size="sm" class="mx-1"><i class="bx bx-trash"></i></b-button>
+                    variant="info" size="sm" class="mx-1">Voir plus</b-button>
               </div>
             </div>
           </div>

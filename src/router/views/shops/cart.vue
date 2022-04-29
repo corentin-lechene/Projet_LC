@@ -193,7 +193,7 @@ export default {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title mb-4">{{ $t('cart.loyalty-card') }}</h5>
-                <img alt="" src="@/assets/images/carte.png" style="width: 240px; height: 200px">
+                <img alt="" src="@/assets/images/carteloyalty.png" style="width: 240px; height: 200px">
               </div>
             </div>
           </div>

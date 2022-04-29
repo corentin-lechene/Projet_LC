@@ -2,8 +2,10 @@
 
 import {sendGetDataTable} from "@/components/requests-bdd";
 import {validRequest} from "@/components/my-functions";
+import GoodDetail from "@/components/modals/backoffice/good-detail";
 
 export default {
+  components: {GoodDetail},
   props: {
     seller_id: {
       type: Number,
@@ -20,7 +22,6 @@ export default {
     return {
       data: {},
       id: null,
-      log : console.log,
     };
   },
   methods: {
@@ -29,7 +30,7 @@ export default {
       this.id = item[this.options.name_id];
     },
 
-    getGoodsBySellersId(table, id) {
+    getGoodsOrServicesBySellerId(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
         if (!validRequest(res)) {
@@ -40,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    this.getGoodsBySellersId('goods-sellers', this.seller_id);
+    this.getGoodsOrServicesBySellerId('goods-seller', this.seller_id);
   },
 };
 </script>
@@ -63,8 +64,9 @@ export default {
                 <p><span>{{ good.name }}</span></p>
               </div>
               <div class="text-center">
-                <b-button class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Voir plus
-                </b-button>
+                <b-button
+                    v-b-modal="'good-detail'" @click="id = good.good_id"
+                    variant="info" size="sm" class="mx-1">Voir plus</b-button>
               </div>
             </div>
           </div>
@@ -72,12 +74,10 @@ export default {
       </div>
     </div>
     <!--  Modals info  /-->
-    <b-modal v-if="id !== null" id="info" title="Detail" title-class="font-18" size="xl" hide-footer centered>
+    <b-modal v-if="id !== null" id="good-detail" title="Detail" title-class="font-18" size="xl" hide-footer centered>
       <div class="card">
         <div class="card-body">
-          <keep-alive>
-            <component :is="modals.info" v-bind="this.modals.info"/>
-          </keep-alive>
+          <GoodDetail :good_id="id"/>
         </div>
       </div>
     </b-modal>
@@ -110,10 +110,6 @@ body {
   border-radius: .25rem;
   max-width: 100%;
   height: auto;
-}
-
-.btn-rounded {
-  border-radius: 2em;
 }
 
 h4 {

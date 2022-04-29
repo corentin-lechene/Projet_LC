@@ -5,9 +5,10 @@ import {
     insertGoods,
     updateGoodsById,
     deleteGoodsById,
-    getGoodsBySellerId,
     getGoodsOrServicesByCategoryId,
     getGoodsByWarehouseId,
+    getGoodsOrServicesByCartId,
+    getGoodsOrServicesBySellerId
     getGoodsOrServicesByCartId,
     updateOnlineGoods,
     getGoodsOnline
@@ -46,8 +47,8 @@ export const showGoodsById = (req, res) => {
 }
 
 // Get Goods by seller
-export const showGoodsBySellerId = (req, res) => {
-    getGoodsBySellerId(req.params.id, (err, results) => {
+export const showGoodsOrServicesBySellerId = (req, res) => {
+    getGoodsOrServicesBySellerId(req.params.id, (err, results) => {
         if (err){
             res.send(err);
         }else{
