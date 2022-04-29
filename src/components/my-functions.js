@@ -6,7 +6,6 @@ function preventingErrorSQL(result) {
         return true;
     }
     if (result.error && result.valid === undefined) {
-        this.$router.push({name: 'Maintenance'});
         console.error("My SQL Error: ", result.reason);
         return true;
     }

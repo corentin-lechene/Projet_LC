@@ -130,7 +130,7 @@ export default {
 
 
     getGoods() {
-      let promise = sendGetDataTable('goods');
+      let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
         if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result;

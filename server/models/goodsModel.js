@@ -4,7 +4,17 @@ import fs from 'fs-extra';
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("SELECT * FROM goods INNER JOIN categories_goods cg on goods.good_id = cg.good_id", (err, results) => {
+    db.query("select * from goods inner join sellers s on goods.seller_id = s.seller_id", (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
+export const getGoodsOnline = (result) => {
+    db.query("select * from goods left join sellers s on goods.seller_id = s.seller_id where online = true", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -15,11 +25,17 @@ export const getGoods = (result) => {
 
 // Get Single Goods
 export const getGoodsById = (id, result) => {
-    db.query("SELECT * FROM goods INNER JOIN sellers s on goods.seller_id = s.seller_id INNER JOIN users u on s.user_id = u.user_id WHERE good_id = ?", [id], (err, results) => {
+    db.query("select goods.good_id, name, description, price, image, reduction,\n" +
+        "       cg.category_good_id,\n" +
+        "       c.category_id, c.title, c.type, c.content,\n" +
+        "       s.seller_id, s.status, s.company,\n" +
+        "       (select sum(stock) as totalStock from warehouses_stocks where good_id = ? order by good_id) as totalStock,\n" +
+        "       (select stock from warehouses_stocks where warehouses_stocks.good_id = ? limit 1) as stock\n" +
+        "       from goods left join categories_goods cg on goods.good_id = cg.good_id left join categories c on cg.category_id = c.category_id left join sellers s on goods.seller_id = s.seller_id where goods.good_id = ?", [id, id, id], (err, resultsGoods) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results[0]});
+            result({valid: true, result: resultsGoods[0]});
         }
     });
 }
@@ -174,11 +190,51 @@ export const insertGoods = (data, result) => {
 
 // Update Goods to Database
 export const updateGoodsById = (data, id, result) => {
-    db.query("UPDATE goods SET name = ?, price = ?, reduction = ? WHERE good_id = ?", [data.name, data.price, data.reduction, id], (err, results) => {
+    if(data.price <= 0 || data.stock <= 0) {
+        result({valid: false, result: "price or stock cant be negative"})
+    } else {
+        db.query("UPDATE goods SET name = ?, description = ?, price = ?, reduction = ? WHERE good_id = ?", [data.nameGood, data.description, data.price, data.reduction, id], (err) => {
+            if (err) {
+                result({error: true, reason: err});
+            } else {
+                db.query("select * from warehouses_stocks where good_id = ?", [id], (err, resultsWarehousesStocks) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else if(resultsWarehousesStocks[0] !== undefined) {
+                        db.query("UPDATE warehouses_stocks SET stock = ? WHERE good_id = ? AND warehouse_stock_id = ?", [data.stock, id, resultsWarehousesStocks[0].warehouse_stock_id], (err, results) => {
+                            if (err) {
+                                result({error: true, reason: err});
+                            } else {
+                                result({valid: true, result: results});
+                            }
+                        });
+                    } else {
+                        db.query("select * from warehouses limit 1", [data.stock, id], (err, resultsWarehouses) => {
+                            if (err) {
+                                result({error: true, reason: err});
+                            } else {
+                                db.query("INSERT INTO warehouses_stocks(warehouse_id, good_id, stock) value(?, ?, ?)", [resultsWarehouses[0].warehouse_id, id, data.stock], (err, results) => {
+                                    if (err) {
+                                        result({error: true, reason: err});
+                                    } else {
+                                        result({valid: true, result: results});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+
+export const updateOnlineGoods = (id, result) => {
+    db.query("update goods set online = !online where good_id = ?", [id], (err, result1) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results});
+            result({valid: true, result: result1});
         }
     });
 }

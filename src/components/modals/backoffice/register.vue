@@ -19,6 +19,10 @@ export default {
     route: {
       type: String,
       default: ""
+    },
+    byId: {
+      type: Number,
+      default: -1
     }
   },
   data() {
@@ -90,17 +94,20 @@ export default {
     const temp = this.currentForms;
     for (const key in temp) {
       if (typeof temp[key].onCreate !== "undefined") {
-        temp[key].onCreate(this.route);
+        if(key === 'companies')
+          temp[key].onCreate('companies', this.byId);
+        else if(key === 'sellers') {
+          temp[key].onCreate('sellers', this.byId);
+        } else {
+          temp[key].onCreate(this.route);
+        }
+
       }
     }
     //Init values
     for (const valuesKey in this.currentForms) {
       this.values[valuesKey] = null;
     }
-
-    console.log(this.route); //TODO enlever cette ligne
-    console.log(this.currentForms); //TODO enlever cette ligne
-    console.log(this.values); //TODO enlever cette ligne
   },
 }
 </script>

@@ -47,16 +47,6 @@ export const insertCatalogues = (data, result) => {
     });
 }
 
-// Update Catalogues to Database
-export const updateCataloguesById = (data, id, result) => {
-    db.query("UPDATE catalogues SET name = ? /* TODO */, catalogue_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if(err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
-        }
-    });
-}
 
 // Delete Catalogues to Database
 export const deleteCataloguesById = (id, result) => {

@@ -87,15 +87,42 @@ export const getCartsByCustomerId = (customer_id, result) => {
 }
 
 // Get Carts Payed (History)
-    export const getCartsPayedByCustomerId = (customer_id, result) => {
-        db.query("SELECT * FROM carts WHERE status = 1 AND customer_id = ?;\n", [customer_id, customer_id], (err, results) => {
-            if (err) {
-                result({error: true, reason: err});
-            } else {
-                result({valid: true, result: results});
-            }
-        });
-    }
+export const getCartsPayedByCustomerId = (customer_id, result) => {
+    db.query("SELECT * FROM carts WHERE status = 1 AND customer_id = ?;\n", [customer_id, customer_id], (err, results) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
+
+export const getCartsDashboard = (seller_id, result) => {
+    db.query("select carts.created_at, sum(cg.cart_quantity) as total, sum(cart_total) as total_price, (select created_at from users inner join sellers sel on users.user_id = sel.user_id where sel.seller_id = ?) as seller_created_at from carts\n" +
+        "    inner join carts_good cg on carts.cart_id = cg.cart_id\n" +
+        "    inner join goods g on cg.good_id = g.good_id\n" +
+        "    inner join sellers s on g.seller_id = s.seller_id\n" +
+        "where carts.status = 1 and s.seller_id = ?\n" +
+        "group by carts.created_at;", [seller_id, seller_id], (err, result1) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            const goods = result1;
+            db.query("select carts.created_at, sum(cs.cart_quantity) as total, sum(cart_total) as total_price, (select created_at from users inner join sellers sel on users.user_id = sel.user_id where sel.seller_id = ?) as seller_created_at from carts\n" +
+                "    inner join carts_service cs on carts.cart_id = cs.cart_id \n" +
+                "    inner join services s on cs.service_id = s.service_id \n" +
+                "    inner join sellers s2 on s.seller_id = s2.seller_id\n" +
+                "where carts.status = 1 and s2.seller_id = ?\n" +
+                "group by carts.created_at;", [seller_id, seller_id], (err, result2) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: {goods: goods, services: result2}});
+                }
+            });
+        }
+    })
+}
 
 // Insert Carts to Database
 export const insertCarts = (data, result) => {
@@ -111,7 +138,7 @@ export const insertCarts = (data, result) => {
 // Update Carts to Database
 export const updateCartsById = (customer_id, total, id, result) => {
     //Valider le panier
-    db.query("UPDATE carts SET status = 1, cart_total = ? WHERE customer_id = ? AND cart_id = ?", [customer_id, total, id], (err, resultsCarts) => {
+    db.query("UPDATE carts SET status = 1, created_at = now(), cart_total = ? WHERE customer_id = ? AND cart_id = ?", [total, customer_id, id], (err, resultsCarts) => {
         if (err) {
             result({error: true, reason: err});
         } else {

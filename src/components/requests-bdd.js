@@ -1,7 +1,7 @@
 /* Global */
 
 function getUrl(table, id = false) {
-    id = !id ? '' : '/'+ (id);
+    id = !id ? '' : '/'+ id;
     return `${process.env.VUE_APP_API_ADDRESS}/${table}${id}`;
 }
 
@@ -80,5 +80,14 @@ export function sendGetUserByLogin(body) {
     return fetch(url, headers)
         .then(response => response.json())
         .then((json) => { return json; })
+        .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
+}
+
+export function sendSetOnline(route, id) {
+    const url = getUrl(route +"-online", id);
+    const headers = {
+        method: 'put'
+    }
+    return fetch(url, headers).then(response => response.json()).then((json) => { return json; })
         .catch((err) => { console.error("My Error: [fetch]", err); return -1;});
 }

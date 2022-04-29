@@ -35,16 +35,6 @@ export const insertCategories_goods = (data, result) => {
     });
 }
 
-// Update Categories_goods to Database
-export const updateCategories_goodsById = (data, id, result) => {
-    db.query("UPDATE categories_goods SET name = ? /* TODO */, categories_good_id = ?", [data.name /* TODO */, id], (err, results) => {
-        if(err) {
-            result({error: true, reason: err});
-        } else {
-            result({valid: true, result: results[0]});
-        }
-    });
-}
 
 // Delete Categories_goods to Database
 export const deleteCategories_goodsById = (id, result) => {

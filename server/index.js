@@ -23,6 +23,7 @@ import Carts_goodsRoutes from "./routes/carts_goodsRoutes.js";
 import Carts_servicesRoutes from "./routes/carts_servicesRoutes.js";
 import CartsRoutes from "./routes/cartsRoutes.js";
 import CardsRoutes from "./routes/cardsRoutes.js";
+import Warehouses_stocksRoutes from "./routes/warehouses_stocksRoutes.js";
 
 // init express
 const app = express();
@@ -51,6 +52,7 @@ app.use(Carts_goodsRoutes);         // carts_goods
 app.use(Carts_servicesRoutes);      // carts_services
 app.use(CartsRoutes);               // carts
 app.use(CardsRoutes);               // cards
+app.use(Warehouses_stocksRoutes);   // warehouses_stocks
 
 
 app.listen(9000, () => console.log('Server running at http://localhost:9000'));

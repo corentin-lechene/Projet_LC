@@ -9,12 +9,13 @@ export default {
   components: {AdminTable, Profile},
   data() {
     return {
-
+      company: {},
       roles:{
         customers: {
           hash: '#customers',
-          options: {route: `customers-companies`, name_id: 'user_id', byId: 1},
+          options: {route: `customers-companies`, name_id: 'user_id', byId: null},
           fields: [
+            {key: 'online', label: 'Online', sortable: true},
             {key: 'customer_id', label: 'ID', sortable: true},
             {key: 'firstname', label: 'Firstname', sortable: true},
             {key: 'lastname', label: 'Lastname', sortable: true},
@@ -30,8 +31,14 @@ export default {
     };
   },
   async created() {
-    const user = await sendGetUserByToken();
-    this.user_role = user.result.role; //TODO si pas de user redirection + msg
+    const company = await sendGetUserByToken();
+    if(company.result.role === 'companies') {
+      this.user_role = company.result.role;
+      this.company = company.result;
+      this.roles.customers.options.byId = this.company.company_id;
+    } else {
+      await this.$router.push('/');
+    }
   }
 }
 </script>
@@ -43,6 +50,10 @@ export default {
     <span v-for="(role, i) in roles" :key="i">
       <AdminTable v-if="$route.hash === role.hash" :options="role.options" :fields="role.fields" :modals="role.modals"/>
     </span>
+    <div v-if="$route.hash === '#settings'">
+      <h4>Votre revenue de cette année : {{ company.revenue }} €</h4>
+      <h4>La cotisation entreprise : {{ company.contribution }} €</h4>
+    </div>
   </div>
 </template>
 

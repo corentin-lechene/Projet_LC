@@ -23,7 +23,6 @@ export default {
       promise.then((res) => {
         if (!validRequest(res)) {
           this.user = res.result;
-          // this.loading = false;
         }
       })
     }

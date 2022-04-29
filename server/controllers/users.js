@@ -1,5 +1,16 @@
 // Import function from Users Model
-import { getUsers, getUsersById, getUsersByLogIn, getUserByToken, insertUsers, updateUsersById, deleteUsersById, getUsersByCompanyId, getUsersForStaffs } from "../models/usersModel.js";
+import {
+    getUsers,
+    getUsersById,
+    getUsersByLogIn,
+    getUserByToken,
+    insertUsers,
+    deleteUsersById,
+    getUsersByCompanyId,
+    getUsersForStaffs,
+    updateOnlineUsers,
+    forgotPassword
+} from "../models/usersModel.js";
 
 // Get All Users
 export const showUsers = (req, res) => {
@@ -80,14 +91,13 @@ export const createUsers = (req, res) => {
     });
 }
 
-// Update Users
-export const updateUsers = (req, res) => {
-    const data  = req.body;
-    const id    = req.params.id;
-    updateUsersById(data, id, (err, results) => {
+
+export const onlineUsers = (req, res) => {
+    const id = req.params.id;
+    updateOnlineUsers(id, (err, results) => {
         if (err){
             res.send(err);
-        } else {
+        }else{
             res.json(results);
         }
     });
@@ -105,3 +115,13 @@ export const deleteUsers = (req, res) => {
     });
 }
 
+export const sendForgotPassword = (req, res) => {
+    const email = req.params.email;
+    forgotPassword(email, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
