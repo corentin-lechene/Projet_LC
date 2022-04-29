@@ -26,7 +26,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">{{ $t('footer.about') }}</a>
+              <a href="/aboutus" class="text-white">{{ $t('footer.about') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -34,7 +34,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">{{ $t('footer.products') }}</a>
+              <a href="/lc-shop" class="text-white">{{ $t('footer.products') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -42,7 +42,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">{{ $t('footer.join-us') }}</a>
+              <a href="/joinus" class="text-white">{{ $t('footer.join-us') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -50,7 +50,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">{{ $t('footer.help') }}</a>
+              <a href="/help" class="text-white">{{ $t('footer.help') }}</a>
             </h6>
           </div>
           <!-- Grid column -->
@@ -58,7 +58,7 @@
           <!-- Grid column -->
           <div class="col-md-2">
             <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class="text-white">{{ $t('footer.legal-info') }}</a>
+              <a href="/legalinformation" class="text-white">{{ $t('footer.legal-info') }}</a>
             </h6>
           </div>
           <!-- Grid column -->

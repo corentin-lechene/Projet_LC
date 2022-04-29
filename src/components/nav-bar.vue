@@ -50,8 +50,6 @@ export default {
     getUsers() {
       let promise = sendGetDataTable('users', this.user_id);
       promise.then((res) => {
-        console.log(res);
-        console.log("la");
         if (!validRequest(res)) {
           this.user = res.result;
         }

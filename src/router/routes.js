@@ -104,6 +104,35 @@ export default [
     component: () => import('./views/support/pdf')
   },
 
+  //Footer
+  {
+    path: '/help',
+    name: 'HELP',
+    meta: {
+    },
+    component: () => import('./views/footer/help')
+  },
+  {
+    path: '/aboutus',
+    name: 'ABOUT US',
+    meta: {
+    },
+    component: () => import('./views/footer/aboutus')
+  },
+  {
+    path: '/legalinformation',
+    name: 'LEGAL INFORMATION',
+    meta: {
+    },
+    component: () => import('./views/footer/legalinformation')
+  },
+  {
+    path: '/joinus',
+    name: 'JOIN US',
+    meta: {
+    },
+    component: () => import('./views/footer/joinus')
+  },
 
   //Example
   {

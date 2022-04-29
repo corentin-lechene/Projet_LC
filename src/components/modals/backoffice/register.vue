@@ -75,7 +75,6 @@ export default {
       if (!error) {
         const promise = sendInsertTable(this.route, this.values);
         promise.then((res) => {
-          console.log(res);
           if (!validRequest(res)) {
             this.values = [];
             this.error = false;
@@ -141,8 +140,5 @@ export default {
 </template>
 
 <style scoped>
-.form-control, .custom-select, .custom-file-input {
-  border: none !important;
-  border-bottom: 2px solid #2a3042 !important;
-}
+
 </style>

@@ -44,10 +44,9 @@ export default {
               <h4 style="font-size: large; padding-left: 5%;" class="card-title">Informations Service</h4>
             </div>
             <div class="col-7">
-              <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                              class="rounded-circle img-thumbnail" alt="profile-image">
-                <!--<b-img :src="require(`@/assets/images/users/${service.image}`)" fluid
-                       class="rounded-circle img-thumbnail" alt="avatar"/>-->
+              <div class="thumb-lg member-thumb mx-auto">
+                <b-img :src="require(`@/assets/images/services/${valuesForm.image}`)" fluid
+                       class="rounded-circle img-thumbnail" alt="avatar"/>
               </div>
             </div>
           </div>
