@@ -11,7 +11,6 @@ import {
     loginUsers,
     tokenUsers,
     createUsers,
-    updateUsers,
     deleteUsers,
     showUsersForStaffs,
     showUsersByCompanyId,
@@ -32,7 +31,6 @@ usersRouter.post('/login', loginUsers);
 usersRouter.post('/users', createUsers);
 usersRouter.put('/customers-companies-online/:id', onlineUsers);
 usersRouter.put('/users-online/:id', onlineUsers);
-usersRouter.put('/users/:id', updateUsers);
 
 usersRouter.delete('/customers-companies/:id', deleteUsers);
 usersRouter.delete('/users-staffs/:id', deleteUsers);
