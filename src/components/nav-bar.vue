@@ -15,9 +15,9 @@ export default {
   data() {
     return {
       user: {},
-      id:null,
+      id: null,
       qrCls: 'qrcode',
-      size: 100,
+      size: 200,
       background: '#F3ECEC',
       token: null,
       languages: [
@@ -156,17 +156,18 @@ export default {
           </b-button>
           <div>
           <b-modal id="modal-standard" :title="$t('nav-bar.cart.loyalty-card')" title-class="font-18">
-          <div style="position:relative; height:250px">
-            <div style="position:absolute;z-index:1">
-              <img
-                  alt="200x200"
-                  data-holder-rendered="true"
-                  src="@/assets/images/cartevidee.png"
-                  width="460"
-              />
-              </div>
-            <div style="position:absolute;top:50%; left: 40%; z-index:2;">
-              <qrcode :background="background" :size="size" :cls="qrCls" :value="token"></qrcode>
+          <div>
+            <img
+                alt="200x200"
+                data-holder-rendered="true"
+                src="@/assets/images/cartevidee.png"
+                width="552"
+                height="310"
+            />
+            <div style="position: absolute; top: 25%; left: 35%; ">
+              <qrcode :background="background" :cls="qrCls" :size="size" :value="token"></qrcode>
+            </div>
+            <div>
               <div class="row">
                 <div class="card">
                   <h5 class="text-truncate">{{ user.firstname }}</h5>
@@ -183,13 +184,11 @@ export default {
           <span v-else>
           <div class="d-flex" style="margin-right: 15px">
           <router-link tag="a" to="/loyalty-card">
-          <img src="@/assets/images/pictocarte.png" alt class="rounded avatar-sm" style="margin-top: 5px;"/>
+          <img alt class="rounded avatar-sm" src="@/assets/images/pictocarte.png" style="margin-top: 5px;"/>
           </router-link>
         </div>
         </span>
         </div>
-
-
 
 
         <!-- Picto cart -->
@@ -253,19 +252,19 @@ export default {
           </b-dropdown-item>
         </b-dropdown>
 
-        <b-dropdown variant="white" right toggle-class="header-item">
+        <b-dropdown right toggle-class="header-item" variant="white">
           <template v-slot:button-content>
-            <img class :src="flag" alt="Header Language" height="16" />
+            <img :src="flag" alt="Header Language" class height="16"/>
           </template>
           <b-dropdown-item
-              class="notify-item"
               v-for="(entry, i) in languages"
               :key="`Lang${i}`"
-              :value="entry"
-              @click="setLanguage(entry.language, entry.title, entry.flag)"
               :class=" {'active' : lan === entry.language}"
+              :value="entry"
+              class="notify-item"
+              @click="setLanguage(entry.language, entry.title, entry.flag)"
           >
-            <img :src="`${entry.flag}`" alt="user-image" class="mr-1" height="12" />
+            <img :src="`${entry.flag}`" alt="user-image" class="mr-1" height="12"/>
             <span class="align-middle">{{ entry.title }}</span>
           </b-dropdown-item>
         </b-dropdown>
@@ -280,8 +279,12 @@ export default {
   position: relative;
   text-align: center;
 }
+
 .texte-hover {
   position: absolute;
-  z-index:2;
+  z-index: 2;
+}
+.modal-dialog {
+  max-width: 590px!important;
 }
 </style>

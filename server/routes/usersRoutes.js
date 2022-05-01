@@ -20,10 +20,11 @@ import {
 
 
 usersRouter.get('/users-staffs', showUsersForStaffs);
-usersRouter.get('/users', showUsers);
 usersRouter.get('/users-company/:id', showUsersByCompanyId);
+usersRouter.get('/token/:token', tokenUsers);
 usersRouter.get('/users/:id', showUsersById);
 usersRouter.get('/forgotpassword/:email', sendForgotPassword);
+usersRouter.get('/users', showUsers);
 
 usersRouter.post('/token', tokenUsers);
 

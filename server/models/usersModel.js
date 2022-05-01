@@ -107,7 +107,15 @@ export const getUserByToken = (token, result) => {
         } else {
             const data = decodeToken(token);
             const role = preserve(resultsToken[0].role);
-            if(resultsToken[0].role !== 'admin') {
+            if(resultsToken[0].role === 'customers') {
+                db.query("SELECT * FROM users u INNER JOIN customers s on u.user_id = s.user_id join cards c on c.card_id = s.card_id WHERE s.user_id = ?", [data.user_id], (err1, result1) => {
+                    if (err) {
+                        result({error: true, reason: err});
+                    } else {
+                        result({valid: true, result: result1[0]});
+                    }
+                });
+            } else if(resultsToken[0].role !== 'admin') {
                 db.query("SELECT * FROM users u INNER JOIN " + role + " s on u.user_id = s.user_id WHERE s.user_id = ?", [data.user_id], (err, results) => {
                     if (err) {
                         result({error: true, reason: err});

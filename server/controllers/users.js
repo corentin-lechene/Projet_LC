@@ -69,8 +69,8 @@ export const loginUsers = (req, res) => {
 
 // Verify the token
 export const tokenUsers = (req, res) => {
-    const data = req.body;
-    getUserByToken(data.token, (err, results) => {
+    const token = req.body.token || req.params.token;
+    getUserByToken(token, (err, results) => {
         if (err){
             res.send(err);
         } else {

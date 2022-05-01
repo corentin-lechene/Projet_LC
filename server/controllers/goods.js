@@ -8,8 +8,7 @@ import {
     getGoodsOrServicesByCategoryId,
     getGoodsByWarehouseId,
     getGoodsOrServicesByCartId,
-    getGoodsOrServicesBySellerId
-    getGoodsOrServicesByCartId,
+    getGoodsOrServicesBySellerId,
     updateOnlineGoods,
     getGoodsOnline
 } from "../models/goodsModel.js";
