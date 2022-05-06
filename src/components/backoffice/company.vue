@@ -24,7 +24,7 @@ export default {
             {key: 'user_id', thClass: 'd-none', tdClass: 'd-none'},
             {key: 'actions', label: 'Actions'}
           ],
-          modals: {register: 'customers', info: 'CompanyDetail', update: 'update', delete: 'delete'}
+          modals: {register: 'customers', info: 'UserDetail', update: 'customers', delete: 'delete'}
         },
       }
 

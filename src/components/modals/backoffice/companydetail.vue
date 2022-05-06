@@ -38,19 +38,19 @@ export default {
   mounted() {
     this.getCustomersByCompanyId('customers-companies', this.company_id);
   },
-  };
+};
 </script>
 
 <template>
   <div class="row">
-    <div v-if="data.length === 0">Aucun Customer trouvé </div>
+    <div v-if="data.length === 0">Aucun Customer trouvé</div>
     <div v-for="customer in data" :key="customer.id" class="col-sm-4 col-md-4 col-xl-4">
       <div class="card">
         <div class="card-body">
           <div class="text-center card-box">
             <div class="member-card pt-2 pb-2">
-              <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                              class="rounded-circle img-thumbnail" alt="profile-image">
+              <div class="thumb-lg member-thumb mx-auto"><img alt="profile-image"
+                                                              class="rounded-circle img-thumbnail" src="https://bootdey.com/img/Content/avatar/avatar2.png">
                 <!--<b-img :src="require(`@/assets/images/users/${customer.image}`)" fluid
                        class="rounded-circle img-thumbnail" alt="avatar"/>-->
               </div>
@@ -60,8 +60,9 @@ export default {
               </div>
               <div class="text-center">
                 <b-button
-                    v-b-modal="'user-detail'" @click="id = customer.user_id"
-                    variant="info" size="sm" class="mx-1">Voir plus</b-button>
+                    v-b-modal="'user-detail'" class="mx-1"
+                    size="sm" variant="info" @click="id = customer.user_id">Voir plus
+                </b-button>
               </div>
             </div>
           </div>
@@ -69,7 +70,7 @@ export default {
       </div>
     </div>
     <!--  Modals info  /-->
-    <b-modal v-if="id !== null" id="user-detail" title="Detail" title-class="font-18" size="xl" hide-footer centered>
+    <b-modal v-if="id !== null" id="user-detail" centered hide-footer size="xl" title="Detail" title-class="font-18">
       <div class="card">
         <div class="card-body">
           <UserDetail :user_id="id"/>

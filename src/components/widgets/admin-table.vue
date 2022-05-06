@@ -122,6 +122,7 @@ export default {
       })
     },
     getId(item) {
+      console.log(this.options)
       this.id = item[this.options.name_id];
     },
     createLayer(src) {
@@ -252,7 +253,7 @@ export default {
                   <b-dropdown class="text-center" variant="info" text="..." right @click="getId(row.item)">
                     <b-dropdown-item v-b-modal="'info'" @click="getId(row.item)"><i class="bx bx-info-circle font-size-18" style="vertical-align: text-bottom"/> &nbsp;Information
                     </b-dropdown-item>
-                    <b-dropdown-item v-b-modal="'update'" @click="route = modals.update"><i class="bx bx-pencil font-size-18" style="vertical-align: text-bottom"/> &nbsp;Modifier
+                    <b-dropdown-item v-b-modal="'update'" @click="route = modals.update; id = row.item[options.name_id]"><i class="bx bx-pencil font-size-18" style="vertical-align: text-bottom"/> &nbsp;Modifier
                     </b-dropdown-item>
                     <b-dropdown-item v-b-modal="'delete'"><i class="bx bx-trash font-size-18" style="vertical-align: text-bottom"/> &nbsp;Supprimer</b-dropdown-item>
                   </b-dropdown>
@@ -295,7 +296,7 @@ export default {
     <!--  Modals update  /-->
     <b-modal v-if="id !== null" id="update" centered hide-footer size="xl" title="Détail" title-class="font-18"
              @hidden="getInformations(options.route, options.byId)">
-      <Update :id="id" :route="route"/>
+      <Update :id="id" :route="route" :by-id="options.byId"/>
     </b-modal>
 
     <!--  Modals delete  /-->

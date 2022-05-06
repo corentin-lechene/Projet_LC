@@ -24,7 +24,7 @@ goodsRouter.put('/goods-sellers-online/:id', onlineGoods);
 goodsRouter.get('/goods-warehouse/:id', showGoodsByWarehouseId);
 goodsRouter.get('/goods-cart/:id&:cart_id', showGoodsOrServicesByCartId);
 goodsRouter.get('/goods-online', showGoodsOnline);
-goodsRouter.get('/goods-seller/:id', showGoodsOrServicesBySellerId);
+goodsRouter.get('/goods-sellers/:id', showGoodsOrServicesBySellerId);
 goodsRouter.get('/goods', showGoods);
 goodsRouter.get('/goods/:id', showGoodsById);
 goodsRouter.post('/goods', createGoods);

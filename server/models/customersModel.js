@@ -217,7 +217,7 @@ export const insertCustomers = (data, result) => {
 
 // Update Customers to Database
 export const updateCustomersById = (data, id, result) => {
-    db.query("UPDATE users SET ? WHERE user_id = ?", [data, id], (err, results) => {
+    db.query("UPDATE users SET address = ?, country = ?, birthdate = ?, city = ?, postal_code = ? WHERE user_id = ?", [data.address, data.countries, data.date, data.city, data.postal_code, id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

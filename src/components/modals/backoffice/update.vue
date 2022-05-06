@@ -19,6 +19,10 @@ export default {
       type: String,
       default: ""
     },
+    byId: {
+      type: Number,
+      default: -1
+    },
     id: {
       type: Number,
       default: -1
@@ -62,9 +66,8 @@ export default {
   },
   async created() {
     const user = await sendGetUserByToken();
-    console.log(user);
     let data;
-    if (this.route === 'all_users') {
+    if (this.route === 'all_users' || this.route === 'customers' || this.route === 'sellers' || this.route === 'companies') {
       data = (await sendGetDataTable('users', this.id)).result;
       this.currentForms = forms[data.role];
       this.route = data.role;
@@ -75,15 +78,16 @@ export default {
 
     if(user.result.role !== 'admin' && user.result.role !== 'staff') {
       delete this.currentForms.stock;
+      delete this.currentForms.role;
     }
 
     const temp = this.currentForms;
     for (const key in temp) {
       if (typeof temp[key].onCreate !== "undefined") {
-        temp[key].onCreate(this.route);
+        temp[key].onCreate(this.route, this.byId);
       }
     }
-
+    console.log(data);
     //Init values
     for (const valuesKey in this.currentForms) {
       console.log(valuesKey);
@@ -101,6 +105,10 @@ export default {
         }
       } else if(valuesKey === "categories") {
         this.values[valuesKey] = data["category_id"] !== undefined ? data["category_id"] : null;
+      } else if(valuesKey === "companies") {
+        this.values[valuesKey] = data["company_id"] !== undefined ? data["company_id"] : null;
+      } else if(valuesKey === "date") {
+        this.values[valuesKey] = data["birthdate"] !== undefined ? data["birthdate"] : null;
       } else {
         this.values[valuesKey] = data[valuesKey] !== undefined ? data[valuesKey] : null;
       }

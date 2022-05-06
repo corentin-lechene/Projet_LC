@@ -383,7 +383,10 @@ export default {
                               <p class="col-8 pt-2">Utiliser vos points ? (Actuellement {{ user_points }} points)</p>
                               <b-form-input v-model="pointsUse" :max="user_points" :min="0" class="col-4" placeholder="Utiliser vos points"
                                             type="number"
-                                            @keydown="pointsUse = pointsUse > user_points ? user_points : pointsUse"/>
+                                            @keydown="pointsUse = parseInt(pointsUse) > user_points ? parseInt(user_points) : parseInt(pointsUse) || 0"
+                                            @mouseleave="pointsUse = parseInt(pointsUse) > user_points ? parseInt(user_points) : parseInt(pointsUse) || 0"
+                                            @change="pointsUse = parseInt(pointsUse) > user_points ? parseInt(user_points) : parseInt(pointsUse) || 0"
+                              />
                             </div>
                           </td>
                           <td colspan="2">

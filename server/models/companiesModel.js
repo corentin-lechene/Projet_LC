@@ -75,7 +75,7 @@ export const insertCompanies = (data, result) => {
                                                 <p>Notre administration a créé un compte avec votre email.</p>
                                                 <p>Pour vous connecter, voici vos identifiants.</p>
                                                 <p>Email : ${data.mail}</p>    
-                                                <p>Email : ${password.pwd_visible}</p> 
+                                                <p>Mot de passe : ${password.pwd_visible}</p> 
                                                 <p>Vous pouvez vous connecter <a href="http://localhost:8081/login">ici</a></p>
                                                 <p>Cordialement</p>
                                                 <p><u>LoyaltyCard</u></p>
