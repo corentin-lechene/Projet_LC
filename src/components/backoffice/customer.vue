@@ -155,7 +155,6 @@ export default {
       <div class="row" style="height: 10px;"></div>
       <div class="row">
         <div class="col-1"></div>
-        <div class="col-2" style="font-size: medium">Changer la langue</div>
       </div>
       <qrcode :background="background" :size="size" :cls="qrCls" :value="token"></qrcode>
     </div>
