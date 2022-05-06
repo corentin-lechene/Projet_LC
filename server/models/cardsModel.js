@@ -23,6 +23,17 @@ export const getCardsById = (id, result) => {
     });
 }
 
+// Get Single Cards
+export const getPointsByCustomerId = (customer_id, result) => {
+    db.query("SELECT * FROM cards INNER JOIN customers c on cards.card_id = c.card_id WHERE customer_id = ?\n", [customer_id, customer_id], (err, results) => {
+        if(err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results[0]});
+        }
+    });
+}
+
 // Insert Cards to Database
 export const insertCards = (data, result) => {
     db.query("INSERT INTO cards SET ?", [data], (err, results) => {

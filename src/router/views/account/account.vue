@@ -26,7 +26,9 @@ export default {
     }
   },
   mounted() {
-    window.location.href = '#profile';
+    if (this.$route.hash !== '#profile' &&  this.$route.hash === '#orders' && this.$route.hash === '#settings' && this.$route.hash === '#mycard') {
+      window.location.href = '#profile';
+    }
   },
   async created() {
     const user = await sendGetUserByToken();

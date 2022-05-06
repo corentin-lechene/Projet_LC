@@ -1,5 +1,12 @@
 // Import function from Cards Model
-import { getCards, getCardsById, insertCards, updateCardsById, deleteCardsById } from "../models/cardsModel.js";
+import {
+    getCards,
+    getCardsById,
+    insertCards,
+    updateCardsById,
+    deleteCardsById,
+    getPointsByCustomerId
+} from "../models/cardsModel.js";
 
 // Get All Cards
 export const showCards = (req, res) => {
@@ -21,6 +28,17 @@ export const showCardsById = (req, res) => {
             res.json(results);
        }
    });
+}
+
+// Get Single Cards
+export const showPointsByCustomerId = (req, res) => {
+    getPointsByCustomerId(req.params.id, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
 }
       
 // Create New Cards

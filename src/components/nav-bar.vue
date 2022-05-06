@@ -222,7 +222,7 @@ export default {
             <i class="bx bx-wallet font-size-16 align-middle mr-1"></i>
             {{ $t('nav-bar.profile.orders') }}
           </b-dropdown-item>
-          <b-dropdown-item class="d-block" href="/profile">
+          <b-dropdown-item class="d-block" href="/admin#settings">
             <span class="badge badge-success float-right">11</span>
             <i class="bx bx-wrench font-size-16 align-middle mr-1"></i>
             {{ $t('nav-bar.profile.settings') }}
@@ -276,12 +276,4 @@ export default {
 </template>
 
 <style>
-.contenant {
-  position: relative;
-  text-align: center;
-}
-.texte-hover {
-  position: absolute;
-  z-index:2;
-}
 </style>

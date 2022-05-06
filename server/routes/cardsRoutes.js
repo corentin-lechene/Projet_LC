@@ -5,9 +5,9 @@ import express from "express";
 const cardsRouter = express.Router();
 
 // import function from controller
-import { showCards, showCardsById, updateCards } from "../controllers/cards.js";
+import {showCards, showCardsById, showPointsByCustomerId, updateCards} from "../controllers/cards.js";
 
-
+cardsRouter.get('/card-points/:id', showPointsByCustomerId);
 cardsRouter.get('/cards', showCards);
 cardsRouter.get('/cards/:id', showCardsById);
 //cardsRouter.post('/cards', createCards);
