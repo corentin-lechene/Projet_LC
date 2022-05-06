@@ -168,7 +168,7 @@ export const insertGoods = (data, result) => {
             } else {
                 const good_id = resultsInsert.insertId;
                 const image_name = "img-" + data.seller_id + "-" + good_id + "." + image.ext;
-                const path = "../src/assets/images/product/" + image_name;
+                const path = `${process.env.PATH_IMG}/product/` + image_name;
                 db.query("UPDATE goods SET image = ? WHERE good_id = ?", [image_name, good_id], (err) => {
                     if (err) {
                         result({error: true, reason: err});

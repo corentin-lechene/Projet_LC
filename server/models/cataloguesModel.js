@@ -34,7 +34,7 @@ export const insertCatalogues = (data, result) => {
             result({error: true, reason: err});
         } else {
             const image_name = "img-"+ resultsInsert.insertId +"-"+ data.startDate +"-"+ data.endDate +"."+ image.ext;
-            const path = "../src/assets/images/catalogues/"+ image_name;
+            const path = `${process.env.PATH_IMG}/catalogues/`+ image_name;
             db.query("UPDATE catalogues SET image = ? WHERE catalogue_id = ?", [image_name, resultsInsert.insertId], (err) => {
                 if (err) {
                     result({error: true, reason: err});
