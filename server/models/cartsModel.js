@@ -103,7 +103,7 @@ export const getCartsDashboard = (seller_id, result) => {
         "    inner join goods g on cg.good_id = g.good_id\n" +
         "    inner join sellers s on g.seller_id = s.seller_id\n" +
         "where carts.status = 1 and s.seller_id = ?\n" +
-        "group by carts.created_at;", [seller_id, seller_id], (err, result1) => {
+        "group by carts.created_at", [seller_id, seller_id], (err, result1) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -113,7 +113,7 @@ export const getCartsDashboard = (seller_id, result) => {
                 "    inner join services s on cs.service_id = s.service_id \n" +
                 "    inner join sellers s2 on s.seller_id = s2.seller_id\n" +
                 "where carts.status = 1 and s2.seller_id = ?\n" +
-                "group by carts.created_at;", [seller_id, seller_id], (err, result2) => {
+                "group by carts.created_at", [seller_id, seller_id], (err, result2) => {
                 if (err) {
                     result({error: true, reason: err});
                 } else {

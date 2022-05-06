@@ -24,6 +24,18 @@ export default {
               opacity: 0.2
             },
           },
+          noData: {
+            text: "Aucun achat",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+              color: undefined,
+              fontSize: '14px',
+              fontFamily: undefined
+            }
+          },
           title: {
             text: "vente des biens",
             align: 'left',
@@ -153,9 +165,7 @@ export default {
     this.roles.goods.options.byId = user.seller_id;
     this.roles.services.options.byId = user.seller_id;
 
-    console.log("user: ", user);
     const data = (await sendGetDataTable('carts-dashboard', user.seller_id)).result;
-    console.log("data: ", data);
 
     const goods = data.goods;
     const services = data.services;
@@ -170,17 +180,17 @@ export default {
     }
     for (let i = 0; i < goods.length; i++) {
       g.data.push(goods[i].total);
-      this.chartOptions.goods.xaxis.categories.push(goods[i].created_at);
+      this.chartOptions.goods.xaxis.categories.push(new Date(goods[i].created_at).getTime());
     }
     this.series.goods.push(g);
 
     //services
     if(services.length > 0) {
       s.data.push(0);
-      this.chartOptions.services.xaxis.categories.push(goods[0].seller_created_at);
+      this.chartOptions.services.xaxis.categories.push(services[0].seller_created_at);
     }
     for (let i = 0; i < services.length; i++) {
-      g.data.push(services[i].total);
+      s.data.push(services[i].total);
       this.chartOptions.services.xaxis.categories.push(services[i].created_at);
     }
     this.series.services.push(s);

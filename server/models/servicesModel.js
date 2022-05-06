@@ -57,12 +57,12 @@ export const insertServices = (data, result) => {
     if(image.ext !== ('jpeg' && 'png' && 'jpg')) {
         result({valid: false, result: "Extension incompatible"});
     } else {
-        db.query("INSERT INTO services(name, description, price, seller_id) value(?, ?, ?, ?)", (err, resultsInsert) => {
+        db.query("INSERT INTO services(name, description, price, seller_id) value(?, ?, ?, ?)", [data.nameService, data.description, data.price, data.sellers],(err, resultsInsert) => {
             if (err) {
                 result({error: true, reason: err});
             } else {
                 const service_id = resultsInsert.insertId;
-                const image_name = "img-"+ data.seller_id +"-"+ service_id +"."+ image.ext;
+                const image_name = "img-"+ data.sellers +"-"+ service_id +"."+ image.ext;
                 const path = `${process.env.PATH_IMG}/product/` + image_name;
                 db.query("UPDATE services SET image = ? WHERE service_id = ?", [image_name, service_id], (err) => {
                     if (err) {
