@@ -31,13 +31,6 @@ export default [
     },
     component: () => import('./views/profile/loyalty-card')
   },
-  {
-    path: '/profile',
-    name: 'Profile',
-    meta: {
-    },
-    component: () => import('./views/profile/profile')
-  },
 
   //Shops
   {
