@@ -16,14 +16,20 @@ export default {
     };
   },
   methods: {
-
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
     getServices(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
+        console.log("res: ", res);
         if (!validRequest(res)) {
           this.valuesForm = res.result;
         }
-
       })
     }
   },
@@ -45,7 +51,7 @@ export default {
             </div>
             <div class="col-7">
               <div class="thumb-lg member-thumb mx-auto">
-                <b-img :src="require(`@/assets/images/services/${valuesForm.image}`)" fluid
+                <b-img :src="getImgUrl(valuesForm.image)" fluid
                        class="rounded-circle img-thumbnail" alt="avatar"/>
               </div>
             </div>

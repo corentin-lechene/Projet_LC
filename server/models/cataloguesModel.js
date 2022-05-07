@@ -13,6 +13,16 @@ export const getCatalogues = (result) => {
         }
     });
 }
+// Get All Catalogues
+export const getCataloguesByDate = (result) => {
+    db.query("SELECT * FROM catalogues where end_date >= now() - 1", (err, results) => {
+        if(err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results});
+        }
+    });
+}
 
 // Get Single Catalogues
 export const getCataloguesById = (id, result) => {
@@ -47,10 +57,20 @@ export const insertCatalogues = (data, result) => {
     });
 }
 
+// Update Catalogues to Database
+export const updateCataloguesById = (data, id, result) => {
+    db.query("UPDATE catalogues SET name = ?, start_date = ?, end_date = ? where catalogue_id = ?", [data.nameCatalogue, data.startDate, data.endDate, id], (err, results) => {
+        if(err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: results[0]});
+        }
+    });
+}
 
 // Delete Catalogues to Database
 export const deleteCataloguesById = (id, result) => {
-    db.query("DELETE FROM catalogues WHERE catalogue_id = ?", [id], (err, results) => {
+    db.query("DELETE FROM catalogues WHERE catalogue_id = ? and catalogue_id != 10", [id], (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else if (results.affectedRows !== 0) {

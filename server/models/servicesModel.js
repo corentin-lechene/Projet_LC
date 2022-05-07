@@ -16,17 +16,11 @@ export const getServices = (result) => {
 
 // Get Single Services
 export const getServicesById = (id, result) => {
-    db.query("select * from services inner join categories_services cs on services.service_id = cs.service_id inner join categories c on cs.category_id = c.category_id inner join sellers s on services.seller_id = s.seller_id inner join users u on s.user_id = u.user_id where services.service_id = ?", [id], (err, resultsService) => {
+    db.query("select * from services inner join sellers s on services.seller_id = s.seller_id inner join users u on s.user_id = u.user_id left join categories_services cs on services.service_id = cs.service_id inner join categories c on cs.category_id = c.category_id where services.service_id = ?;", [id], (err, resultsService) => {
         if (err) {
             result({error: true, reason: err});
-        } else if (resultsService[0] !== "undefined") {
-            db.query("select * from services inner join sellers s on services.seller_id = s.seller_id where services.service_id = ?", [id], (err, results) => {
-                if (err) {
-                    result({error: true, reason: err});
-                } else {
-                    result({valid: true, result: results});
-                }
-            });
+        } else {
+            result({valid: true, result: resultsService[0]});
         }
     });
 }
@@ -89,7 +83,13 @@ export const updateServicesById = (data, id, result) => {
         if (err) {
             result({error: true, reason: err});
         } else {
-            result({valid: true, result: results});
+            db.query("update categories_services set category_id = ? where service_id = ?", [data.categories, id], (err1) => {
+                if (err1) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results});
+                }
+            });
         }
     });
 }

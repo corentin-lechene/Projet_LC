@@ -52,7 +52,7 @@ export default {
       })
     },
     getCatalogues() {
-      let promise = sendGetDataTable('catalogues');
+      let promise = sendGetDataTable('catalogues-date');
       promise.then((res) => {
         if (!validRequest(res)) {
           this.catalogues = res.result;

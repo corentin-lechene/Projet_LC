@@ -27,8 +27,8 @@ const reduction = {label: 'Réduction', placeHolder: "Saisir la réduction", typ
 const quantity = {label: 'Quantité', placeHolder: "Saisir la quantité", type: 'number'};
 const stock = {label: 'Stock', placeHolder: "Saisir la quantité disponible", type: 'number'};
 const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
-const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
-const endDate = {label: 'Date', placeHolder: "Saisir la date de fin", type: 'date'};
+const startDate = {label: 'Date de début', placeHolder: "Saisir la date de début", type: 'date'};
+const endDate = {label: 'Date de fin', placeHolder: "Saisir la date de fin", type: 'date'};
 const birthdate = {label: 'Date', placeHolder: "Saisir la date de naissance", type: 'date'};
 
 const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};

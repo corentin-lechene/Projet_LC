@@ -1,9 +1,25 @@
 // Import function from Catalogues Model
-import { getCatalogues, getCataloguesById, insertCatalogues, deleteCataloguesById } from "../models/cataloguesModel.js";
+import {
+    getCatalogues,
+    getCataloguesById,
+    insertCatalogues,
+    deleteCataloguesById,
+    updateCataloguesById, getCataloguesByDate
+} from "../models/cataloguesModel.js";
 
 // Get All Catalogues
 export const showCatalogues = (req, res) => {
     getCatalogues((err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
+// Get All Catalogues
+export const showCataloguesDate = (req, res) => {
+    getCataloguesByDate((err, results) => {
         if (err){
             res.send(err);
         } else {
@@ -35,6 +51,18 @@ export const createCatalogues = (req, res) => {
     });
 }
 
+// Update Catalogues
+export const updateCatalogues = (req, res) => {
+    const data  = req.body;
+    const id    = req.params.id;
+    updateCataloguesById(data, id, (err, results) => {
+        if (err){
+            res.send(err);
+        } else {
+            res.json(results);
+        }
+    });
+}
 
 // Delete Catalogues
 export const deleteCatalogues = (req, res) => {

@@ -126,7 +126,19 @@ export default {
       } else if(valuesKey === "companies") {
         this.values[valuesKey] = data["company_id"] !== undefined ? data["company_id"] : null;
       } else if(valuesKey === "date") {
-        this.values[valuesKey] = data["birthdate"] !== undefined ? data["birthdate"] : null;
+        this.values[valuesKey] = data["birthdate"] !== undefined ? new Date(data["birthdate"]).toLocaleDateString("fr") : null;
+      } else if(valuesKey === "startDate") {
+        const date = new Date(data["start_date"]).toLocaleDateString("fr");
+        const year = date.substring(6, 10);
+        const month = date.substring(3, 5);
+        const day = date.substring(0, 2);
+        this.values[valuesKey] = year +"-"+ month +"-"+ day;
+      } else if(valuesKey === "endDate") {
+        const date = new Date(data["end_date"]).toLocaleDateString("fr");
+        const year = date.substring(6, 10);
+        const month = date.substring(3, 5);
+        const day = date.substring(0, 2);
+        this.values[valuesKey] = year +"-"+ month +"-"+ day;
       } else if(valuesKey === "typeProducts") {
         this.values[valuesKey] = data["type"] !== undefined ? data["type"] : null;
       } else {

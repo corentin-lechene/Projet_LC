@@ -27,8 +27,8 @@ const price = {label: 'Prix', placeHolder: "Saisir le prix", type: 'number'};
 const revenue = {label: 'Revenue', placeHolder: "Saisir le montant du revenue", type: 'number'};
 const quantity = {label: 'Quantité', placeHolder: "Saisir la quantité", type: 'number'};
 const file = {label: 'Image', placeHolder: "Inserer le fichier", type: 'file', accept: "image/jpeg, image/png, image/jpg", browse_text: "Choisir l'image"};
-const startDate = {label: 'Date', placeHolder: "Saisir la date de début", type: 'date'};
-const endDate = {label: 'Date', placeHolder: "Saisir la date de fin", type: 'date'};
+const startDate = {label: 'Date de début', placeHolder: "Saisir la date de début", type: 'date'};
+const endDate = {label: 'Date de fin', placeHolder: "Saisir la date de fin", type: 'date'};
 
 const nameCompany = {label: "Nom de l'entreprise", placeHolder: "Saisir le nom de l'entreprise", type: "text"};
 const nameGood = {label: 'Nom du produit', placeHolder: "Saisir le nom du produit", type: 'text'};

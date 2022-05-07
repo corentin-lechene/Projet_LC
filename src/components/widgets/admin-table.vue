@@ -157,7 +157,7 @@ export default {
     deleteTable(route, id) {
       let promise = sendDeleteTable(route, id);
       promise.then((res) => {
-        console.log("route: ", route, "id", id);
+        console.log("res: ", res);
         if (!validRequest(res)) {
           console.log("del : ", res);
         }
