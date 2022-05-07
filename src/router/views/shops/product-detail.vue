@@ -26,8 +26,15 @@ export default {
     }
   },
   methods: {
+    getImgUrl(filename) {
+      try {
+        return require(`@/assets/images/product/${filename}`)
+      } catch (_) {
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
     addToCart() {
-      if(this.user.role === "customers") {
+      if (this.user.role === "customers") {
         let promise = sendInsertTable('carts_goods', {
           customer_id: this.user.customer_id,
           quantity: 1,
@@ -93,7 +100,7 @@ export default {
   },
   async created() {
     this.user = await sendGetUserByToken();
-    if(!validRequest(this.user)) {
+    if (!validRequest(this.user)) {
       this.user = this.user.result;
     } else {
       this.user = null;
@@ -116,24 +123,19 @@ export default {
                   <div class="product-detai-imgs">
                     <b-tabs nav-wrapper-class="col-md-2 col-sm-3 col-4" pills vertical>
                       <b-tab>
-                        <b-skeleton-img v-if="loading.productDetail"/>
                         <template v-slot:title>
-                          <b-img v-if="!loading.productDetail"
-                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img :src="getImgUrl(productDetail.image)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <b-img v-if="!loading.productDetail"
-                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img :src="getImgUrl(productDetail.image)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
                         <template v-slot:title>
-                          <b-img v-if="!loading.productDetail"
-                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img :src="getImgUrl(productDetail.image)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
-                          <b-img v-if="!loading.productDetail"
-                                 :src="require(`@/assets/images/product/${productDetail.image}`)" alt="img" fluid/>
+                          <b-img :src="getImgUrl(productDetail.image)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
@@ -188,13 +190,25 @@ export default {
                     </p>
                   </div>
                   <div class="text-left">
-                    <b-button v-if="productDetail.totalStock <= 0" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
-                    <b-button v-else-if="loading.products || user === null || user.role !== 'customers'" variant="info" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
-                    <b-button v-else variant="info" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-cart me-2"></i> Ajouter au panier</b-button>
+                    <b-button v-if="productDetail.totalStock <= 0" class="my-2 mx-2" disabled style="width: 200px"
+                              variant="info">Stock épuisé
+                    </b-button>
+                    <b-button v-else-if="loading.products || user === null || user.role !== 'customers'" class="my-2 mx-2"
+                              disabled style="width: 200px" variant="info">Vous devez être connecté
+                    </b-button>
+                    <b-button v-else class="my-2 mx-2" style="width: 200px" variant="info" @click="addToCart()"><i
+                        class="bx bx-cart me-2"></i> Ajouter au panier
+                    </b-button>
 
-                    <b-button v-if="productDetail.totalStock <= 0" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Stock épuisé</b-button>
-                    <b-button v-else-if="loading.products || user === null || user.role !== 'customers'" variant="success" class="my-2 mx-2" style="width: 200px" disabled>Vous devez être connecté</b-button>
-                    <b-button v-else variant="success" class="my-2 mx-2" style="width: 200px" @click="addToCart()"> <i class="bx bx-shopping-bag me-2"></i> Acheter maintenant</b-button>
+                    <b-button v-if="productDetail.totalStock <= 0" class="my-2 mx-2" disabled
+                              style="width: 200px" variant="success">Stock épuisé
+                    </b-button>
+                    <b-button v-else-if="loading.products || user === null || user.role !== 'customers'"
+                              class="my-2 mx-2" disabled style="width: 200px" variant="success">Vous devez être connecté
+                    </b-button>
+                    <b-button v-else class="my-2 mx-2" style="width: 200px" variant="success" @click="addToCart()"><i
+                        class="bx bx-shopping-bag me-2"></i> Acheter maintenant
+                    </b-button>
                   </div>
                 </div>
               </div>
@@ -261,10 +275,10 @@ export default {
               </div>
               <b-skeleton-img v-if="loading.products"/>
               <a v-if="productDetail.good_id !== product.good_id" :href="`/product-detail?id=${product.good_id}`">
-                <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
+                <b-img :src="getImgUrl(product.image)" alt="img" fluid/>
               </a>
               <a v-else href="#product">
-                <b-img :src="require(`@/assets/images/product/${product.image}`)" alt="img" fluid/>
+                <b-img :src="getImgUrl(product.image)" alt="img" fluid/>
               </a>
             </div>
             <div class="row"></div>

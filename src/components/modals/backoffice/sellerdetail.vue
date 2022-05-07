@@ -25,7 +25,13 @@ export default {
     };
   },
   methods: {
-
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
     getId(item) {
       this.id = item[this.options.name_id];
     },
@@ -41,7 +47,7 @@ export default {
     }
   },
   mounted() {
-    this.getGoodsOrServicesBySellerId('goods-seller', this.seller_id);
+    this.getGoodsOrServicesBySellerId('goods-sellers', this.seller_id);
   },
 };
 </script>
@@ -54,10 +60,8 @@ export default {
         <div class="card-body">
           <div class="text-center card-box">
             <div class="member-card pt-2 pb-2">
-              <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                              class="rounded-circle img-thumbnail" alt="profile-image">
-                <!--<b-img :src="require(`@/assets/images/users/${good.image}`)" fluid
-                       class="rounded-circle img-thumbnail" alt="avatar"/>-->
+              <div class="thumb-lg member-thumb mx-auto">
+                <b-img :src="getImgUrl(good.image)" fluid class="rounded-circle img-thumbnail" alt="avatar"/>
               </div>
               <div class="">
                 <h4> {{ good.price}} € | {{ good.reduction }} %</h4>

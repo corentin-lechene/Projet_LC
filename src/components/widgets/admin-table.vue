@@ -157,6 +157,7 @@ export default {
     deleteTable(route, id) {
       let promise = sendDeleteTable(route, id);
       promise.then((res) => {
+        console.log("route: ", route, "id", id);
         if (!validRequest(res)) {
           console.log("del : ", res);
         }
@@ -180,7 +181,7 @@ export default {
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Compte</h4>
+          <h4 class="card-title">{{ $route.hash.replace('#', '').toUpperCase() }}</h4>
           <div class="row mt-4 mb-2">
             <div class="col-sm-12 col-md-2 pr-0">
               <div id="tickets-table_length" class="dataTables_length">
@@ -247,15 +248,24 @@ export default {
                 <div>{{row.item.price}} €</div>
               </template>
 
+              <!-- row start_date -->
+              <template #cell(start_date)="row">
+                <div v-if="row.item.start_date">{{new Date(row.item.start_date).toLocaleDateString("fr")}}</div>
+              </template>
+              <!-- row end_date -->
+              <template #cell(end_date)="row">
+                <div v-if="row.item.end_date">{{new Date(row.item.end_date).toLocaleDateString("fr")}}</div>
+              </template>
+
               <!-- buttons actions -->
               <template #cell(actions)="row">
                 <div class="text-center">
-                  <b-dropdown class="text-center" variant="info" text="..." right @click="getId(row.item)">
-                    <b-dropdown-item v-b-modal="'info'" @click="getId(row.item)"><i class="bx bx-info-circle font-size-18" style="vertical-align: text-bottom"/> &nbsp;Information
+                  <b-dropdown class="text-center" variant="info" text="..." right>
+                    <b-dropdown-item v-b-modal="'info'" @click="id = row.item[options.name_id]"><i class="bx bx-info-circle font-size-18" style="vertical-align: text-bottom"/> &nbsp;Information
                     </b-dropdown-item>
                     <b-dropdown-item v-b-modal="'update'" @click="route = modals.update; id = row.item[options.name_id]"><i class="bx bx-pencil font-size-18" style="vertical-align: text-bottom"/> &nbsp;Modifier
                     </b-dropdown-item>
-                    <b-dropdown-item v-b-modal="'delete'"><i class="bx bx-trash font-size-18" style="vertical-align: text-bottom"/> &nbsp;Supprimer</b-dropdown-item>
+                    <b-dropdown-item v-b-modal="'delete'" @click="id = row.item[options.name_id]"><i class="bx bx-trash font-size-18" style="vertical-align: text-bottom" /> &nbsp;Supprimer</b-dropdown-item>
                   </b-dropdown>
                 </div>
 
@@ -283,7 +293,7 @@ export default {
     </b-modal>
 
     <!--  Modals info  /-->
-    <b-modal v-if="id !== null" id="info" centered hide-footer size="xl" title="Détail" title-class="font-18">
+    <b-modal v-if="id !== null" id="info" centered hide-footer size="lg" title="Détail" title-class="font-18">
       <div class="card">
         <div class="card-body">
           <keep-alive>

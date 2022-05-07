@@ -39,7 +39,11 @@ export default {
   methods: {
     getImgUrl(filename){
       try{
-        return require(`@/assets/images/product/${filename}`)
+        try {
+          return require(`@/assets/images/product/${filename}`)
+        } catch (_) {
+          return require(`@/assets/images/catalogues/${filename}`)
+        }
       }catch(_){
         return require(`@/assets/images/product/no_img.png`)
       }
@@ -117,6 +121,8 @@ export default {
         }
       } else if(valuesKey === "categories") {
         this.values[valuesKey] = data["category_id"] !== undefined ? data["category_id"] : null;
+      } else if(valuesKey === "countries") {
+        this.values[valuesKey] = data["country"] !== undefined ? data["country"] : null;
       } else if(valuesKey === "companies") {
         this.values[valuesKey] = data["company_id"] !== undefined ? data["company_id"] : null;
       } else if(valuesKey === "date") {

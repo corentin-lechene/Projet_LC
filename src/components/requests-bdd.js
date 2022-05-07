@@ -45,7 +45,7 @@ export function sendInsertTable(table, body) {
 export function sendDeleteTable(table, id) {
     let url = getUrl(table, id);
     const headers = {
-        method: 'get',
+        method: 'delete',
         headers: {
             "Access-Control-Allow-Origin": `${process.env.VUE_APP_API_ADDRESS}`,
             'Content-Type': 'application/json'

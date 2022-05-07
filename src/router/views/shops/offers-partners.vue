@@ -132,6 +132,14 @@ export default {
       this.dataFilterBy.price = this.getMaxPrice(services);
     },
 
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
+
     getServices() {
       let promise = sendGetDataTable('services');
       promise.then((res) => {
@@ -276,7 +284,7 @@ export default {
                     <span v-if="!loading.services" class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
                   </div>
                   <router-link :to="`/service-detail?id=${service.service_id}`" tag="a">
-                    <b-img v-if="service.image && !loading.services" :src="require(`@/assets/images/product/${service.image}`)" fluid alt="img" />
+                    <b-img v-if="service.image && !loading.services" :src="getImgUrl(service.image)" fluid alt="img" />
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">

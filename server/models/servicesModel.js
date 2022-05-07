@@ -5,7 +5,7 @@ import fs from "fs-extra";
 
 // Get All Services
 export const getServices = (result) => {
-    db.query("select * from services inner join sellers s on services.seller_id = s.seller_id", (err, results) => {
+    db.query("select * from services inner join sellers s on services.seller_id = s.seller_id left join categories_services cs on services.service_id = cs.service_id join categories c on c.category_id = cs.category_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {

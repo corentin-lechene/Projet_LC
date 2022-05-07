@@ -26,6 +26,13 @@ export default {
     }
   },
   methods: {
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
     addToCart() {
       let promise = sendInsertTable('carts_services', {
         customer_id: this.user.customer_id,
@@ -110,21 +117,21 @@ export default {
                         <b-skeleton-img v-if="loading.serviceDetail" />
                         <template v-slot:title>
                           <b-img v-if="!loading.serviceDetail"
-                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
+                                 :src="getImgUrl(serviceDetail.image)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
                           <b-img v-if="!loading.serviceDetail"
-                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
+                                 :src="getImgUrl(serviceDetail.image)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
                         <template v-slot:title>
                           <b-img v-if="!loading.serviceDetail"
-                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
+                                 :src="getImgUrl(serviceDetail.image)" alt="img" fluid/>
                         </template>
                         <div class="product-img">
                           <b-img v-if="!loading.serviceDetail"
-                                 :src="require(`@/assets/images/product/${serviceDetail.image}`)" alt="img" fluid/>
+                                 :src="getImgUrl(serviceDetail.image)" alt="img" fluid/>
                         </div>
                       </b-tab>
                       <b-tab>
@@ -245,10 +252,10 @@ export default {
                 <span class="avatar-title rounded-circle bg-primary">-{{ service.reduction }}%</span>
               </div>
               <a v-if="serviceDetail.service_id !== service.service_id" :href="`/product-detail?id=${service.service_id}`">
-<!--                <b-img :src="require(`@/assets/images/services/${service.image}`)" alt="img" fluid/>-->
+                <b-img :src="getImgUrl(service.image)" alt="img" fluid/>
               </a>
               <a v-else href="#service">
-<!--                <b-img :src="require(`@/assets/images/services/${service.image}`)" alt="img" fluid/>-->
+                <b-img :src="getImgUrl(service.image)" alt="img" fluid/>
               </a>
             </div>
             <div class="row"></div>
