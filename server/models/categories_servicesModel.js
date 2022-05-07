@@ -4,7 +4,7 @@ import db from "../config/database.js";
 
 // Get All Categories_services
 export const getCategories_services = (result) => {
-    db.query("SELECT * FROM categories_services INNER JOIN categories c on categories_services.category_id = c.category_id", (err, results) => {
+    db.query("SELECT * from categories where type = 'services' or type = 'biens et services'", (err, results) => {
         if(err) {
             result({error: true, reason: err});
         } else {

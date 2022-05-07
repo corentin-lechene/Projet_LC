@@ -89,8 +89,8 @@ const categories = {
     placeHolder: "Choisir la catégorie",
     type: "select",
     options: [],
-    onCreate: async (route, id) => {
-        forms[route].categories.options = await createSelect('categories', id, ['category_id', 'title'], categories.placeHolder)
+    onCreate: async (route) => {
+        forms[route].categories.options = await createSelect('categories', -1, ['category_id', 'title'], categories.placeHolder)
     }
 };
 

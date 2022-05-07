@@ -294,7 +294,7 @@ export default {
     </b-modal>
 
     <!--  Modals update  /-->
-    <b-modal v-if="id !== null" id="update" centered hide-footer size="xl" title="Détail" title-class="font-18"
+    <b-modal v-if="id !== null" id="update" centered hide-footer size="lg" title="Détail" title-class="font-18"
              @hidden="getInformations(options.route, options.byId)">
       <Update :id="id" :route="route" :by-id="options.byId"/>
     </b-modal>

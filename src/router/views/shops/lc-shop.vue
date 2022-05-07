@@ -128,10 +128,18 @@ export default {
       this.dataFilterBy.price = this.getMaxPrice(products);
     },
 
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
 
     getGoods() {
       let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
+        console.log("res: ", res);
         if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result;
           setTimeout(() => {
@@ -270,7 +278,7 @@ export default {
                     <span v-if="!loading.products" class="avatar-title rounded-circle bg-primary">-{{ product.reduction }}%</span>
                   </div>
                   <router-link :to="`/product-detail?id=${product.good_id}`" tag="a">
-                    <b-img v-if="!loading.products" :src="require(`@/assets/images/product/${product.image}`)" fluid alt="img" />
+                    <b-img v-if="!loading.products" id="img-product" :src="getImgUrl(product.image)" fluid alt="img"/>
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">

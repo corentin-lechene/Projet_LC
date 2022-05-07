@@ -31,12 +31,20 @@ export default {
   data() {
     return {
       values: {},
-
+      data: {},
       forms,
       currentForms: {},
     };
   },
   methods: {
+    getImgUrl(filename){
+      try{
+        return require(`@/assets/images/product/${filename}`)
+      }catch(_){
+        return require(`@/assets/images/product/no_img.png`)
+      }
+    },
+
     async updateTable() {
       for (const key in this.values) {
         if (key === 'file' && this.values[key] !== null && this.values[key].name !== undefined) {
@@ -89,10 +97,14 @@ export default {
     }
     console.log(data);
     //Init values
+    this.data = data;
     for (const valuesKey in this.currentForms) {
       console.log(valuesKey);
       if (valuesKey.includes("name")) {
         switch (valuesKey) {
+          case "nameCategory":
+            this.values[valuesKey] = data["title"] !== undefined ? data["title"] : null;
+            break;
           case "nameCompany":
             this.values[valuesKey] = data["company"] !== undefined ? data["company"] : null;
             break;
@@ -109,6 +121,8 @@ export default {
         this.values[valuesKey] = data["company_id"] !== undefined ? data["company_id"] : null;
       } else if(valuesKey === "date") {
         this.values[valuesKey] = data["birthdate"] !== undefined ? data["birthdate"] : null;
+      } else if(valuesKey === "typeProducts") {
+        this.values[valuesKey] = data["type"] !== undefined ? data["type"] : null;
       } else {
         this.values[valuesKey] = data[valuesKey] !== undefined ? data[valuesKey] : null;
       }
@@ -122,7 +136,7 @@ export default {
     <b-container>
       <b-row align-h="center">
         <b-col class="my-5 py-4" cols="5">
-          <b-img :src="require(`@/assets/images/form-wizard-1.jpg`)" alt="img" fluid-grow/>
+          <b-img :src="getImgUrl(data.image)" alt="img" fluid-grow/>
         </b-col>
         <b-col cols="7">
           <b-row align-h="center" class="mx-3">

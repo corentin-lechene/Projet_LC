@@ -43,6 +43,16 @@ export const insertCategories = (data, result) => {
     })
 }
 
+export const updateCategoriesById = (data, id, result) => {
+    db.query("update categories set type = ? where category_id = ?", [data.typeProducts, id], (err, result1) => {
+        if (err) {
+            result({error: true, reason: err});
+        } else {
+            result({valid: true, result: result1});
+        }
+    })
+}
+
 // Delete Categories to Database
 export const deleteCategoriesById = (id, result) => {
     db.query("DELETE FROM categories WHERE category_id = ?", [id], (err, results) => {

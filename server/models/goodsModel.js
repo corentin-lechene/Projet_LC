@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 
 // Get All Goods
 export const getGoods = (result) => {
-    db.query("select * from goods inner join sellers s on goods.seller_id = s.seller_id", (err, results) => {
+    db.query("select * from goods inner join sellers s on goods.seller_id = s.seller_id left join categories_goods cg on goods.good_id = cg.good_id inner join categories c on cg.category_id = c.category_id", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -14,7 +14,7 @@ export const getGoods = (result) => {
 }
 
 export const getGoodsOnline = (result) => {
-    db.query("select * from goods left join sellers s on goods.seller_id = s.seller_id where online = true", (err, results) => {
+    db.query("select * from goods left join sellers s on goods.seller_id = s.seller_id left join categories_goods cg on goods.good_id = cg.good_id inner join categories c on cg.category_id = c.category_id where online = true", (err, results) => {
         if (err) {
             result({error: true, reason: err});
         } else {
@@ -197,33 +197,39 @@ export const updateGoodsById = (data, id, result) => {
             if (err) {
                 result({error: true, reason: err});
             } else {
-                db.query("select * from warehouses_stocks where good_id = ?", [id], (err, resultsWarehousesStocks) => {
-                    if (err) {
+                db.query("update categories_goods set category_id = ? where good_id = ?", [data.categories, id], (err1) => {
+                    if (err1) {
                         result({error: true, reason: err});
-                    } else if(resultsWarehousesStocks[0] !== undefined) {
-                        db.query("UPDATE warehouses_stocks SET stock = ? WHERE good_id = ? AND warehouse_stock_id = ?", [data.stock, id, resultsWarehousesStocks[0].warehouse_stock_id], (err, results) => {
-                            if (err) {
-                                result({error: true, reason: err});
-                            } else {
-                                result({valid: true, result: results});
-                            }
-                        });
                     } else {
-                        db.query("select * from warehouses limit 1", [data.stock, id], (err, resultsWarehouses) => {
+                        db.query("select * from warehouses_stocks where good_id = ?", [id], (err, resultsWarehousesStocks) => {
                             if (err) {
                                 result({error: true, reason: err});
-                            } else {
-                                db.query("INSERT INTO warehouses_stocks(warehouse_id, good_id, stock) value(?, ?, ?)", [resultsWarehouses[0].warehouse_id, id, data.stock], (err, results) => {
+                            } else if(resultsWarehousesStocks[0] !== undefined) {
+                                db.query("UPDATE warehouses_stocks SET stock = ? WHERE good_id = ? AND warehouse_stock_id = ?", [data.stock || resultsWarehousesStocks[0].stock, id, resultsWarehousesStocks[0].warehouse_stock_id], (err, results) => {
                                     if (err) {
                                         result({error: true, reason: err});
                                     } else {
                                         result({valid: true, result: results});
                                     }
                                 });
+                            } else {
+                                db.query("select * from warehouses limit 1", [data.stock, id], (err, resultsWarehouses) => {
+                                    if (err) {
+                                        result({error: true, reason: err});
+                                    } else {
+                                        db.query("INSERT INTO warehouses_stocks(warehouse_id, good_id, stock) value(?, ?, ?)", [resultsWarehouses[0].warehouse_id, id, data.stock || 0], (err, results) => {
+                                            if (err) {
+                                                result({error: true, reason: err});
+                                            } else {
+                                                result({valid: true, result: results});
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     }
-                });
+                })
             }
         });
     }

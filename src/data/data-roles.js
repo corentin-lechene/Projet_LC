@@ -20,7 +20,7 @@ const catalogues = {link: '#catalogues', name: 'Catalogues', icon: 'bx bx-food-m
 
 const roles = {
     customers: [profile, orders, settings, mycard],
-    sellers: [dashboard, profile, goods, services, orders, settings],
+    sellers: [dashboard, profile, goods, services, settings],
     companies: [profile, customers, settings],
     staffs: [profile, users, companies, sellers, goods, services, warehouses, categories, catalogues, settings],
     admin: [profile, users, companies, sellers, goods, services, warehouses, categories, catalogues, logs, settings]
