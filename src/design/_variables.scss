@@ -125,12 +125,12 @@ $colors: map-merge(("blue": $blue,
         "gray-dark": $gray-800),
     $colors);
 
-$primary: $blue;
-$secondary: $gray-600;
-$success: $green;
-$info: $cyan;
-$warning: $yellow;
-$danger: $red;
+$primary: #25333F;
+$secondary: #6876B6;
+$success: #6CDA6C;
+$info: #6EC8E6;
+$warning: #FDBE49;
+$danger: #DA6C6C;
 $light: $gray-200;
 $dark: $gray-800;
 
