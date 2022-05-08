@@ -47,7 +47,6 @@ export default {
     login(email, password) {
       let promise = sendGetUserByLogin({email: email, password: password});
       promise.then((res) => {
-        console.log(res);
         if (!validRequest(res)) {
           this.user = res.result;
           localStorage.user_token = this.user.token;

@@ -89,7 +89,6 @@ export default {
     },
     test(e) {
       document.getElementById('content').appendChild(e.pdfContent);
-      console.log(e.pdfContent);
     },
   },
 

@@ -139,7 +139,6 @@ export default {
     getGoods() {
       let promise = sendGetDataTable('goods-online');
       promise.then((res) => {
-        console.log("res: ", res);
         if (!validRequest(res) && res.result !== undefined) {
           this.products = res.result;
           setTimeout(() => {

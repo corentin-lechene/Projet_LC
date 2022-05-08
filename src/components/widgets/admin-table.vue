@@ -114,7 +114,6 @@ export default {
         if (!validRequest(res)) {
           this.data = res.result.length > 0 ? createValue(res.result, this.layer) : [];
           this.totalRows = this.data.length;
-          console.log("this.data: ", this.data);
           setTimeout(() => {
             this.loading = false;
           }, 500);
@@ -122,7 +121,6 @@ export default {
       })
     },
     getId(item) {
-      console.log(this.options)
       this.id = item[this.options.name_id];
     },
     createLayer(src) {
@@ -157,9 +155,12 @@ export default {
     deleteTable(route, id) {
       let promise = sendDeleteTable(route, id);
       promise.then((res) => {
-        console.log("res: ", res);
         if (!validRequest(res)) {
-          console.log("del : ", res);
+          this.$bvToast.toast('Suppression réussie', {
+            variant: 'success',
+            noCloseButton: true,
+            autoHideDelay: 5000
+          })
         }
       })
     }

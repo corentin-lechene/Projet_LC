@@ -193,7 +193,6 @@ export default {
         const res = await fetch(`${process.env.VUE_APP_API_ADDRESS}/checkout`, headers)
         const checkout = await res.json();
 
-        console.log(checkout);
         if (checkout.success !== undefined) {
           this.checkoutValid = 2;
           this.$bvToast.toast('La commande a été payé, vous allez être rediriger vers l\'accueil', {

@@ -62,7 +62,6 @@ export default {
     getCart() {
       let promise = sendGetDataTable('carts-customer', this.user.customer_id);
       promise.then((res) => {
-        console.log(res);
         if (!validRequest(res)) {
           this.total.reset();
           this.carts = res.result;
@@ -89,7 +88,6 @@ export default {
       } else {
         promise = sendUpdateTable('carts_'+ route, id, {quantity: this.carts[index].cart_quantity});
         promise.then((res) => {
-          console.log("res: ", res);
           if(!validRequest(res)) {
             this.total.reset();
             this.getCart();

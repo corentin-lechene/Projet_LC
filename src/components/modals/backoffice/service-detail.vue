@@ -26,7 +26,6 @@ export default {
     getServices(table, id) {
       let promise = sendGetDataTable(table, id);
       promise.then((res) => {
-        console.log("res: ", res);
         if (!validRequest(res)) {
           this.valuesForm = res.result;
         }

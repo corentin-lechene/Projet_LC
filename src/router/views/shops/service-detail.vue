@@ -40,7 +40,6 @@ export default {
         service_id: this.serviceDetail.service_id
       });
       promise.then((res) => {
-        console.log(res);
         if(!validRequest(res)) {
           this.makeToast();
         }

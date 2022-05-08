@@ -2,7 +2,6 @@
 
 import AdminTable from "@/components/widgets/admin-table";
 import Profile from "@/components/widgets/profile";
-import { sendGetUserByToken} from "@/components/requests-bdd";
 
 export default {
   name: "admin",
@@ -110,10 +109,6 @@ export default {
 
     };
   },
-  async created() {
-    const user = await sendGetUserByToken();
-    console.log(user);
-  }
 }
 </script>
 

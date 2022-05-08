@@ -71,8 +71,12 @@ export default {
       }
 
       const promise = sendUpdateTable(this.route, this.id, this.values);
-      promise.then((res) => {
-        console.log(res);
+      promise.then(() => {
+        this.$bvToast.toast('Modificatoin réussie', {
+          variant: 'success',
+          noCloseButton: true,
+          autoHideDelay: 5000
+        })
       });
     }
   },
@@ -99,11 +103,9 @@ export default {
         temp[key].onCreate(this.route, this.byId);
       }
     }
-    console.log(data);
     //Init values
     this.data = data;
     for (const valuesKey in this.currentForms) {
-      console.log(valuesKey);
       if (valuesKey.includes("name")) {
         switch (valuesKey) {
           case "nameCategory":

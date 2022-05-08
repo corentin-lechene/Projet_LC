@@ -22,7 +22,6 @@ export default {
     return {
       data: {},
       id: null,
-      log : console.log,
     };
   },
   methods: {

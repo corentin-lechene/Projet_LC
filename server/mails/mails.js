@@ -25,11 +25,11 @@ export function sendEmail(to, subject, template) {
         html: template
     };
 
-    transporter.sendMail(options, (err, info) => {
+    transporter.sendMail(options, (err) => {
         if(err) {
-            console.error(err);
+            console.error("");
         } else {
-            console.log("email sent : ", info.response);
+            console.log("");
         }
     });
 }

@@ -42,7 +42,6 @@ export default {
         });
 
         promise.then((res) => {
-          console.log(res);
           if (!validRequest(res)) {
             this.makeToast();
           }

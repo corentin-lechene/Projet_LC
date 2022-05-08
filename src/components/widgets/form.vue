@@ -71,7 +71,11 @@ export default {
       let promise = sendInsertTable(table, createObject(this.forms[this.route], body));
       promise.then((res) => {
         if (!validRequest(res))
-          console.log(res.result);
+          this.$bvToast.toast('Ajout réussi', {
+            variant: 'success',
+            noCloseButton: true,
+            autoHideDelay: 5000
+          })
       })
     },
 
