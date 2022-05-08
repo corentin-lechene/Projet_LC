@@ -72,13 +72,28 @@ export const insertCarts_goods = (data, result) => {
 
 // Update Carts_goods to Database
 export const updateCarts_goodsById = (quantity, id, result) => {
-    db.query("UPDATE carts_good SET cart_quantity = ? WHERE cart_good_id = ?", [quantity, id], (err, results) => {
+    db.query("select * from warehouses_stocks where good_id = (select good_id from carts_good where cart_good_id = ?)", [id], (err, result1) => {
         if (err) {
             result({error: true, reason: err});
+        } else if(quantity <= result1[0].stock) {
+            db.query("UPDATE carts_good SET cart_quantity = ? WHERE cart_good_id = ?", [quantity, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         } else {
-            result({valid: true, result: results[0]});
+            db.query("UPDATE carts_good SET cart_quantity = ? WHERE cart_good_id = ?", [result1[0].stock, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         }
-    });
+    })
+
 }
 
 // Delete Carts_goods to Database

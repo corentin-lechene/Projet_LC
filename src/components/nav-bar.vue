@@ -92,7 +92,7 @@ export default {
           <!-- Boutton Offers-->
           <div class="d-flex">
             <router-link class="text-dark" tag="a" to="/offers-partners">
-              <b-button style="padding-top: 17%;" variant="white">Offres partenaires</b-button>
+              <b-button style="padding-top: 19%" variant="white">Offers partners</b-button>
             </router-link>
           </div>
 
@@ -148,7 +148,7 @@ export default {
 
         <div>
         <span v-if="token">
-        <div class="d-flex" style="margin-right: 10px">
+          <div class="d-flex" style="margin-right: 10px">
           <b-button v-b-modal.modal-standard style="background-color: white; border-color: white;">
             <div>
               <img alt class="avatar-sm" src="@/assets/images/pictocarte.png"/>

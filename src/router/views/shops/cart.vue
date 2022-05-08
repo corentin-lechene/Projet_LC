@@ -4,7 +4,7 @@ import Layout from "@/router/layouts/main";
 import PageHeader from "@/components/page-header";
 
 import {sendDeleteTable, sendGetDataTable, sendGetUserByToken, sendUpdateTable} from "@/components/requests-bdd";
-import {validRequest, displayLongStr, getTotalReductionOf, getReductionOf} from "@/components/my-functions";
+import {validRequest, displayLongStr, getReductionOf} from "@/components/my-functions";
 
 
 export default {
@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     displayLongStr,
-    getTotalReductionOf,
 
     getCart() {
       let promise = sendGetDataTable('carts-customer', this.user.customer_id);
@@ -90,6 +89,7 @@ export default {
       } else {
         promise = sendUpdateTable('carts_'+ route, id, {quantity: this.carts[index].cart_quantity});
         promise.then((res) => {
+          console.log("res: ", res);
           if(!validRequest(res)) {
             this.total.reset();
             this.getCart();
@@ -167,6 +167,7 @@ export default {
                   <td style="width: 150px">
                     <b-form-spinbutton v-model="product.cart_quantity"
                                        :min="0" vertical
+                                       :max="500"
                                        @change="updateCart(product.cart_name, product.cart_product_id, index)"/>
                   </td>
                   <td>

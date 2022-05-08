@@ -94,6 +94,10 @@ export const updateServicesById = (data, id, result) => {
     });
 }
 
+export const updateServiceCheckout = (quantity, id) => {
+    db.query("update services set quantity = quantity - ? where service_id = ?", [quantity, id])
+}
+
 // Delete Services to Database
 export const deleteServicesById = (id, result) => {
     db.query("DELETE FROM services WHERE service_id = ?", [id], (err, results) => {

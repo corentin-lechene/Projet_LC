@@ -72,11 +72,25 @@ export const insertCarts_services = (data, result) => {
 
 // Update Carts_services to Database
 export const updateCarts_servicesById = (quantity, id, result) => {
-    db.query("UPDATE carts_service SET cart_quantity = ? WHERE cart_service_id = ?", [quantity, id], (err, results) => {
-        if(err) {
+    db.query("select * from services where service_id = (select service_id from carts_service where cart_service_id = ?)", [id], (err, result1) => {
+        if (err) {
             result({error: true, reason: err});
+        } else if (quantity <= result1[0].quantity) {
+            db.query("UPDATE carts_service SET cart_quantity = ? WHERE cart_service_id = ?", [quantity, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         } else {
-            result({valid: true, result: results[0]});
+            db.query("UPDATE carts_service SET cart_quantity = ? WHERE cart_service_id = ?", [result1[0].quantity, id], (err, results) => {
+                if (err) {
+                    result({error: true, reason: err});
+                } else {
+                    result({valid: true, result: results[0]});
+                }
+            });
         }
     });
 }
